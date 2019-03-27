@@ -1,2 +1,21 @@
 # coral-pi
-Notebook for using Coral USB Stick with Raspberry Pi
+
+For Raspberry Pi 3B+ and Raspbian Lite 2018-11-13 - https://www.raspberrypi.org/downloads/raspbian/
+(sudo apt-get update -y && sudo apt-get upgrade -y)
+
+1. Verify python version: python3 --version
+   a. must be Python 3.5.x or higher
+2. wget http://storage.googleapis.com/cloud-iot-edge-pretrained-models/edgetpu_api.tar.gz
+3. tar xzf edgetpu_api.tar.gz
+4. bash ./install.sh
+   a. "Would you like to enable the maximum operating frequency?" Answer: Y
+5. Plug in the Accelerator using the provided USB 3.0 cable. (If you already plugged it in, remove it and replug it so the just-installed udev rule can take effect.)
+6. cd python-tflite-source/edgetpu
+7. Test installation: 
+python3 demo/classify_image.py \
+--model test_data/mobilenet_v2_1.0_224_inat_bird_quant_edgetpu.tflite \
+--label test_data/inat_bird_labels.txt \
+--image test_data/parrot.jpg
+
+
+
