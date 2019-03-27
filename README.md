@@ -17,5 +17,16 @@ python3 demo/classify_image.py \
 --label test_data/inat_bird_labels.txt \
 --image test_data/parrot.jpg
 
+---------------------------
+Ara macao (Scarlet Macaw)
+Score :  0.613281
+---------------------------
+Platycercus elegans (Crimson Rosella)
+Score :  0.152344
+
+8. Download Edge TPU models: https://coral.withgoogle.com/models/
+   a. MobileNet SSD v2 (Faces)
+   b. Input size: 320x320 (Does not require a labels file)
+
 
 
