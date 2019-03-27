@@ -5,6 +5,7 @@ For Raspberry Pi 3B+ and Raspbian Lite 2018-11-13 - https://www.raspberrypi.org/
 Prep:
 1. sudo apt-get update -y && sudo apt-get upgrade -y)
 2. sudo apt-get install feh -y
+
 Installation:
 1. Verify python version: python3 --version
    a. must be Python 3.5.x or higher
