@@ -14,8 +14,7 @@ Prep
 Installation
 1. wget http://storage.googleapis.com/cloud-iot-edge-pretrained-models/edgetpu_api.tar.gz
 2. tar xzf edgetpu_api.tar.gz
-3. bash ./install.sh
-a. "Would you like to enable the maximum operating frequency?" Answer Y
+3. bash ./install.sh - "Would you like to enable the maximum operating frequency?" Answer Y
 4. Plug in the Accelerator using the provided USB 3.0 cable. (If you already plugged it in, remove it and replug it so the just-installed udev rule can take effect.)
 5. cd python-tflite-source/edgetpu
 6. Test installation: 
