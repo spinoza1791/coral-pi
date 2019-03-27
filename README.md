@@ -27,9 +27,10 @@ python3 demo/classify_image.py \
 
 Results
 Ara macao (Scarlet Macaw)
-"Score :  0.613281"
+Score :  0.613281
+
 Platycercus elegans (Crimson Rosella)
-"Score :  0.152344"
+Score :  0.152344
 
 7. Download Edge TPU models: https://coral.withgoogle.com/models/
    a. MobileNet SSD v2 (Faces)
