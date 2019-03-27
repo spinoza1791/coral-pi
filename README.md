@@ -17,10 +17,9 @@ python3 demo/classify_image.py \
 --label test_data/inat_bird_labels.txt \
 --image test_data/parrot.jpg
 
-
+Results:
 Ara macao (Scarlet Macaw)
 Score :  0.613281
-
 Platycercus elegans (Crimson Rosella)
 Score :  0.152344
 
