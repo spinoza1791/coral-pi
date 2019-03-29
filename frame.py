@@ -38,7 +38,7 @@ j = 0.0
 while DISPLAY.loop_running():
     track.draw()
     traject_list[:20,:] = np.array([[i**2 * 0.001212, 23- (i+j)*0.15, i*0.1] for i in range(20)])
-    #traject_list[20:,:] = traject_list[19,:]
+    traject_list[20:,:] = traject_list[19,:]
     #traject_list[:0,:] = 100 #np.array([25, 50, 1])
     #traject_list[:1,:] = np.array([50, 10, 10])
     #traject_list[:2,:] = np.array([75, 10, 10])
