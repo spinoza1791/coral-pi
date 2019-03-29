@@ -6,21 +6,13 @@ from OpenGL.GL import * # OpenGL functionality
 from OpenGL.GL import shaders # Utilities to compile shaders, we may not actually use this  
   
 # this is the basic window  
-class OpenGLView(QGLWidget):  
+class OpenGLView(QGLWidget):
      def initializeGL(self):  
-      # here openGL is initialized and we can do our real program initialization  
-     pass  
-  
-     def resizeGL(self, width, height):  
-     # openGL remembers how many pixels it should draw,  
-     # so every resize we have to tell it what the new window size is it is supposed  
-     # to be drawing for  
-     pass  
-  
+          print("Initializing")
+     def resizeGL(self, width, height):
+          print("Resizing")
      def paintGL(self):  
-     # here we can start drawing, on show and on resize the window will redraw  
-     # automatically  
-     pass  
+          print("Painting")  
   
 # this initializes Qt  
 app = QApplication([])  
