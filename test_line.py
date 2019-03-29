@@ -34,7 +34,7 @@ tracksh = pi3d.Shader("mat_flat")
 track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=5.0, line_width=4)
 track.set_shader(tracksh)
 
-#j = 0.0
+j = 0.0
 while DISPLAY.loop_running():
     track.draw()
     traject_list[:20,:] = np.array([[i**2 * 0.001212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
