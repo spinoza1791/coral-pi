@@ -9,7 +9,7 @@ from OpenGL.GL import shaders # Utilities to compile shaders, we may not actuall
 class OpenGLView(QGLWidget):  
     def initializeGL(self):  
         # set the RGBA values of the background  
-        glClearColor(0.1, 0.2, 0.3, 1.0)  
+        glClearColor(0.0, 0.0, 0.0, 0.0)  
         # set a timer to redraw every 1/60th of a second  
         self.__timer = QTimer()  
         self.__timer.timeout.connect(self.repaint) # make it repaint when triggered  
