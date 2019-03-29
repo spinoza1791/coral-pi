@@ -1,11 +1,30 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
 import pi3d
 import math
 import numpy as np
+from picamera.array import PiRGBArray
+import picamera
+import time
+from pi3d.constants import GL_LINE_LOOP
+import tkinter
+import argparse
+import io
+import edgetpu.detection.engine
+
+root = tkinter.Tk()
+screen_W = root.winfo_screenwidth()
+screen_H = root.winfo_screenheight()
+preview_W = 320
+preview_H = 320
+preview_mid_X = int(screen_W/2 - preview_W/2)
+preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 
 traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
 
-DISPLAY = pi3d.Display.create(x=50, y=50)
+#DISPLAY = pi3d.Display.create(x=50, y=50)
+DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=30, sample=4)
+DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 
 tracksh = pi3d.Shader("mat_flat")
 track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=5.0, line_width=4)
