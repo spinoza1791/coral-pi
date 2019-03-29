@@ -85,6 +85,9 @@ def Cube(rotatex, rotatey, dist, w, h):
     OpenGL.GL.glPopMatrix()
     OpenGL.GL.glMatrixMode(OpenGL.GL.GL_PROJECTION)
     OpenGL.GL.glPopMatrix()
+    glEnable(GL_TEXTURE_2D)).
+
+
 
 def main():
     pygame.init()
