@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
-"""
-Seriously, what?
-import pygame < Not recursive.
-import OpenGL < Same problem.
 
-pygame has very good documentation at pygame.org.
-For OpenGL... good luck! Most demos and tutorials are written for python2 and riddled with bugs, not to mention many years old.
-"""
 import pygame.locals
 import OpenGL.GLU
 import OpenGL.GL
 
-def Cube(rotatex, rotatey, dist):
+def Cube(rotatex, rotatey, dist, w, h):
     """Define the basic parts of a 2x2x2 cube"""
     corners= (
         (1, -1, -1),
@@ -64,7 +57,7 @@ def Cube(rotatex, rotatey, dist):
     OpenGL.GL.glMatrixMode(OpenGL.GL.GL_PROJECTION)
     OpenGL.GL.glPushMatrix()
     OpenGL.GL.glLoadIdentity()
-    OpenGL.GLU.gluPerspective(45, (800 / 600), 1, 10)
+    OpenGL.GLU.gluPerspective(45, (w / h), 1, 10)
     OpenGL.GL.glMatrixMode(OpenGL.GL.GL_MODELVIEW)
     OpenGL.GL.glPushMatrix()
     OpenGL.GL.glLoadIdentity()
@@ -96,7 +89,8 @@ def Cube(rotatex, rotatey, dist):
 def main():
     pygame.init()
     rotatex, rotatey, dist = 0, 0, -5.
-    display = (300,300) #Tiniest screen resolution as window size.
+    w, h = 320, 320
+    display = (w,h) #Tiniest screen resolution as window size.
     pygame.display.set_mode(display, pygame.locals.DOUBLEBUF|pygame.OPENGL)
     OpenGL.GLU.gluPerspective(45, (display[0]/display[1]), 1, 20)
 
@@ -113,7 +107,7 @@ def main():
 
         # print(OpenGL.GL.glGetFloatv())
         OpenGL.GL.glClear(OpenGL.GL.GL_COLOR_BUFFER_BIT|OpenGL.GL.GL_DEPTH_BUFFER_BIT) #Make sure it doesn't draw anything where there's not supposed to be anything. Remove it for sticky pixels.
-        Cube(rotatex, rotatey, dist) #Actually draw the fucking cube. Is defined above.
+        Cube(rotatex, rotatey, dist, w, h) #Actually draw the fucking cube. Is defined above.
         font = pygame.font.Font (None, 64)
         textSurface = font.render("Je moeder", False, (255,255,255,128), (0,0,0,0))
         textData = pygame.image.tostring(textSurface, "RGBA", True)
