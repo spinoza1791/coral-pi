@@ -31,14 +31,14 @@ DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 
 keybd = pi3d.Keyboard()
 tracksh = pi3d.Shader("mat_flat")
-track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=5.0, line_width=4) #, closed=True)
+track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=1.0, line_width=4) #, closed=True)
 track.set_shader(tracksh)
 
 j = 0.0
 while DISPLAY.loop_running():
     track.draw()
     #traject_list[:20,:] = np.array([[i**2 * 0.001212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
-    traject_list[20,:] = np.array([50, 0, 0])
+    traject_list[20,:] = np.array([50, 50, 0])
     #traject_list[19,:] = np.array([50, 50, 0])
     #traject_list[20:,:] = traject_list[19,:]
     #print("traject_list mod shape =", traject_list.shape)
