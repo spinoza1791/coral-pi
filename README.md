@@ -7,7 +7,7 @@ Prep
 2. sudo apt-get install feh -y
 3. Verify python version: python3 --version (must be Python 3.5.x or higher)
 4. Install Pi camera v2.1 - https://www.makeuseof.com/tag/set-up-raspberry-pi-camera-module/
-5. add to /etc/modules - bcm2835-v4l2
+5. echo "bcm2835_v4l2" | sudo tee -a /etc/modules >/dev/null
 6. Set Pi memory split to 128 - https://www.raspberrypi.org/documentation/configuration/config-txt/memory.md
 7. Reboot
 
