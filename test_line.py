@@ -26,6 +26,11 @@ traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
 #traject_list = np.array([100],[100],[100])
 
 print("traject_list shape =", traject_list.shape)
+print("traject_list dims =", traject_list.ndim)
+print("traject_list size =", traject_list.size)
+print("traject_list dtype =", traject_list.dtype)
+#print("traject_list data =", traject_list.data
+#print("traject_list size =", traject_list.size)
 
 #DISPLAY = pi3d.Display.create(x=50, y=50)
 DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=30, samples=4)
