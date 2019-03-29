@@ -34,7 +34,7 @@ linshader = pi3d.Shader('mat_flat')
 tracksh = pi3d.Shader("mat_flat")
 track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=1.0, line_width=4) #, closed = True)
 track.set_shader(tracksh)
-#j = 0.0
+j = 0.0
 while DISPLAY.loop_running():
     track.draw()
     traject_list[:20,:] = np.array([[i**2 * 0.001212, 23- (i+j)*0.15, i*0.1] for i in range(20)])
@@ -44,7 +44,7 @@ while DISPLAY.loop_running():
     #traject_list[:2,:] = np.array([75, 10, 10])
     #traject_list[:3,:] = np.array([100, 10, 10])
     #traject_list[20:,:] = traject_list[19,:]
-    #j += 0.01
+    j += 0.01
     track.buf[0].re_init(traject_list)
     # at the moment can't re init until *after* the init done on first draw()
     if keybd.read() == 27:
