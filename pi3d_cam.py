@@ -89,7 +89,8 @@ def main():
                 #if DISPLAY.loop_running():
                 start_all_ms = time.time()
                 ms_txt.draw()
-                ms_txt.quick_change(ms)                fps_txt.draw()
+                ms_txt.quick_change(ms)                
+                fps_txt.draw()
                 i += 1
                 if i > N:
                     tm = time.time()
@@ -111,7 +112,6 @@ def main():
                         x1, x2, x3, x4, x5, y1, y2, y3, y4, y5 = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
                         bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z], [x5,y5,z]], line_width=3)
                         bbox.draw()
-                        fps_txt.draw()
                         
                 if keybd.read() == 27:
                     break
