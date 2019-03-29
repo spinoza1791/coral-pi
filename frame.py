@@ -31,7 +31,7 @@ linshader = pi3d.Shader('mat_flat')
 #CAMERA = pi3d.Camera(is_3d=False)
 
 tracksh = pi3d.Shader("mat_flat")
-track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=1.0, line_width=4, closed = True)
+track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=1.0, line_width=4) #, closed = True)
 track.set_shader(tracksh)
 #j = 0.0
 while DISPLAY.loop_running():
