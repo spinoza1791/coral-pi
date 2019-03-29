@@ -22,9 +22,9 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
 #traject_list = np.array([100, 100, 100])
 
-#DISPLAY = pi3d.Display.create(x=50, y=50)
-DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=30)
-DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
+DISPLAY = pi3d.Display.create(x=50, y=50)
+#DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=30)
+#DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 
 keybd = pi3d.Keyboard()
 txtshader = pi3d.Shader("uv_flat")
