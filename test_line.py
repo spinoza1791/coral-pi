@@ -31,7 +31,7 @@ DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 
 keybd = pi3d.Keyboard()
 tracksh = pi3d.Shader("mat_flat")
-track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=5.0, line_width=4), closed=True)
+track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=5.0, line_width=4) #, closed=True)
 track.set_shader(tracksh)
 
 j = 0.0
