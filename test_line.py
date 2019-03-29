@@ -1,4 +1,3 @@
-import demo
 import pi3d
 import math
 import numpy as np
