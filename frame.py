@@ -41,3 +41,8 @@ while DISPLAY.loop_running():
     j += 0.01
     track.buf[0].re_init(traject_list)
     # at the moment can't re init until *after* the init done on first draw()
+    if keybd.read() == 27:
+        break
+
+keybd.close()
+DISPLAY.destroy
