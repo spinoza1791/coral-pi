@@ -20,7 +20,9 @@ preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 
-traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
+#traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
+traject_list = np.array([1000, 3])
+
 print("traject_list shape =", traject_list.shape)
 
 #DISPLAY = pi3d.Display.create(x=50, y=50)
