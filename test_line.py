@@ -21,14 +21,17 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 
 traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
+print("traject_list shape =", traject_list.shape)
 
 #DISPLAY = pi3d.Display.create(x=50, y=50)
 DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=30, samples=4)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 
+keybd = pi3d.Keyboard()
 tracksh = pi3d.Shader("mat_flat")
 track = pi3d.Lines(vertices=traject_list, material=(1.0,0.0,1.0), z=5.0, line_width=4)
 track.set_shader(tracksh)
+
 j = 0.0
 while DISPLAY.loop_running():
     track.draw()
@@ -37,3 +40,8 @@ while DISPLAY.loop_running():
     j += 0.01
     track.buf[0].re_init(traject_list)
     # at the moment can't re init until *after* the init done on first draw()
+    if keybd.read() == 27:
+        break
+
+keybd.close()
+DISPLAY.destroy
