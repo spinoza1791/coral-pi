@@ -36,15 +36,15 @@ DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 
 keybd = pi3d.Keyboard()
 tracksh = pi3d.Shader("mat_flat")
-track_1 = pi3d.Lines(vertices=line_1, material=(1.0,0.0,1.0), z=1.0, line_width=4)#, closed=True)
+track_1 = pi3d.Lines(vertices=line_1, line_4, material=(1.0,0.0,1.0), z=1.0, line_width=4, closed=True)
 #track_2 = pi3d.Lines(vertices=line_2, material=(1.0,0.2,1.0), z=1.0, line_width=4)
 #track_3 = pi3d.Lines(vertices=line_3, material=(1.0,0.4,1.0), z=1.0, line_width=4)
-track_4 = pi3d.Lines(vertices=line_4, material=(1.0,0.6,1.0), z=1.0, line_width=4, closed=True)
+#track_4 = pi3d.Lines(vertices=line_4, material=(1.0,0.6,1.0), z=1.0, line_width=4, closed=True)
 
 track_1.set_shader(tracksh)
 #track_2.set_shader(tracksh)
 #track_3.set_shader(tracksh)
-track_4.set_shader(tracksh)
+#track_4.set_shader(tracksh)
 
 j = 0.0
 while DISPLAY.loop_running():
@@ -56,7 +56,7 @@ while DISPLAY.loop_running():
     track_1.buf[0].re_init(line_1)
     #track_2.buf[0].re_init(line_2)
     #track_3.buf[0].re_init(line_3)
-    track_4.buf[0].re_init(line_4)
+    #track_4.buf[0].re_init(line_4)
     time.sleep(0.5)
     track_1.draw()
     #track_2.draw()
