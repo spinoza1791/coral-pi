@@ -45,9 +45,9 @@ x = 100.0
 y = 100.0
 z = 5.0
 while DISPLAY.loop_running():
-  time.sleep(0.5)
   shape.draw()
-  print(shape.position())
+  print(str(shape.position()))
+  time.sleep(3)
   #shape.position(x+i, y, z)
   #if i < 100:
   #  i = i + 1
