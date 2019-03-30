@@ -102,21 +102,21 @@ def main():
                     fps_txt.quick_change(fps)
                     i = 0
                     last_tm = tm
-                if results:
-                    num_obj = 0
-                    for obj in results:
-                        num_obj = num_obj + 1
-                    for obj in results:
-                        bbox = obj.bounding_box.flatten().tolist()
-                        score = round(obj.score,2)
-                        bbox_x1 = round(bbox[0] * mdl_dims)
-                        bbox_y1 = round(bbox[1] * mdl_dims)
-                        bbox_x2 = round(bbox[2] * mdl_dims)
-                        bbox_y2 = round(bbox[3] * mdl_dims)
-                        bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
-                        #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        bbox.draw()
+                #if results:
+                #    num_obj = 0
+                #    for obj in results:
+                #        num_obj = num_obj + 1
+                #    for obj in results:
+                #        bbox = obj.bounding_box.flatten().tolist()
+                #        score = round(obj.score,2)
+                #        bbox_x1 = round(bbox[0] * mdl_dims)
+                #        bbox_y1 = round(bbox[1] * mdl_dims)
+                #        bbox_x2 = round(bbox[2] * mdl_dims)
+                #        bbox_y2 = round(bbox[3] * mdl_dims)
+                #        bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
+                #        #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                #        bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                #        bbox.draw()
                         
                 if keybd.read() == 27:
                     break
