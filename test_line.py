@@ -14,8 +14,8 @@ import edgetpu.detection.engine
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
 screen_H = root.winfo_screenheight()
-preview_W = 320
-preview_H = 320
+preview_W = 620
+preview_H = 620
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
