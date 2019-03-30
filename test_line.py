@@ -27,8 +27,6 @@ print("traject_list shape =", traject_list.shape)
 print("traject_list dims =", traject_list.ndim)
 print("traject_list size =", traject_list.size)
 print("traject_list dtype =", traject_list.dtype)
-print("traject_list data =", traject_list.data)
-#print("traject_list size =", traject_list.size)
 
 #DISPLAY = pi3d.Display.create(x=50, y=50)
 DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=30, samples=4)
@@ -43,7 +41,8 @@ j = 0.0
 while DISPLAY.loop_running():
     track.draw()
     #traject_list[:20,:] = np.array([[i**2 * 0.001212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
-    traject_list[:20,:] = np.array([[i*2, i*20, i*10] for i in range(20)])
+    #traject_list[:20,:] = np.array([[i*2, i*20, i*10] for i in range(20)])
+    traject_list[:20,:] = 20 
     #traject_list[20,:] = np.array([10, 50, 0])
     #traject_list[19,:] = np.array([20, 50, 0])
     #traject_list[18,:] = np.array([300, 50, 0])
