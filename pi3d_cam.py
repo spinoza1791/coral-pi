@@ -102,7 +102,7 @@ def main():
                 #    i = 0
                 #    last_tm = tm
                 if results:
-                    start_ms = time.time()
+                    #start_ms = time.time()
                     num_obj = 0
                     for obj in results:
                         num_obj = num_obj + 1
