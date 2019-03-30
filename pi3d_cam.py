@@ -71,7 +71,6 @@ def main():
     ms_txt.set_shader(txtshader)
     last_tm = time.time()
     i = 0
-    bbox.draw()
     with picamera.PiCamera() as camera:
         camera.resolution = (preview_W, preview_H)
         camera.framerate = 40
@@ -117,7 +116,8 @@ def main():
                         bbox_y2 = round(bbox[3] * mdl_dims)
                         bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
                         #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                        #bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                        bbox.draw()
                         
                 if keybd.read() == 27:
                     break
