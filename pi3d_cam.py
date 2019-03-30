@@ -65,7 +65,7 @@ def main():
     #N = 10
     #fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
     #fps_txt.set_shader(txtshader)
-    bbox_time = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 10, z=1.0)
+    bbox_time = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
     bbox_time.set_shader(txtshader)
     elapsed_ms = 1/1000
     ms = "00ms"
