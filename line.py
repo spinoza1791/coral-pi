@@ -23,8 +23,8 @@ or GL_LINE_STRIP will be used. Try swapping it to True. Try the same when
 shape is a pi3d.Cuboid or pi3d.Sprite. The "closed" argument will use
 GL_LINE_LOOP and add a final leg returning to the start.
 """
-shader = pi3d.Shader('mat_light')
-#shader = pi3d.Shader('mat_flat')
+#shader = pi3d.Shader('mat_light')
+shader = pi3d.Shader('mat_flat')
 #shader = pi3d.Shader('uv_flat') #NB this will need the texture lines below to be uncommented
 
 shape.set_shader(shader)
