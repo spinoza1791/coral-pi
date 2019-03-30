@@ -22,7 +22,6 @@ def bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims):
     y3=y4 = int(-bbox_y2 + mdl_dims/2)
     z = 1
     bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]]
-    #return x1, x2, x3, x4, x5, y1, y2, y3, y4
     return bbox_vertices
 
 def main():
@@ -88,8 +87,7 @@ def main():
                 input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
                 stream.close()
                 start_ms = time.time()
-                #Inference magic happens here
-                results = engine.DetectWithInputTensor(input, top_k=max_obj)
+                #results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 elapsed_ms = time.time() - start_ms
                 ms = str(int(elapsed_ms*1000))+"ms"
                 #if DISPLAY.loop_running():
@@ -117,8 +115,8 @@ def main():
                         bbox_y2 = round(bbox[3] * mdl_dims)
                         bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
                         #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        #bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        #bbox.draw()
+                        bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                        bbox.draw()
                         
                 if keybd.read() == 27:
                     break
