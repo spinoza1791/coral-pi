@@ -11,7 +11,6 @@ CAMERA = pi3d.Camera()
 #shape = pi3d.Sphere(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
 #shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
 shape = pi3d.Plane(z=5.0)
-x, y, z = shape.position(x, y ,z)
 
 """ The light shader works fine for "solid" objects, i.e. for drawing
 triangles, but isn't what you want generally for lines and points. Try
@@ -41,6 +40,9 @@ Try swapping the line above that creates the shape object (8 for 9).
 
 mykeys = pi3d.Keyboard()
 i=0
+x = 100
+y = 100
+z = 5
 while DISPLAY.loop_running():
   shape.draw()
   shape.position(x+i, y, z)
