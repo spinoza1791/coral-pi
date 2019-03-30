@@ -19,16 +19,16 @@ preview_H = 900
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
-traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
+#traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
 line_1 = np.arange(60, dtype = 'float64').reshape((20,3))
 line_2 = np.arange(60, dtype = 'float64').reshape((20,3))
 line_3 = np.arange(60, dtype = 'float64').reshape((20,3))
 line_4 = np.arange(60, dtype = 'float64').reshape((20,3))
 
-print("traject_list shape =", traject_list.shape)
-print("traject_list dims =", traject_list.ndim)
-print("traject_list size =", traject_list.size)
-print("traject_list dtype =", traject_list.dtype)
+#print("traject_list shape =", traject_list.shape)
+#print("traject_list dims =", traject_list.ndim)
+#print("traject_list size =", traject_list.size)
+#print("traject_list dtype =", traject_list.dtype)
 
 #DISPLAY = pi3d.Display.create(x=50, y=50)
 DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=30, samples=4)
@@ -55,7 +55,10 @@ while DISPLAY.loop_running():
     track_3.buf[0].re_init(line_3)
     track_4.buf[0].re_init(line_4)
     time.sleep(0.5)
-    track.draw()
+    track_1.draw()
+    track_2.draw()
+    track_3.draw()
+    track_4.draw()
     #traject_list[21:40,:] = np.array([[i*10, i*100, i*30] for i in range(21, 40)])
     #traject_list[:20,:] = 40, 200, 200 
     #j += 0.01
