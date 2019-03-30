@@ -65,8 +65,8 @@ def main():
     #N = 10
     #fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
     #fps_txt.set_shader(txtshader)
-    bbox_time = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 10, z=1.0)
-    bbox_time.set_shader(txtshader)
+    #bbox_time = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 10, z=1.0)
+    #bbox_time.set_shader(txtshader)
     elapsed_ms = 1/1000
     ms = "00ms"
     ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
@@ -102,7 +102,7 @@ def main():
                 #    i = 0
                 #    last_tm = tm
                 if results:
-                    start_ms = time.time()
+                    #start_ms = time.time()
                     num_obj = 0
                     for obj in results:
                         num_obj = num_obj + 1
@@ -117,10 +117,10 @@ def main():
                         #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                         bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                         bbox.draw()
-                        elapsed_ms = time.time() - start_ms
-                        bbox_time = str(int(elapsed_ms*1000))+"ms"
-                        bbox_time.draw()
-                        bbox_time.quick_change(ms) 
+                        #elapsed_ms = time.time() - start_ms
+                        #bbox_time = str(int(elapsed_ms*1000))+"ms"
+                        #bbox_time.draw()
+                        #bbox_time.quick_change(ms) 
                         
                 if keybd.read() == 27:
                     break
