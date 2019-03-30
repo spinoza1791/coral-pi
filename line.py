@@ -5,7 +5,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import pi3d
 import random
     
-DISPLAY = pi3d.Display.create(x=500, y=500)
+DISPLAY = pi3d.Display.create(x=50, y=50)
 CAMERA = pi3d.Camera()
 
 shape = pi3d.Sphere(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
