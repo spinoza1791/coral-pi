@@ -42,7 +42,7 @@ mykeys = pi3d.Keyboard()
 
 while DISPLAY.loop_running():
   shape.draw()
-  shape.position(100, 100, 5)
+  shape.position(200, 200, 5)
   #shape.rotateIncY(0.21)
   #shape.rotateIncX(0.1)
 
