@@ -44,11 +44,11 @@ while DISPLAY.loop_running():
     traject_list[:20,:] = np.array([[i*10, i*0, i*0] for i in range(20)])
     track.buf[0].re_init(traject_list)
     time.sleep(0.5)
-    traject_list[21:40,:] = np.array([[i*10, i*100, i*30] for i in range(21, 40)])
+    #traject_list[21:40,:] = np.array([[i*10, i*100, i*30] for i in range(21, 40)])
     #traject_list[:20,:] = 40, 200, 200 
     #j += 0.01
-    track.buf[0].re_init(traject_list)
-    time.sleep(0.5)
+    #track.buf[0].re_init(traject_list)
+    #time.sleep(0.5)
     # at the moment can't re init until *after* the init done on first draw()
     if keybd.read() == 27:
         break
