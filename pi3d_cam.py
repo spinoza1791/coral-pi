@@ -4,6 +4,7 @@ from picamera.array import PiRGBArray
 import picamera
 import time
 import pi3d
+import math
 from pi3d.constants import GL_LINE_LOOP
 import tkinter
 import numpy as np
