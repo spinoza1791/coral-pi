@@ -91,7 +91,7 @@ def main():
                 start_ms = time.time()
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 elapsed_ms = time.time() - start_ms
-                ms = str(int(elapsed_ms*1000))+"ms")
+                ms = str(int(elapsed_ms*1000))+ "ms"
                 ms_txt.draw()
                 ms_txt.quick_change(ms)                
                 #fps_txt.draw()
