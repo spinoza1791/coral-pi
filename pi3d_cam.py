@@ -21,7 +21,7 @@ def bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims):
     #Lower - Y2
     y3=y4 = int(-bbox_y2 + mdl_dims/2)
     z = 1
-    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z], [x5,y5,z]]
+    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]] #, [x5,y5,z]]
     #return x1, x2, x3, x4, x5, y1, y2, y3, y4, y5
     return bbox_vertices
 
@@ -57,9 +57,9 @@ def main():
     CAMERA = pi3d.Camera(is_3d=False)
     font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
     x1=x2=x3=x4=x5=y1=y2=y3=y4=y5=z= 1
-    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z], [x5,y5,z]]
+    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]] #, [x5,y5,z]]
     #bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z], [x5,y5,z]], line_width=4)
-    bbox = pi3d.Lines(vertices=bbox_vertices, line_width=4)
+    bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4) 
     bbox.set_shader(linshader)
     fps = "00.00FPS"
     N = 100
@@ -116,8 +116,9 @@ def main():
                         bbox_y2 = round(bbox[3] * mdl_dims)
                         #x1, x2, x3, x4, x5, y1, y2, y3, y4, y5 = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
                         bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
-                        bbox.re_init(vertices=bbox_vertices, line_width=4)
+                        #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                         #bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z], [x5,y5,z]], line_width=3)
+                        bbox.pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                         bbox.draw()
                         
                 if keybd.read() == 27:
