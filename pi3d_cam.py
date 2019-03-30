@@ -13,16 +13,16 @@ import edgetpu.detection.engine
 
 def bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims):
     #Left - X1
-    x1=x4=x5= int(bbox_x1 - mdl_dims/2)
+    x1=x4 = int(bbox_x1 - mdl_dims/2)
     #Right - X2
     x2=x3 = int(bbox_x2 - mdl_dims/2)
     #Upper - Y1
-    y1=y2=y5 = int(-bbox_y1 + mdl_dims/2)
+    y1=y2 = int(-bbox_y1 + mdl_dims/2)
     #Lower - Y2
     y3=y4 = int(-bbox_y2 + mdl_dims/2)
     z = 1
-    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]] #, [x5,y5,z]]
-    #return x1, x2, x3, x4, x5, y1, y2, y3, y4, y5
+    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]]
+    #return x1, x2, x3, x4, x5, y1, y2, y3, y4
     return bbox_vertices
 
 def main():
@@ -57,8 +57,8 @@ def main():
     CAMERA = pi3d.Camera(is_3d=False)
     font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
     x1=x2=x3=x4=x5=y1=y2=y3=y4=y5=z= 1
-    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]] #, [x5,y5,z]]
-    #bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z], [x5,y5,z]], line_width=4)
+    bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]] 
+    #bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]], line_width=4)
     bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4) 
     bbox.set_shader(linshader)
     fps = "00.00FPS"
@@ -96,6 +96,7 @@ def main():
                 ms_txt.draw()
                 ms_txt.quick_change(ms)                
                 fps_txt.draw()
+                bbox.draw()
                 i += 1
                 if i > N:
                     tm = time.time()
@@ -114,12 +115,9 @@ def main():
                         bbox_y1 = round(bbox[1] * mdl_dims)
                         bbox_x2 = round(bbox[2] * mdl_dims)
                         bbox_y2 = round(bbox[3] * mdl_dims)
-                        #x1, x2, x3, x4, x5, y1, y2, y3, y4, y5 = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
                         bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
                         #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        #bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z], [x5,y5,z]], line_width=3)
                         bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        bbox.draw()
                         
                 if keybd.read() == 27:
                     break
