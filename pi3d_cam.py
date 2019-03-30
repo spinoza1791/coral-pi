@@ -24,6 +24,15 @@ def bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims):
     bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]]
     return bbox_vertices
 
+def refresh_vertices(shape, old_verts):
+  new_verts = []  # start off with a new list of vectors to keep the original ones 'clean'
+  for v in old_verts:
+    new_v = mat_vec_mult(s_mat, [v[0], v[1], 1.0]) # i.e. x, y, 1.0 to match 3x3 matrix
+    new_v = mat_vec_mult(r_mat, new_v) # then multiply by rotation matrix
+    new_v = mat_vec_mult(t_mat, new_v) # then by translation
+    new_verts.append(new_v) # finally add this to the new list of vectors
+  shape.re_init(pts=new_verts) # finally update the vertex locations
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -115,7 +124,8 @@ def main():
                         bbox_y2 = round(bbox[3] * mdl_dims)
                         bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
                         #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                        bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                        #bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                        refresh_vertices(bbox, bbox_vertices)
                         bbox.draw()
                         elapsed_ms = time.time() - start_ms
                         ms = str(int(elapsed_ms*1000))+"ms"
