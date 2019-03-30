@@ -8,9 +8,9 @@ import random
 DISPLAY = pi3d.Display.create(x=500, y=500)
 CAMERA = pi3d.Camera()
 
-#shape = pi3d.TCone(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
+shape = pi3d.TCone(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
 #shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
-shape = pi3d.Plane(z=5)
+#shape = pi3d.Plane(z=5)
 
 """ The light shader works fine for "solid" objects, i.e. for drawing
 triangles, but isn't what you want generally for lines and points. Try
