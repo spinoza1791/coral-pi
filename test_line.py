@@ -36,7 +36,7 @@ DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 
 keybd = pi3d.Keyboard()
 tracksh = pi3d.Shader("mat_flat")
-vertices_lines = [[line_1],[line_2]]
+vertices_lines = [[line_1],[line_4]]
 
 track_1 = pi3d.Lines(vertices=vertices_lines, material=(1.0,0.0,1.0), z=1.0, line_width=4, closed=True)
 #track_2 = pi3d.Lines(vertices=line_2, material=(1.0,0.2,1.0), z=1.0, line_width=4)
@@ -55,7 +55,7 @@ while DISPLAY.loop_running():
     #line_2[:20,:] = np.array([[i*10, i*40, i*50] for i in range(20)])
     #line_3[:20,:] = np.array([[i*10, i*60, i*50] for i in range(20)])
     line_4[:20,:] = np.array([[i*10, i*0, i*0] for i in range(20)])
-    track_1.buf[0].re_init(line_1)
+    track_1.buf[0].re_init(line_1, line_4)
     #track_2.buf[0].re_init(line_2)
     #track_3.buf[0].re_init(line_3)
     #track_4.buf[0].re_init(line_4)
