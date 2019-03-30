@@ -90,7 +90,7 @@ def main():
                 start_ms = time.time()
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 elapsed_ms = time.time() - start_ms
-                #ms = str(int(elapsed_ms*1000))+"ms"
+                ms = str(int(elapsed_ms*1000))+"ms"
                 ms_txt.draw()
                 ms_txt.quick_change(ms)                
                 #fps_txt.draw()
@@ -118,7 +118,7 @@ def main():
                         bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                         bbox.draw()
                         elapsed_ms = time.time() - start_ms
-                        bbox_time = str(int(elapsed_ms*1000))+"ms"
+                        ms = str(int(elapsed_ms*1000))+"ms"
                         bbox_time.draw()
                         bbox_time.quick_change(ms) 
                         
