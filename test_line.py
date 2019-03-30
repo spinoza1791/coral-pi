@@ -41,7 +41,7 @@ j = 0.0
 while DISPLAY.loop_running():
     track.draw()
     #traject_list[:20,:] = np.array([[i**2 * 0.801212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
-    traject_list[:20,:] = np.array([[i*80, i*1, i*1] for i in range(20)])
+    traject_list[:20,:] = np.array([[i*80, i*0, i*0] for i in range(20)])
     #traject_list[:20,:] = 40, 200, 200 
     #j += 0.01
     track.buf[0].re_init(traject_list)
