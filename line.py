@@ -47,11 +47,12 @@ z = 5.0
 while DISPLAY.loop_running():
   time.sleep(0.5)
   shape.draw()
-  shape.position(x+i, y, z)
-  if i < 100:
-    i = i + 1
-  else:
-    i = 0
+  print(shape.position())
+  #shape.position(x+i, y, z)
+  #if i < 100:
+  #  i = i + 1
+  #else:
+  #  i = 0
   #shape.rotateIncY(0.21)
   #shape.rotateIncX(0.1)
 
