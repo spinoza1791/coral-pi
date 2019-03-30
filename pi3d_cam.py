@@ -24,6 +24,13 @@ def bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims):
     bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]]
     return bbox_vertices
 
+def mat_vec_mult(mat, vec):
+  """ apply a matrix to a vector and return a modified vector
+  """
+  return [mat[0][0] * vec[0] + mat[0][1] * vec[1] + mat[0][2] * vec[2],
+          mat[1][0] * vec[0] + mat[1][1] * vec[1] + mat[1][2] * vec[2],
+          mat[2][0] * vec[0] + mat[2][1] * vec[1] + mat[2][2] * vec[2]]
+
 def refresh_vertices(shape, old_verts):
   new_verts = []  # start off with a new list of vectors to keep the original ones 'clean'
   for v in old_verts:
