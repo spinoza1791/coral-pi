@@ -72,6 +72,15 @@ def main():
     linshader = pi3d.Shader('mat_flat')
     CAMERA = pi3d.Camera(is_3d=False)
     font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
+    t_mat = [[1.0, 0.0, 0.0], # translation matrix
+         [0.0, 1.0, 0.0],
+         [0.0, 0.0, 1.0]]
+    r_mat = [[1.0, 0.0, 0.0], # rotation matrix
+         [0.0, 1.0, 0.0],
+         [0.0, 0.0, 1.0]]
+    s_mat = [[1.0, 0.0, 0.0], # scale matrix - all three start out as 'identity' matrices
+         [0.0, 1.0, 0.0],
+         [0.0, 0.0, 1.0]]
     x1=x2=x3=x4=x5=y1=y2=y3=y4=y5=z= 1
     bbox_vertices = [[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]] 
     #bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]], line_width=4)
