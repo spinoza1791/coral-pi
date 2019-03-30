@@ -71,6 +71,7 @@ def main():
     ms_txt.set_shader(txtshader)
     last_tm = time.time()
     i = 0
+    bbox.draw()
     with picamera.PiCamera() as camera:
         camera.resolution = (preview_W, preview_H)
         camera.framerate = 40
@@ -96,7 +97,6 @@ def main():
                 ms_txt.draw()
                 ms_txt.quick_change(ms)                
                 fps_txt.draw()
-                bbox.draw()
                 i += 1
                 if i > N:
                     tm = time.time()
