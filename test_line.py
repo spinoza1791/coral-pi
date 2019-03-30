@@ -21,7 +21,7 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 
 #traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
-traject_list = np.arange(300, dtype = 'float64').reshape((100,3))
+traject_list = np.arange(60, dtype = 'float64').reshape((20,3))
 
 print("traject_list shape =", traject_list.shape)
 print("traject_list dims =", traject_list.ndim)
