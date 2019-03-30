@@ -14,8 +14,8 @@ import edgetpu.detection.engine
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
 screen_H = root.winfo_screenheight()
-preview_W = 900
-preview_H = 900
+preview_W = 320
+preview_H = 320
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
@@ -49,10 +49,10 @@ track_4.set_shader(tracksh)
 j = 0.0
 while DISPLAY.loop_running():
     #traject_list[:20,:] = np.array([[i**2 * 0.801212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
-    line_1[:20,:] = np.array([[i*10, i*20, i*50] for i in range(20)])
+    line_1[:20,:] = np.array([[i*0, i*10, i*0] for i in range(20)])
     line_2[:20,:] = np.array([[i*10, i*40, i*50] for i in range(20)])
     line_3[:20,:] = np.array([[i*10, i*60, i*50] for i in range(20)])
-    line_4[:20,:] = np.array([[i*10, i*80, i*50] for i in range(20)])
+    line_4[:20,:] = np.array([[i*10, i*0, i*0] for i in range(20)])
     track_1.buf[0].re_init(line_1)
     track_2.buf[0].re_init(line_2)
     track_3.buf[0].re_init(line_3)
