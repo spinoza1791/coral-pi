@@ -41,7 +41,10 @@ track_2 = pi3d.Lines(vertices=line_2, material=(1.0,0.2,1.0), z=1.0, line_width=
 track_3 = pi3d.Lines(vertices=line_3, material=(1.0,0.4,1.0), z=1.0, line_width=4)
 track_4 = pi3d.Lines(vertices=line_4, material=(1.0,0.6,1.0), z=1.0, line_width=4)
 
-track.set_shader(tracksh)
+track_1.set_shader(tracksh)
+track_2.set_shader(tracksh)
+track_3.set_shader(tracksh)
+track_4.set_shader(tracksh)
 
 j = 0.0
 while DISPLAY.loop_running():
