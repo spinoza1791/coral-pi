@@ -42,13 +42,7 @@ while DISPLAY.loop_running():
     track.draw()
     #traject_list[:20,:] = np.array([[i**2 * 0.001212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
     #traject_list[:20,:] = np.array([[i*2, i*20, i*10] for i in range(20)])
-    traject_list[:20,:] = 20 
-    #traject_list[20,:] = np.array([10, 50, 0])
-    #traject_list[19,:] = np.array([20, 50, 0])
-    #traject_list[18,:] = np.array([300, 50, 0])
-    #traject_list[19,:] = np.array([50, 50, 0])
-    #traject_list[20:,:] = traject_list[19,:]
-    #print("traject_list mod shape =", traject_list.shape)
+    traject_list[:20,:] = np.array([2, 20, 10]) 
     #j += 0.01
     track.buf[0].re_init(traject_list)
     # at the moment can't re init until *after* the init done on first draw()
