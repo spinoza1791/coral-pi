@@ -9,8 +9,8 @@ DISPLAY = pi3d.Display.create(x=50, y=50)
 CAMERA = pi3d.Camera()
 
 #shape = pi3d.TCone(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
-shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
-#shape = pi3d.Plane(w=4, h=4, name="plane", z=5)
+#shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
+shape = pi3d.Plane(w=4, h=4, name="plane", z=5)
 
 """ The light shader works fine for "solid" objects, i.e. for drawing
 triangles, but isn't what you want generally for lines and points. Try
@@ -42,8 +42,9 @@ mykeys = pi3d.Keyboard()
 
 while DISPLAY.loop_running():
   shape.draw()
-  shape.rotateIncY(0.21)
-  shape.rotateIncX(0.1)
+  shape.Position(100, 100, 1)
+  #shape.rotateIncY(0.21)
+  #shape.rotateIncX(0.1)
 
   key = mykeys.read()
   if key==27:
