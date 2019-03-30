@@ -38,6 +38,7 @@ def main():
 
     #Set max num of objects you want to detect per frame
     max_obj = 5
+    max_fps = 40
     engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
     root = tkinter.Tk()
@@ -49,7 +50,7 @@ def main():
     preview_mid_Y = int(screen_H/2 - preview_H/2)
 
     #Set fps as low as needed (<=60) to prevent CPU usage
-    DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=60)
+    DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
     DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
     keybd = pi3d.Keyboard()
     txtshader = pi3d.Shader("uv_flat")
@@ -73,7 +74,7 @@ def main():
     i = 0
     with picamera.PiCamera() as camera:
         camera.resolution = (preview_W, preview_H)
-        camera.framerate = 40
+        camera.framerate = max_fps
         #rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
         rgb = PiRGBArray(camera, size=camera.resolution * 3)
         _, width, height, channels = engine.get_input_tensor_shape()
