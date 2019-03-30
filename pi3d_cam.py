@@ -76,7 +76,6 @@ def main():
     with picamera.PiCamera() as camera:
         camera.resolution = (preview_W, preview_H)
         camera.framerate = max_fps
-        #rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
         rgb = PiRGBArray(camera, size=camera.resolution * 3)
         _, width, height, channels = engine.get_input_tensor_shape()
         camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
@@ -119,7 +118,7 @@ def main():
                         bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                         bbox.draw()
                         elapsed_ms = time.time() - start_ms
-                        bbox_time = str(int(elapsed_ms*1000)) +"ms"
+                        bbox_time = str(int(elapsed_ms*1000))+"ms"
                         
                 if keybd.read() == 27:
                     break
