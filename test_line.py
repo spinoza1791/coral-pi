@@ -55,15 +55,15 @@ while DISPLAY.loop_running():
     #line_2[:20,:] = np.array([[i*10, i*40, i*50] for i in range(20)])
     #line_3[:20,:] = np.array([[i*10, i*60, i*50] for i in range(20)])
     line_4[:20,:] = np.array([[i*10, i*0, i*0] for i in range(20)])
-    track_1.buf[0].re_init(line_1, line_4)
+    track_1.buf[0].re_init(line_1)
     #track_2.buf[0].re_init(line_2)
     #track_3.buf[0].re_init(line_3)
-    #track_4.buf[0].re_init(line_4)
+    track_1.buf[0].re_init(line_4)
     time.sleep(0.5)
     track_1.draw()
     #track_2.draw()
     #track_3.draw()
-    track_4.draw()
+    #track_4.draw()
     #traject_list[21:40,:] = np.array([[i*10, i*100, i*30] for i in range(21, 40)])
     #traject_list[:20,:] = 40, 200, 200 
     #j += 0.01
