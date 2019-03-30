@@ -61,16 +61,18 @@ def main():
     #bbox = pi3d.Lines(vertices=[[x1,y1,z], [x2,y2,z], [x3,y3,z], [x4,y4,z]], line_width=4)
     bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4) 
     bbox.set_shader(linshader)
-    fps = "00.00FPS"
-    N = 10
-    fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
-    fps_txt.set_shader(txtshader)
+    #fps = "00.00FPS"
+    #N = 10
+    #fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
+    #fps_txt.set_shader(txtshader)
+    bbox_time = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 10, z=1.0)
+    bbox_time.set_shader(txtshader)
     elapsed_ms = 1/1000
     ms = "00ms"
     ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
     ms_txt.set_shader(txtshader)
-    last_tm = time.time()
-    i = 0
+    #last_tm = time.time()
+    #i = 0
     with picamera.PiCamera() as camera:
         camera.resolution = (preview_W, preview_H)
         camera.framerate = max_fps
@@ -89,34 +91,37 @@ def main():
                 start_ms = time.time()
                 #results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 elapsed_ms = time.time() - start_ms
-                ms = str(int(elapsed_ms*1000))+"ms"
+                ms = str(int(inference elapsed_ms*1000))+"ms"
                 #if DISPLAY.loop_running():
                 start_all_ms = time.time()
                 ms_txt.draw()
                 ms_txt.quick_change(ms)                
-                fps_txt.draw()
-                i += 1
-                if i > N:
-                    tm = time.time()
-                    fps = "{:6.2f}FPS".format(i / (tm - last_tm))
-                    fps_txt.quick_change(fps)
-                    i = 0
-                    last_tm = tm
-                #if results:
-                #    num_obj = 0
-                #    for obj in results:
-                #        num_obj = num_obj + 1
-                #    for obj in results:
-                #        bbox = obj.bounding_box.flatten().tolist()
-                #        score = round(obj.score,2)
-                #        bbox_x1 = round(bbox[0] * mdl_dims)
-                #        bbox_y1 = round(bbox[1] * mdl_dims)
-                #        bbox_x2 = round(bbox[2] * mdl_dims)
-                #        bbox_y2 = round(bbox[3] * mdl_dims)
-                #        bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
-                #        #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                #        bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
-                #        bbox.draw()
+                #fps_txt.draw()
+                #i += 1
+                #if i > N:
+                #    tm = time.time()
+                #    fps = "{:6.2f}FPS".format(i / (tm - last_tm))
+                #    fps_txt.quick_change(fps)
+                #    i = 0
+                #    last_tm = tm
+                if results:
+                    start_ms = time.time()
+                    num_obj = 0
+                    for obj in results:
+                        num_obj = num_obj + 1
+                    for obj in results:
+                        bbox = obj.bounding_box.flatten().tolist()
+                        score = round(obj.score,2)
+                        bbox_x1 = round(bbox[0] * mdl_dims)
+                        bbox_y1 = round(bbox[1] * mdl_dims)
+                        bbox_x2 = round(bbox[2] * mdl_dims)
+                        bbox_y2 = round(bbox[3] * mdl_dims)
+                        bbox_vertices = bbox_calc(bbox_x1, bbox_y1, bbox_x2, bbox_y2, mdl_dims)
+                        #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                        bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
+                        bbox.draw()
+                        elapsed_ms = time.time() - start_ms
+                        bbox_time = str(int(inference elapsed_ms*1000))+"ms"
                         
                 if keybd.read() == 27:
                     break
