@@ -62,7 +62,7 @@ def main():
     bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4) 
     bbox.set_shader(linshader)
     fps = "00.00FPS"
-    N = 100
+    N = 10
     fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
     fps_txt.set_shader(txtshader)
     elapsed_ms = 1/1000
