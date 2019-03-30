@@ -40,7 +40,7 @@ track.set_shader(tracksh)
 j = 0.0
 while DISPLAY.loop_running():
     #traject_list[:20,:] = np.array([[i**2 * 0.801212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
-    traject_list[:20,:] = np.array([[i*10, i*20, i*0] for i in range(20)])
+    traject_list[:20,:] = np.array([[i*10, i*20, i*50] for i in range(20)])
     track.buf[0].re_init(traject_list)
     time.sleep(0.5)
     track.draw()
