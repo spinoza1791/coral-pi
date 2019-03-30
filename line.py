@@ -4,7 +4,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 #import demo
 import pi3d
 import random
-    
+import time
+
 DISPLAY = pi3d.Display.create(x=50, y=50)
 CAMERA = pi3d.Camera()
 
@@ -44,6 +45,7 @@ x = 100
 y = 100
 z = 5
 while DISPLAY.loop_running():
+  time.sleep(0.5)
   shape.draw()
   shape.position(x+i, y, z)
   if i < 100:
