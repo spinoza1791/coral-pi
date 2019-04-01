@@ -42,11 +42,11 @@ Try swapping the line above that creates the shape object (8 for 9).
 mykeys = pi3d.Keyboard()
 i=0
 x = 25.0
-y = 25.0
+y = 0.0
 z = 5.0
 while DISPLAY.loop_running():
   shape.draw()
-  time.sleep(3)
+  #time.sleep(3)
   shape.position(x, y, z)
   #if i < 100:
   #  i = i + 1
