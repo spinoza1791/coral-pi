@@ -10,8 +10,8 @@ DISPLAY = pi3d.Display.create(x=50, y=50)
 CAMERA = pi3d.Camera()
 
 #shape = pi3d.Sphere(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
-#shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
-shape = pi3d.Plane(z=5.0)
+shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
+#shape = pi3d.Plane(z=5.0)
 
 """ The light shader works fine for "solid" objects, i.e. for drawing
 triangles, but isn't what you want generally for lines and points. Try
@@ -26,8 +26,8 @@ or GL_LINE_STRIP will be used. Try swapping it to True. Try the same when
 shape is a pi3d.Cuboid or pi3d.Sprite. The "closed" argument will use
 GL_LINE_LOOP and add a final leg returning to the start.
 """
-shader = pi3d.Shader('mat_light')
-#shader = pi3d.Shader('mat_flat')
+#shader = pi3d.Shader('mat_light')
+shader = pi3d.Shader('mat_flat')
 #shader = pi3d.Shader('uv_flat') #NB this will need the texture lines below to be uncommented
 
 shape.set_shader(shader)
