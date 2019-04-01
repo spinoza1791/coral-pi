@@ -97,6 +97,7 @@ def refresh_vertices(shape, old_verts):
     new_v = mat_vec_mult(r_mat, new_v) # then multiply by rotation matrix
     new_v = mat_vec_mult(t_mat, new_v) # then by translation
     new_verts.append(new_v) # finally add this to the new list of vectors
+    shape.set_2d_location(
   shape.re_init(vertices=new_verts) # finally update the vertex locations
 
 with picamera.PiCamera() as camera:
