@@ -6,7 +6,7 @@ import pi3d
 import random
 import time
 
-DISPLAY = pi3d.Display.create(x=50, y=50)
+DISPLAY = pi3d.Display.create(x=50, y=50, layer=1)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0)
 #CAMERA = pi3d.Camera()
 CAMERA = pi3d.Camera(is_3d=False)
