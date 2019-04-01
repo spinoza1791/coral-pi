@@ -12,7 +12,7 @@ CAMERA = pi3d.Camera()
 #CAMERA = pi3d.Camera(is_3d=False)
 
 #shape = pi3d.Sphere(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
-shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
+shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(10)], closed=True)
 #shape = pi3d.Plane(z=5.0)
 
 """ The light shader works fine for "solid" objects, i.e. for drawing
