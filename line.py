@@ -8,8 +8,8 @@ import time
 
 DISPLAY = pi3d.Display.create(x=50, y=50, layer=1)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0)
-#CAMERA = pi3d.Camera()
-CAMERA = pi3d.Camera(is_3d=False)
+CAMERA = pi3d.Camera()
+#CAMERA = pi3d.Camera(is_3d=False)
 
 #shape = pi3d.Sphere(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
 shape = pi3d.Lines(z=2.0, vertices=[(i * 0.01, 0.5, 0.5) for i in range(50)], closed=True)
