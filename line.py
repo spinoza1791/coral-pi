@@ -7,6 +7,7 @@ import random
 import time
 
 DISPLAY = pi3d.Display.create(x=50, y=50)
+DISPLAY.set_background(0.0, 0.0, 0.0, 0.0)
 CAMERA = pi3d.Camera()
 
 #shape = pi3d.Sphere(z=5.0) # try other shapes: Sphere, Torus, Cylinder, Helix etc
