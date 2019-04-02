@@ -20,7 +20,10 @@ while DISPLAY.loop_running():
   #sprite.rotateIncZ(1)
   sprite.position(xloc, yloc, 5.0)
   sprite = pi3d.ImageSprite("/home/pi/pi3d_demos/textures/PATRN.PNG", shader, w=cnt, h=100.0, z=5.0)
-  cnt = cnt + 10.0
+  if cnt < 500:
+    cnt = cnt + 1.0
+  if cnt = 500:
+    cnt = 100
   time.sleep(0.5)
   if xloc > 300.0:
     dx = -2.1
