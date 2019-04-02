@@ -22,7 +22,7 @@ while DISPLAY.loop_running():
   sprite = pi3d.ImageSprite("/home/pi/pi3d_demos/textures/PATRN.PNG", shader, w=cnt, h=100.0, z=5.0)
   if cnt < 500:
     cnt = cnt + 1.0
-  if cnt = 500:
+  if cnt == 500:
     cnt = 100
   time.sleep(0.5)
   if xloc > 300.0:
