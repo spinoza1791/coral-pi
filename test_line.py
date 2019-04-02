@@ -23,7 +23,7 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 line_1 = np.arange(90, dtype = 'float64').reshape((30,3))
 line_2 = np.arange(90, dtype = 'float64').reshape((30,3))
 line_3 = np.arange(90, dtype = 'float64').reshape((30,3))
-line_4 = np.arange(60, dtype = 'float64').reshape((20,3))
+#line_4 = np.arange(60, dtype = 'float64').reshape((20,3))
 
 #print("traject_list shape =", traject_list.shape)
 #print("traject_list dims =", traject_list.ndim)
@@ -55,7 +55,7 @@ while DISPLAY.loop_running():
     line_1[:90,:] = np.array([[i*-300, i*0, i*20] for i in range(30)])
     # z = size, x = starting x
     line_2[:90,:] = np.array([[i*-300, i*50, i*20] for i in range(30)])
-    line_2[:90,:] = np.array([[i*300, i*50, i*20] for i in range(30)])
+    line_3[:90,:] = np.array([[i*300, i*50, i*20] for i in range(30)])
     #line_4[:50,:] = np.array([[i*10, i*0, i*0] for i in range(20)])
     track_1.buf[0].re_init(line_1)
     track_2.buf[0].re_init(line_2)
