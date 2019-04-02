@@ -3,6 +3,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 """ Example showing what can be left out. ESC to quit"""
 import pi3d
+import time
+
 DISPLAY = pi3d.Display.create(x=150, y=150, frames_per_second=30)
 shader = pi3d.Shader("uv_flat")
 CAMERA = pi3d.Camera(is_3d=False)
@@ -16,6 +18,8 @@ while DISPLAY.loop_running():
   sprite.draw()
   sprite.rotateIncZ(1)
   sprite.position(xloc, yloc, 5.0)
+  sprite.width = sprite.width + 1
+  time.sleep(0.5)
   if xloc > 300.0:
     dx = -2.1
   elif xloc < -300.0:
