@@ -14,12 +14,12 @@ xloc = 100.0
 dx = 2.1
 yloc = 100.0
 dy = 1.13
-cnt = 0
+cnt = 100
 while DISPLAY.loop_running():
   sprite.draw()
   sprite.rotateIncZ(1)
   sprite.position(xloc, yloc, 5.0)
-  pi3d.ImageSprite(w=cnt)
+  pi3d.ImageSprite.width = cnt
   cnt = cnt + 10
   time.sleep(0.5)
   if xloc > 300.0:
