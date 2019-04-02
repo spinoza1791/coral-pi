@@ -19,10 +19,13 @@ preview_H = 320
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
-#traject_list = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
-line_1 = np.arange(90, dtype = 'float64').reshape((30,3))
-line_2 = np.arange(90, dtype = 'float64').reshape((30,3))
-line_3 = np.arange(90, dtype = 'float64').reshape((30,3))
+line_1 = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
+line_2 = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
+line_3 = np.array([[i*0.1, i*0.1, i*0.1] for i in range(1000)])
+
+#line_1 = np.arange(90, dtype = 'float64').reshape((30,3))
+#line_2 = np.arange(90, dtype = 'float64').reshape((30,3))
+#line_3 = np.arange(90, dtype = 'float64').reshape((30,3))
 #line_4 = np.arange(60, dtype = 'float64').reshape((20,3))
 
 #print("traject_list shape =", traject_list.shape)
@@ -52,10 +55,10 @@ track_3.set_shader(tracksh)
 #j = 0.0
 while DISPLAY.loop_running():
     #traject_list[:20,:] = np.array([[i**2 * 0.801212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
-    line_1[:90,:] = np.array([[i*300, i*0, i*20] for i in range(30)])
+    line_1[:20,:] = np.array([[i*300, i*0, i*20] for i in range(20)])
     # z = size, x = starting x
-    line_2[:90,:] = np.array([[i*300, i*0, i*20] for i in range(30)])
-    line_3[:90,:] = np.array([[i*0, i*300, i*20] for i in range(30)])
+    line_2[:20,:] = np.array([[i*300, i*0, i*20] for i in range(20)])
+    line_3[:20,:] = np.array([[i*0, i*300, i*20] for i in range(20)])
     #line_4[:50,:] = np.array([[i*10, i*0, i*0] for i in range(20)])
     track_1.buf[0].re_init(line_1)
     track_2.buf[0].re_init(line_2)
