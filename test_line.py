@@ -41,7 +41,7 @@ tracksh = pi3d.Shader("mat_flat")
 #track_1 = pi3d.Lines(vertices=[(line_1),(line_4)], material=(1.0,0.0,1.0), z=1.0, line_width=4) #, closed=
 track_1 = pi3d.Lines(vertices=line_1, material=(1.0,0.0,1.0), z=1.0, line_width=4)
 track_2 = pi3d.Lines(vertices=line_2, material=(1.0,0.2,1.0), z=1.0, line_width=4)
-track_3 = pi3d.Lines(vertices=line_3, material=(1.0,0.4,1.0), z=1.0, line_width=4)
+track_3 = pi3d.Lines(vertices=line_3, material=(7.0,0.4,1.0), z=1.0, line_width=4)
 #track_4 = pi3d.Lines(vertices=line_4, material=(1.0,0.6,1.0), z=1.0, line_width=4) # , closed=True)
 
 track_1.set_shader(tracksh)
@@ -54,7 +54,7 @@ while DISPLAY.loop_running():
     #traject_list[:20,:] = np.array([[i**2 * 0.801212, 2 - (i+j)*0.15, i*0.1] for i in range(20)])
     line_1[:90,:] = np.array([[i*300, i*0, i*20] for i in range(30)])
     # z = size, x = starting x
-    line_2[:45,:] = np.array([[i*300, i*0, i*20] for i in range(30)])
+    line_2[:90,:45] = np.array([[i*300, i*0, i*20] for i in range(30)])
     line_3[:90,:] = np.array([[i*0, i*300, i*20] for i in range(30)])
     #line_4[:50,:] = np.array([[i*10, i*0, i*0] for i in range(20)])
     track_1.buf[0].re_init(line_1)
