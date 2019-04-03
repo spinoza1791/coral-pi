@@ -64,7 +64,7 @@ with picamera.PiCamera() as camera:
     try:        
         while DISPLAY.loop_running():
             stream = io.BytesIO()
-            #camera.capture(stream, use_video_port=True, format='bgr')
+            camera.capture(stream, use_video_port=True, format='bgr')
             stream.truncate()
             stream.seek(0)
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
