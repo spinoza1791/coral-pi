@@ -83,18 +83,18 @@ with picamera.PiCamera() as camera:
                 fps_txt.quick_change(fps)
                 i = 0
                 last_tm = tm
-            if results:
-                num_obj = 0
-                for obj in results:
-                    num_obj = num_obj + 1
-                buf = bbox.buf[0] # alias for brevity below
-                buf.array_buffer[:,:3] = 0.0;
-                for j, obj in enumerate(results):
-                    coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-                    score = round(obj.score,2)
-                    for k in range(8):
-                        buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0]
-                        buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
+            #if results:
+            #    num_obj = 0
+            #    for obj in results:
+            #        num_obj = num_obj + 1
+            #    buf = bbox.buf[0] # alias for brevity below
+            #    buf.array_buffer[:,:3] = 0.0;
+            #    for j, obj in enumerate(results):
+            #        coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+            #        score = round(obj.score,2)
+            #        for k in range(8):
+            #            buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0]
+            #           buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
                 #buf.re_init(); # 
                 #bbox.draw() # i.e. one draw for all boxes
 
