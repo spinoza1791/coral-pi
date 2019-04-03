@@ -64,13 +64,13 @@ with picamera.PiCamera() as camera:
     try:        
         while DISPLAY.loop_running():
             stream = io.BytesIO()
+            start_ms = time.time()
             camera.capture(stream, use_video_port=True, format='bgr')
+            elapsed_ms = time.time() - start_ms
             stream.truncate()
             stream.seek(0)
-            start_ms = time.time()
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
             #stream.close()
-            elapsed_ms = time.time() - start_ms
             results = engine.DetectWithInputTensor(input, top_k=max_obj)
             ms = str(int(elapsed_ms*1000))+"ms"
             ms_txt.draw()
