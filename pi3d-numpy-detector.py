@@ -63,10 +63,10 @@ with picamera.PiCamera() as camera:
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     stream = io.BytesIO()
     camera.capture(stream, use_video_port=True, format='bgr')
-    stream.truncate()
-    stream.seek(0)
     try:
         while DISPLAY.loop_running():
+            stream.truncate()
+            stream.seek(0)
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
             #stream.close()
             start_ms = time.time()
