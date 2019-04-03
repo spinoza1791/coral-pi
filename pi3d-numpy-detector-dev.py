@@ -65,9 +65,9 @@ with picamera.PiCamera() as camera:
         camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
         time.sleep(2)
         try:        
-            while DISPLAY.loop_running():
+            if DISPLAY.loop_running():
                 #stream = io.BytesIO()
-                camera.capture(output, use_video_port=True, format='bgr')
+                #camera.capture(output, use_video_port=True, format='bgr')
                 #stream.truncate()
                 #stream.seek(0)
                 output.truncate()
