@@ -61,7 +61,6 @@ with picamera.PiCamera() as camera:
     stream = PiRGBArray(camera, size=camera.resolution * 3)
     _, width, height, channels = engine.get_input_tensor_shape()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
-    time.sleep(2)
     try:        
         while DISPLAY.loop_running():
             stream = io.BytesIO()
@@ -96,8 +95,8 @@ with picamera.PiCamera() as camera:
                     for k in range(8):
                         buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0]
                         buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
-                buf.re_init(); # 
-                bbox.draw() # i.e. one draw for all boxes
+                #buf.re_init(); # 
+                #bbox.draw() # i.e. one draw for all boxes
 
             if keybd.read() == 27:
                 break
