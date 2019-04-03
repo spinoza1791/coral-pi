@@ -52,19 +52,17 @@ def main():
                  exitFlag = False
 
         stream = io.BytesIO()
-        start_ms = time.time()
         camera.capture(stream, use_video_port=True, format='rgb')
-        elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
         stream.close()
+        start_ms = time.time()
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
-
         if img:
              screen.blit(img, (0,0))
              if results:
@@ -96,7 +94,7 @@ def main():
                   screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 
         pygame.display.update()
-
+        elapsed_ms = time.time() - start_ms
     pygame.display.quit()
 
 if __name__ == '__main__':
