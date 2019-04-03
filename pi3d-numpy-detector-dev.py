@@ -71,7 +71,7 @@ with picamera.PiCamera() as camera:
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
             stream.close()
             results = engine.DetectWithInputTensor(input, top_k=max_obj)
-            ms = str(int(elapsed_ms*1000))+"ms"
+            ms = str(int(elapsed_ms*100000))+"ms"
             ms_txt.draw()
             ms_txt.quick_change(ms)                
             fps_txt.draw()
