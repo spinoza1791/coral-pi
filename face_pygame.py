@@ -62,10 +62,10 @@ def main():
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
+        start_ms = time.time()
         if img:
              screen.blit(img, (0,0))
              if results:
-                  start_ms = time.time()
                   num_obj = 0
                   for obj in results:
                        num_obj = num_obj + 1
