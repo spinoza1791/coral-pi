@@ -59,8 +59,8 @@ with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
     with picamera.array.PiRGBArray(camera) as output:
-        camera.capture(output, 'rgb')
-        #rgb = PiRGBArray(camera, size=camera.resolution * 3)
+        camera.capture(output, 'rgb', resize=(320, 320))
+        output = PiRGBArray(camera, size=camera.resolution * 3)
         _, width, height, channels = engine.get_input_tensor_shape()
         camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
         time.sleep(2)
