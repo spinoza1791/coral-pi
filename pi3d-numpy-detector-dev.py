@@ -68,7 +68,7 @@ with picamera.PiCamera() as camera:
             #camera.capture(stream, use_video_port=True, format='bgr')
             #stream.truncate()
             #stream.seek(0)
-            elapsed_ms = time.time() - start_ms
+            start_ms = time.time()
             camera.capture(stream, use_video_port=True, format='rgb')
             elapsed_ms = time.time() - start_ms
             stream.seek(0)
