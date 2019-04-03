@@ -22,7 +22,7 @@ args = parser.parse_args()
 mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 
 #Set max num of objects you want to detect per frame
-max_obj = 5
+max_obj = 20
 max_fps = 40
 engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
@@ -68,7 +68,7 @@ with picamera.PiCamera() as camera:
             stream.truncate()
             stream.seek(0)
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
-            stream.close()
+            #stream.close()
             start_ms = time.time()
             results = engine.DetectWithInputTensor(input, top_k=max_obj)
             elapsed_ms = time.time() - start_ms
