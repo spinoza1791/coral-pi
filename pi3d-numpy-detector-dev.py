@@ -93,7 +93,7 @@ with picamera.PiCamera() as camera:
                     score = round(obj.score,2)
                     for k in range(8):
                         buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0]
-                       buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
+                        buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
                 buf.re_init(); # 
                 bbox.draw() # i.e. one draw for all boxes
                 elapsed_ms = time.time() - start_ms
