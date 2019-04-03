@@ -102,8 +102,8 @@ with picamera.PiCamera() as camera:
                     buf.re_init(); # 
                     bbox.draw() # i.e. one draw for all boxes
 
-                if keybd.read() == 27:
-                    break
+            if keybd.read() == 27:
+                break
         finally:
             keybd.close()
             DISPLAY.destroy()
