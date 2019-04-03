@@ -59,14 +59,13 @@ def main():
         #Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
         stream.close()
-        start_ms = time.time()
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
-        elapsed_ms = time.time() - start_ms
         if img:
              screen.blit(img, (0,0))
              if results:
+                  start_ms = time.time()
                   num_obj = 0
                   for obj in results:
                        num_obj = num_obj + 1
@@ -80,20 +79,21 @@ def main():
                        rect_width = x2 - x1
                        rect_height = y2 - y1
                        class_score = "%.2f" % (score)
+                       elapsed_ms = time.time() - start_ms
+                       ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
                        fnt_class_score = myfont.render(class_score, True, (0,0,255))
                        fnt_class_score_width = fnt_class_score.get_rect().width
                        screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-                       ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
                        fnt_ms = myfont.render(ms, True, (255,255,255))
                        fnt_ms_width = fnt_ms.get_rect().width
                        screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-                       pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)          
+                       pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
              else:
+                  elapsed_ms = time.time() - start_ms
                   ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
                   fnt_ms = myfont.render(ms, True, (255,0,0))
                   fnt_ms_width = fnt_ms.get_rect().width
                   screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-                  elapsed_ms = time.time() - start_ms
 
         pygame.display.update()
 
