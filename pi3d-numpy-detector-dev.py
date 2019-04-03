@@ -58,15 +58,16 @@ i = 0
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
-    rgb = PiRGBArray(camera, size=camera.resolution * 3)
+    #rgb = PiRGBArray(camera, size=camera.resolution * 3)
     _, width, height, channels = engine.get_input_tensor_shape()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
-    stream = io.BytesIO()
-    try:
+    time.sleep(2)
+    try:        
         while DISPLAY.loop_running():
+            stream = io.BytesIO()
             camera.capture(stream, use_video_port=True, format='bgr')
             stream.truncate()
-            #stream.seek(0)
+            stream.seek(0)
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
             #stream.close()
             start_ms = time.time()
