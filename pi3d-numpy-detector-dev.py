@@ -70,6 +70,7 @@ with picamera.PiCamera() as camera:
                 camera.capture(output, use_video_port=True, format='bgr')
                 #stream.truncate()
                 #stream.seek(0)
+                output.truncate()
                 input = np.frombuffer(output.getvalue(), dtype=np.uint8)
                 #stream.close()
                 start_ms = time.time()
