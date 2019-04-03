@@ -83,9 +83,7 @@ with picamera.PiCamera() as camera:
             stream.seek(0)
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
             stream.close()
-            start_ms = time.time()
             results = engine.DetectWithInputTensor(input, top_k=max_obj)
-            elapsed_ms = time.time() - start_ms
             ms = str(int(elapsed_ms*1000))+"ms"
             ms_txt.draw()
             ms_txt.quick_change(ms)                
@@ -97,6 +95,7 @@ with picamera.PiCamera() as camera:
                 fps_txt.quick_change(fps)
                 i = 0
                 last_tm = tm
+            start_ms = time.time()    
             if results:
                 num_obj = 0
                 for obj in results:
@@ -112,6 +111,7 @@ with picamera.PiCamera() as camera:
                     #bbox.re_init(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                     bbox = pi3d.Lines(vertices=bbox_vertices, material=(1.0,0.8,0.05), closed=True, line_width=4)
                     bbox.draw()
+                    elapsed_ms = time.time() - start_ms
 
             if keybd.read() == 27:
                 break
