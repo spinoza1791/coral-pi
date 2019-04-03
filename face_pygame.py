@@ -52,14 +52,14 @@ def main():
                  exitFlag = False
 
         stream = io.BytesIO()
+        start_ms = time.time()
         camera.capture(stream, use_video_port=True, format='rgb')
+        elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
-        start_ms = time.time()
         #Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
-        elapsed_ms = time.time() - start_ms
         stream.close()
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
