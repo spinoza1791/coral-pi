@@ -63,6 +63,7 @@ def main():
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
+        elapsed_ms = time.time() - start_ms
         if img:
              screen.blit(img, (0,0))
              if results:
@@ -95,7 +96,7 @@ def main():
                   elapsed_ms = time.time() - start_ms
 
         pygame.display.update()
-        elapsed_ms = time.time() - start_ms
+
     pygame.display.quit()
 
 if __name__ == '__main__':
