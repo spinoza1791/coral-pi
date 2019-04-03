@@ -64,13 +64,12 @@ with picamera.PiCamera() as camera:
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     try:        
         while DISPLAY.loop_running():
+            start_ms = time.time()
             stream = io.BytesIO()
             #camera.capture(stream, use_video_port=True, format='bgr')
             #stream.truncate()
             #stream.seek(0)
-            start_ms = time.time()
             camera.capture(stream, use_video_port=True, format='rgb')
-            elapsed_ms = time.time() - start_ms
             stream.seek(0)
             stream.readinto(rgb)
             input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
@@ -101,7 +100,7 @@ with picamera.PiCamera() as camera:
                         buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
                 buf.re_init(); # 
                 bbox.draw() # i.e. one draw for all boxes
-
+                elapsed_ms = time.time() - start_ms
             if keybd.read() == 27:
                 break
     finally:
