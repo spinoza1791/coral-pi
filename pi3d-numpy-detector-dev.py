@@ -58,52 +58,52 @@ i = 0
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
-  with picamera.array.PiRGBArray(camera) as output:
-    camera.capture(output, 'rgb')
-    #rgb = PiRGBArray(camera, size=camera.resolution * 3)
-    _, width, height, channels = engine.get_input_tensor_shape()
-    camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
-    time.sleep(2)
-    try:        
-        while DISPLAY.loop_running():
-            #stream = io.BytesIO()
-            camera.capture(output, use_video_port=True, format='bgr')
-            #stream.truncate()
-            #stream.seek(0)
-            input = np.frombuffer(output.getvalue(), dtype=np.uint8)
-            #stream.close()
-            start_ms = time.time()
-            results = engine.DetectWithInputTensor(input, top_k=max_obj)
-            elapsed_ms = time.time() - start_ms
-            ms = str(int(elapsed_ms*1000))+"ms"
-            ms_txt.draw()
-            ms_txt.quick_change(ms)                
-            fps_txt.draw()
-            i += 1
-            if i > N:
-                tm = time.time()
-                fps = "{:6.2f}FPS".format(i / (tm - last_tm))
-                fps_txt.quick_change(fps)
-                i = 0
-                last_tm = tm
-            if results:
-                num_obj = 0
-                for obj in results:
-                    num_obj = num_obj + 1
-                buf = bbox.buf[0] # alias for brevity below
-                buf.array_buffer[:,:3] = 0.0;
-                for j, obj in enumerate(results):
-                    coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-                    score = round(obj.score,2)
-                    for k in range(8):
-                        buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0]
-                        buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
-                buf.re_init(); # 
-                bbox.draw() # i.e. one draw for all boxes
+    with picamera.array.PiRGBArray(camera) as output:
+        camera.capture(output, 'rgb')
+        #rgb = PiRGBArray(camera, size=camera.resolution * 3)
+        _, width, height, channels = engine.get_input_tensor_shape()
+        camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
+        time.sleep(2)
+        try:        
+            while DISPLAY.loop_running():
+                #stream = io.BytesIO()
+                camera.capture(output, use_video_port=True, format='bgr')
+                #stream.truncate()
+                #stream.seek(0)
+                input = np.frombuffer(output.getvalue(), dtype=np.uint8)
+                #stream.close()
+                start_ms = time.time()
+                results = engine.DetectWithInputTensor(input, top_k=max_obj)
+                elapsed_ms = time.time() - start_ms
+                ms = str(int(elapsed_ms*1000))+"ms"
+                ms_txt.draw()
+                ms_txt.quick_change(ms)                
+                fps_txt.draw()
+                i += 1
+                if i > N:
+                    tm = time.time()
+                    fps = "{:6.2f}FPS".format(i / (tm - last_tm))
+                    fps_txt.quick_change(fps)
+                    i = 0
+                    last_tm = tm
+                if results:
+                    num_obj = 0
+                    for obj in results:
+                        num_obj = num_obj + 1
+                    buf = bbox.buf[0] # alias for brevity below
+                    buf.array_buffer[:,:3] = 0.0;
+                    for j, obj in enumerate(results):
+                        coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+                        score = round(obj.score,2)
+                        for k in range(8):
+                            buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0]
+                            buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
+                    buf.re_init(); # 
+                    bbox.draw() # i.e. one draw for all boxes
 
-            if keybd.read() == 27:
-                break
-    finally:
-        keybd.close()
-        DISPLAY.destroy()
-        camera.close()
+                if keybd.read() == 27:
+                    break
+        finally:
+            keybd.close()
+            DISPLAY.destroy()
+            camera.close()
