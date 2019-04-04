@@ -10,7 +10,7 @@ class PiVideoStream:
 		self.camera = PiCamera()
 		self.camera.resolution = resolution
 		self.camera.framerate = framerate
-                self.rgbCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+		self.rgbCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
                 #self.rawCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
                 #_, width, height, channels = engine.get_input_tensor_shape()
                 #self.stream = self.camera.capture_continuous(self.rawCapture,
