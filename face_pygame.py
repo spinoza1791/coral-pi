@@ -50,7 +50,7 @@ def main():
              #if(event.type is pygame.K_ESCAPE or
              #   event.type is pygame.QUIT):
              #    exitFlag = False
-             if(keys[pygame.K_ESCAPE] == 1);
+             if(keys[pygame.K_ESCAPE] == 1):
                 exitFlag = False
                 
         stream = io.BytesIO()
