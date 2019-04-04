@@ -76,7 +76,7 @@ with picamera.PiCamera() as camera:
                 elapsed_ms = time.time() - start_ms
                 #stream.seek(0)
                 #stream.readinto(rgb)
-                image = io.BytesIO(stream.array)
+                image = stream.array
                 input = np.frombuffer(image.getvalue(), dtype=np.uint8)
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 ms = str(int(elapsed_ms*100000))+"ms"
