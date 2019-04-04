@@ -34,11 +34,8 @@ def main():
     #Set camera resolution equal to model dims
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-    yuv = bytearray(camera.resolution[0] * int(camera.resolution[1] * 3 / 2))
-
     camera.framerate = 40
     _, width, height, channels = engine.get_input_tensor_shape()
-
     x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
     y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
     z = 5
@@ -54,13 +51,14 @@ def main():
                 
         stream = io.BytesIO()
         start_ms = time.time()
-        camera.capture(stream, use_video_port=True, format='jpeg', resize=(mdl_dims, mdl_dims))
+        camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
-        camera.resolution, 'RGB') 
+        camera.resolution, 'RGB')
+        input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
         stream.close()                                                                 
