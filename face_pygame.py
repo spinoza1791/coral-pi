@@ -34,6 +34,8 @@ def main():
     #Set camera resolution equal to model dims
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+    yuv = bytearray(camera.resolution[0] * camera.resolution[1] * 3 / 2)
+
     camera.framerate = 40
     _, width, height, channels = engine.get_input_tensor_shape()
 
@@ -47,9 +49,6 @@ def main():
     while(exitFlag):
         for event in pygame.event.get():
              keys = pygame.key.get_pressed()
-             #if(event.type is pygame.K_ESCAPE or
-             #   event.type is pygame.QUIT):
-             #    exitFlag = False
              if(keys[pygame.K_ESCAPE] == 1):
                 exitFlag = False
                 
@@ -59,14 +58,16 @@ def main():
         camera.capture(stream, use_video_port=True, format='raw')
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
-        stream.readinto(rgb)
+        #stream.readinto(rgb)
+        stream.readinto(yuv)
+        #yuv2rgb.convert(yuv, rgb, sizeData[sizeMode][1][0], sizeData[sizeMode][1][1])
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
         stream.close()
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
-        camera.resolution, 'RGB')
+        camera.resolution, 'RGB')                                                                      
         if img:
              screen.blit(img, (0,0))
              if results:
