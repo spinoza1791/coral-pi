@@ -11,9 +11,9 @@ class PiVideoStream:
 		self.camera.resolution = resolution
 		self.camera.framerate = framerate
 		self.rgbCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-                #self.rawCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-                #_, width, height, channels = engine.get_input_tensor_shape()
-                #self.stream = self.camera.capture_continuous(self.rawCapture,
+		#self.rawCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+		#_, width, height, channels = engine.get_input_tensor_shape()
+		#self.stream = self.camera.capture_continuous(self.rawCapture,
 		#	format="bgr", use_video_port=True)
 		self.stream = self.camera.capture_continuous(self.rgbCapture,
 			format="rgb", use_video_port=True)
@@ -23,18 +23,18 @@ class PiVideoStream:
 		self.frame = None
 		self.stopped = False
 
-        def start(self):
+	def start(self):
 		# start the thread to read frames from the video stream
 		Thread(target=self.update, args=()).start()
-                return self
+		return self
 
 	def update(self):
 		# keep looping infinitely until the thread is stopped
 		for f in self.stream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
-                        self.frame = f.array
-                        #self.rawCapture.truncate(0)
+			self.frame = f.array
+			#self.rawCapture.truncate(0)
 
 			# if the thread indicator variable is set, stop the thread
 			# and resource camera resources
@@ -43,7 +43,7 @@ class PiVideoStream:
 				#self.rawCapture.close()
 				self.rgbCapture.close()
 				self.camera.stop_preview()
-                                self.camera.close()
+				self.camera.close()
 				return
 	def read(self):
 		# return the frame most recently read
