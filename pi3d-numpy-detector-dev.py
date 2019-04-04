@@ -70,7 +70,7 @@ with picamera.PiCamera() as camera:
     stream = io.BytesIO()
     #with picamera.array.PiRGBArray(camera) as stream:
     try:   
-        while foo in camera.capture_continuous(stream, 'jpeg'):
+        for foo in camera.capture_continuous(stream, 'jpeg'):
             if DISPLAY.loop_running():
                 #stream = io.BytesIO()
                 #start_ms = time.time() 
