@@ -32,8 +32,7 @@ def main():
 
     camera = picamera.PiCamera()
     #Set camera resolution equal to model dims
-    #camera.resolution = (mdl_dims, mdl_dims)
-    camera.resolution = (640, 640)
+    camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     camera.framerate = 60
     _, width, height, channels = engine.get_input_tensor_shape()
@@ -53,7 +52,9 @@ def main():
                  exitFlag = False
 
         stream = io.BytesIO()
-        camera.capture(stream, use_video_port=True, format='rgb', resize=(320, 320))
+        start_ms = time.time()
+        camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
+        elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
@@ -63,7 +64,6 @@ def main():
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
-        start_ms = time.time()
         if img:
              screen.blit(img, (0,0))
              if results:
@@ -80,7 +80,6 @@ def main():
                        rect_width = x2 - x1
                        rect_height = y2 - y1
                        class_score = "%.2f" % (score)
-                       elapsed_ms = time.time() - start_ms
                        ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
                        fnt_class_score = myfont.render(class_score, True, (0,0,255))
                        fnt_class_score_width = fnt_class_score.get_rect().width
