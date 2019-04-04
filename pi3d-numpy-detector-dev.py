@@ -61,7 +61,7 @@ Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
-    camera.framerate = 15
+    camera.framerate = 30
     #stream = PiRGBArray(camera, size=camera.resolution * 3)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     #_, width, height, channels = engine.get_input_tensor_shape()
