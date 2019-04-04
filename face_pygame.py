@@ -55,7 +55,7 @@ def main():
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
-        stream.truncate(0)
+        stream.truncate()
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
