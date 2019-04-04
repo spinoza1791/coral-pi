@@ -49,7 +49,7 @@ def main():
              keys = pygame.key.get_pressed()
              if(keys[pygame.K_ESCAPE] == 1):
                 exitFlag = False
-        with picamera.array.PiRGBArray(camera) as stream:        
+        with picamera.array.PiRGBArray(camera, size=(320, 320)) as stream:        
             #stream = io.BytesIO()
             start_ms = time.time()
             camera.capture(stream, use_video_port=True, format='rgb')
