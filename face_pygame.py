@@ -50,7 +50,7 @@ def main():
              if(keys[pygame.K_ESCAPE] == 1):
                 exitFlag = False
         with picamera.array.PiRGBArray(camera) as stream:        
-            stream = io.RawIOBase()
+            stream = io.BytesIO(stream)
             start_ms = time.time()
             camera.capture(stream, use_video_port=True, format='rgb')
             elapsed_ms = time.time() - start_ms
