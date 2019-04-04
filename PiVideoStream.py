@@ -9,9 +9,9 @@ class PiVideoStream:
 		self.camera = PiCamera()
 		self.camera.resolution = resolution
 		self.camera.framerate = framerate
-		self.rawCapture = PiRGBArray(self.camera, size=resolution)
-		self.stream = self.camera.capture_continuous(self.rawCapture,
-			format="bgr", use_video_port=True)
+		self.rbgCapture = PiRGBArray(self.camera, size=resolution)
+		self.stream = self.camera.capture_continuous(self.rbgCapture,
+			format="rgb", use_video_port=True)
  
 		# initialize the frame and the variable used to indicate
 		# if the thread should be stopped
@@ -29,13 +29,13 @@ class PiVideoStream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
 			self.frame = f.array
-			self.rawCapture.truncate(0)
+			self.rbgCapture.truncate(0)
  
 			# if the thread indicator variable is set, stop the thread
 			# and resource camera resources
 			if self.stopped:
 				self.stream.close()
-				self.rawCapture.close()
+				self.rbgCapture.close()
 				self.camera.close()
 				return
 	def read(self):
