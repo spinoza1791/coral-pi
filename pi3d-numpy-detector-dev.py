@@ -23,7 +23,7 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 
 #Set max num of objects you want to detect per frame
 max_obj = 20
-max_fps = 40
+max_fps = 20
 engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
@@ -61,7 +61,7 @@ Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
-    camera.framerate = 30
+    camera.framerate = max_fps
     #stream = PiRGBArray(camera, size=camera.resolution * 3)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     #_, width, height, channels = engine.get_input_tensor_shape()
