@@ -47,7 +47,7 @@ def main():
     while(exitFlag):
         for event in pygame.event.get():
              #Quit all if mouse btn pushed
-             if(event.type is pygame.MOUSEBUTTONDOWN or pygame.K_ESCAPE
+             if(event.type is pygame.K_ESCAPE or
                 event.type is pygame.QUIT):
                  exitFlag = False
 
