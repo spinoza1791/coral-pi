@@ -75,7 +75,7 @@ with picamera.PiCamera() as camera:
                 camera.capture(stream, use_video_port=True, format='rgb')
                 elapsed_ms = time.time() - start_ms
                 stream.seek(0)
-                stream.readinto(rgb)
+                stream.readinto(io.BytesIO(rgb))
                 #image = io.BytesIO(stream.array)
                 input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
