@@ -33,8 +33,8 @@ def main():
     myfont = pygame.font.SysFont('Arial', fnt_sz)
 
     camera = picamera.PiCamera()
-    stream = PiVideoStream().start()
-    stream.rgbCapture = bytearray(stream.camera.resolution[0] * stream.camera.resolution[1] * 3)
+    strm_thread = PiVideoStream().start()
+    strm_thread.rgbCapture = bytearray(strm_thread.camera.resolution[0] * strm_thread.camera.resolution[1] * 3)
     #Set camera resolution equal to model dims
     camera.resolution = (mdl_dims, mdl_dims)
     #rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
