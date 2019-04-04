@@ -55,7 +55,8 @@ def main():
                 
         stream = io.BytesIO()
         start_ms = time.time()
-        camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
+        #camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
+        camera.capture(stream, use_video_port=True, format='raw')
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
@@ -83,20 +84,20 @@ def main():
                        rect_height = y2 - y1
                        class_score = "%.2f" % (score)
                        ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
-                       #fnt_class_score = myfont.render(class_score, True, (0,0,255))
-                       #fnt_class_score_width = fnt_class_score.get_rect().width
-                       #screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-                       #fnt_ms = myfont.render(ms, True, (255,255,255))
-                       #fnt_ms_width = fnt_ms.get_rect().width
-                       #screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+                       fnt_class_score = myfont.render(class_score, True, (0,0,255))
+                       fnt_class_score_width = fnt_class_score.get_rect().width
+                       screen.blit(fnt_class_score,(x1, y1-fnt_sz))
+                       fnt_ms = myfont.render(ms, True, (255,255,255))
+                       fnt_ms_width = fnt_ms.get_rect().width
+                       screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
                        bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
                        #pygame.display.update(bbox_rect)
              else:
                   elapsed_ms = time.time() - start_ms
                   ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
-                  #fnt_ms = myfont.render(ms, True, (255,0,0))
-                  #fnt_ms_width = fnt_ms.get_rect().width
-                  #screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+                  fnt_ms = myfont.render(ms, True, (255,0,0))
+                  fnt_ms_width = fnt_ms.get_rect().width
+                  screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 
         pygame.display.update()
 
