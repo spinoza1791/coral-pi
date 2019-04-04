@@ -90,6 +90,7 @@ with picamera.PiCamera() as camera:
                 num_obj = 0
                 for obj in results:
                     num_obj = num_obj + 1
+                start_ms = time.time()    
                 buf = bbox.buf[0] # alias for brevity below
                 buf.array_buffer[:,:3] = 0.0;
                 for j, obj in enumerate(results):
