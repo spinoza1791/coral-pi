@@ -54,8 +54,10 @@ ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=pr
 ms_txt.set_shader(txtshader)
 last_tm = time.time()
 i = 0
-X_OFF = [0, 0, -1, -1, 0, 0, 1, 1]
-Y_OFF = [-1, -1, 0, 0, 1, 1, 0, 0]
+X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
+Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
+X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
+Y_IX = np.array(]0, 0, 0, 1, 1, 1, 1, 0])
 
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
@@ -93,12 +95,9 @@ with picamera.PiCamera() as camera:
                 for j, obj in enumerate(results):
                     coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
                     score = round(obj.score,2)
-                    start_ms = time.time()
-                    for k in range(8):
-                        buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0]
-                        buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1]
-                        #buf.array_buffer[8 * j + k, 0] = coords[(k + 3) // 4 % 2, 0] + 2 * X_OFF[k]
-                        #buf.array_buffer[8 * j + k, 1] = coords[(k + 1) // 4 % 2, 1] + 2 * Y_OFF[k]
+                    ix = 8 * j
+                    buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+                    buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
                 buf.re_init(); # 
                 bbox.draw() # i.e. one draw for all boxes
                 elapsed_ms = time.time() - start_ms
