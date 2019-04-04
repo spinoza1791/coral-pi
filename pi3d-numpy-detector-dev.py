@@ -63,8 +63,8 @@ with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
     #camera.color_effects = (128,128)
-    #bgr = PiRGBArray(camera, size=camera.resolution * 3)
-    bgr = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+    bgr = PiRGBArray(camera, size=camera.resolution * 3)
+    #bgr = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     #rgb.reshape(rgb * [0.2989, 0.5870, 0.1140]).sum(axis=2).astype(np.uint8)
     #_, width, height, channels = engine.get_input_tensor_shape()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
@@ -78,6 +78,7 @@ with picamera.PiCamera() as camera:
                 elapsed_ms = time.time() - start_ms
                 #stream.seek(0)
                 #stream.readinto(bgr)
+                stream = io.BytesIO(bgr)
                 input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 ms = str(int(elapsed_ms*100000))+"ms"
