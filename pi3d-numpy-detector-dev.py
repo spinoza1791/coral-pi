@@ -74,7 +74,7 @@ with picamera.PiCamera() as camera:
         while DISPLAY.loop_running():
             stream = io.BytesIO()
             start_ms = time.time() 
-            camera.capture(stream, use_video_port=True, format='bgr')
+            camera.capture(stream, use_video_port=True, format='rgb')
             elapsed_ms = time.time() - start_ms
             stream.seek(0)
             stream.readinto(bgr)
