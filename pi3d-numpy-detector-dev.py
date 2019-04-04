@@ -70,7 +70,8 @@ with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
         try:        
             while DISPLAY.loop_running():
-                stream = io.BytesIO()
+                #stream = io.BytesIO()
+                stream = PiRGBArray(camera, size=camera.resolution * 3)
                 start_ms = time.time() 
                 camera.capture(stream, use_video_port=True, format='bgr')
                 elapsed_ms = time.time() - start_ms
