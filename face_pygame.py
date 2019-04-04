@@ -52,7 +52,7 @@ def main():
                  exitFlag = False
 
         stream = io.BytesIO()
-        camera.capture(stream, use_video_port=True, format='rgb')
+        camera.capture(stream, use_video_port=True, format='rgb', resize=(320, 320))
         stream.seek(0)
         stream.readinto(rgb)
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
