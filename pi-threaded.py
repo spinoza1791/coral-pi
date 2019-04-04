@@ -12,7 +12,6 @@ import tkinter
 import numpy as np
 import io
 import edgetpu.detection.engine
-import demo
 from threading import Thread
 
 # construct the argument parse and parse the arguments
