@@ -46,11 +46,13 @@ def main():
     exitFlag = True
     while(exitFlag):
         for event in pygame.event.get():
-             #Quit all if mouse btn pushed
-             if(event.type is pygame.K_ESCAPE or
-                event.type is pygame.QUIT):
-                 exitFlag = False
-
+             keys = pygame.key.get_pressed()
+             #if(event.type is pygame.K_ESCAPE or
+             #   event.type is pygame.QUIT):
+             #    exitFlag = False
+             if(keys[pygame.K_ESCAPE] == 1);
+                exitFlag = False
+                
         stream = io.BytesIO()
         start_ms = time.time()
         camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
