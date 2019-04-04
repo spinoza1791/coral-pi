@@ -6,6 +6,7 @@ import time
 import pygame
 import numpy as np
 import picamera
+import picamera.array
 from PIL import Image
 import edgetpu.detection.engine
 
