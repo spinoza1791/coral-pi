@@ -87,7 +87,8 @@ def main():
                        fnt_ms = myfont.render(ms, True, (255,255,255))
                        fnt_ms_width = fnt_ms.get_rect().width
                        screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-                       pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
+                       bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
+                       pygame.display.update(bbox_rect)
              else:
                   elapsed_ms = time.time() - start_ms
                   ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
@@ -95,7 +96,7 @@ def main():
                   fnt_ms_width = fnt_ms.get_rect().width
                   screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 
-        pygame.display.update(rectangle=(x1, y1, rect_width, rect_height))
+        pygame.display.update()
 
     pygame.display.quit()
 
