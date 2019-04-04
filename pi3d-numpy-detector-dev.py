@@ -70,13 +70,13 @@ with picamera.PiCamera() as camera:
     with picamera.array.PiRGBArray(camera) as stream:
         try:   
             while DISPLAY.loop_running():
-                stream = io.BytesIO()
+                #stream = io.BytesIO()
                 start_ms = time.time() 
                 camera.capture(stream, use_video_port=True, format='bgr')
                 elapsed_ms = time.time() - start_ms
-                #stream.seek(0)
+                stream.seek(0)
                 #stream.readinto(rgb)
-                image = stream.array
+                image = io.BytesIO(stream.array)
                 input = np.frombuffer(image.getvalue(), dtype=np.uint8)
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 ms = str(int(elapsed_ms*100000))+"ms"
