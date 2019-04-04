@@ -10,8 +10,9 @@ class PiVideoStream:
 	        self.camera.resolution = (320, 320)
 		self.camera.framerate = 32
 		self.rbgCapture = PiRGBArray(self.camera, size=(320, 320))
-		self.stream = self.camera.capture_continuous(self.rbgCapture,
-			format="rgb", use_video_port=True)
+		#self.stream = self.camera.capture_continuous(self.rbgCapture,
+		#	format="rgb", use_video_port=True)
+		self.stream = self.camera.capture(self.rbgCapture, use_video_port=True, format='rgb')
  
 		# initialize the frame and the variable used to indicate
 		# if the thread should be stopped
