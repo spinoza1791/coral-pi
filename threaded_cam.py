@@ -7,7 +7,7 @@ import argparse
 import imutils
 import time
 
-vs = PiVideoStream().start(width=320, height=320)
+vs = PiVideoStream().start()
 time.sleep(2.0)
  
 # loop over some frames...this time using the threaded stream
