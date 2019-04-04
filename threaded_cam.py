@@ -6,11 +6,7 @@ from picamera import PiCamera
 import argparse
 import imutils
 import time
- 
 
-# created a *threaded *video stream, allow the camera sensor to warmup,
-# and start the FPS counter
-print("[INFO] sampling THREADED frames from `picamera` module...")
 vs = PiVideoStream().start()
 time.sleep(2.0)
  
