@@ -95,7 +95,7 @@ def main():
                   fnt_ms_width = fnt_ms.get_rect().width
                   screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 
-        pygame.display.update()
+        pygame.display.update(rectangle=(x1, y1, rect_width, rect_height))
 
     pygame.display.quit()
 
