@@ -68,15 +68,17 @@ with picamera.PiCamera() as camera:
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     time.sleep(2) #camera warm-up
     with picamera.array.PiRGBArray(camera) as stream:
-        try:        
-            while DISPLAY.loop_running():
+        try:   
+            stream = io.BytesIO()
+            while foo in camera.capture_continuous(stream, 'jpeg'):
+                if DISPLAY.loop_running():
                 #stream = io.BytesIO()
-                stream = PiRGBArray(camera, size=camera.resolution * 3)
-                start_ms = time.time() 
-                camera.capture(stream, use_video_port=True, format='bgr')
-                elapsed_ms = time.time() - start_ms
+                #start_ms = time.time() 
+                #camera.capture(stream, use_video_port=True, format='bgr')
+                #elapsed_ms = time.time() - start_ms
                 stream.seek(0)
-                stream.readinto(rgb)
+                #stream.readinto(rgb)
+                stream.truncate()
                 input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 ms = str(int(elapsed_ms*100000))+"ms"
