@@ -34,8 +34,6 @@ def main():
     #Set camera resolution equal to model dims
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-    yuv = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-
     camera.framerate = 40
     _, width, height, channels = engine.get_input_tensor_shape()
 
@@ -54,13 +52,10 @@ def main():
                 
         stream = io.BytesIO()
         start_ms = time.time()
-        #camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
-        camera.capture(stream, use_video_port=True, format='raw')
+        camera.capture(stream, use_video_port=True, format='raw', resize=(mdl_dims, mdl_dims))
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
-        #stream.readinto(rgb)
-        stream.readinto(yuv)
-        #yuv2rgb.convert(yuv, rgb, sizeData[sizeMode][1][0], sizeData[sizeMode][1][1])
+        stream.readinto(rgb)
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
