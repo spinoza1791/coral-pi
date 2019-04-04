@@ -64,7 +64,7 @@ with picamera.PiCamera() as camera:
     camera.framerate = max_fps
     #stream = PiRGBArray(camera, size=camera.resolution * 3)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-    rbg.reshape(rgb * [0.2989, 0.5870, 0.1140]).sum(axis=2).astype(np.uint8)
+    rgb.reshape(rgb * [0.2989, 0.5870, 0.1140]).sum(axis=2).astype(np.uint8)
     #_, width, height, channels = engine.get_input_tensor_shape()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     time.sleep(2) #camera warm-up
