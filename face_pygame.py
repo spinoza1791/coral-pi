@@ -50,12 +50,12 @@ def main():
                 exitFlag = False
                 
         stream = io.BytesIO()
-        stream.truncate(0)
         start_ms = time.time()
         camera.capture(stream, use_video_port=True, format='rgb')
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
+        stream.truncate(0)
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
