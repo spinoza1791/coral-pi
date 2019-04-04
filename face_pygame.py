@@ -32,7 +32,8 @@ def main():
 
     camera = picamera.PiCamera()
     #Set camera resolution equal to model dims
-    camera.resolution = (mdl_dims, mdl_dims)
+    #camera.resolution = (mdl_dims, mdl_dims)
+    camera.resolution = (640, 640)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     camera.framerate = 60
     _, width, height, channels = engine.get_input_tensor_shape()
