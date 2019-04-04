@@ -53,7 +53,7 @@ def main():
 
         stream = io.BytesIO()
         start_ms = time.time()
-        camera.capture(stream, use_video_port=False, format='rgb', resize=(mdl_dims, mdl_dims))
+        camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
