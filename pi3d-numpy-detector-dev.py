@@ -72,12 +72,12 @@ with picamera.PiCamera() as camera:
             while DISPLAY.loop_running():
                 #stream = io.BytesIO()
                 start_ms = time.time() 
-                camera.capture(stream, use_video_port=True, format='bgr')
+                camera.capture(stream, use_video_port=True, format='rgb')
                 elapsed_ms = time.time() - start_ms
                 stream.seek(0)
-                #stream.readinto(rgb)
-                image = io.BytesIO(stream.array)
-                input = np.frombuffer(image.getvalue(), dtype=np.uint8)
+                stream.readinto(rgb)
+                #image = io.BytesIO(stream.array)
+                input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
                 results = engine.DetectWithInputTensor(input, top_k=max_obj)
                 ms = str(int(elapsed_ms*100000))+"ms"
                 ms_txt.draw()
