@@ -60,7 +60,7 @@ def main():
         camera.resolution, 'RGB')
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
-        results = engine.DetectWithInputTensor(img, top_k=max_obj)
+        results = engine.DetectWithInputTensor(io.BytesIO(img), top_k=max_obj)
         stream.close()                                                                 
         if img:
              screen.blit(img, (0,0))
