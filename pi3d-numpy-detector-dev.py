@@ -59,13 +59,13 @@ Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
 X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
 Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 
-#stream = io.BytesIO()
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
     stream = PiRGBArray(camera, size=camera.resolution * 3)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     _, width, height, channels = engine.get_input_tensor_shape()
+    stream = io.BytesIO()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     try:        
         while DISPLAY.loop_running():
