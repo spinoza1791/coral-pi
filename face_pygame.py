@@ -8,6 +8,7 @@ import numpy as np
 import picamera
 from PIL import Image
 import edgetpu.detection.engine
+import yuv2rgb
 
 def main():
     parser = argparse.ArgumentParser()
