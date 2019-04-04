@@ -67,9 +67,9 @@ with picamera.PiCamera() as camera:
     #_, width, height, channels = engine.get_input_tensor_shape()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     time.sleep(2) #camera warm-up
-    with picamera.array.PiRGBArray(camera) as stream:
+    stream = io.BytesIO()
+    #with picamera.array.PiRGBArray(camera) as stream:
         try:   
-            stream = io.BytesIO()
             while foo in camera.capture_continuous(stream, 'jpeg'):
                 if DISPLAY.loop_running():
                 #stream = io.BytesIO()
