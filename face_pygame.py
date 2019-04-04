@@ -34,7 +34,7 @@ def main():
     #Set camera resolution equal to model dims
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-    camera.framerate = 40
+    camera.framerate = 24
     _, width, height, channels = engine.get_input_tensor_shape()
     x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
     y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
@@ -50,6 +50,7 @@ def main():
                 exitFlag = False
                 
         stream = io.BytesIO()
+        stream.truncate(0)
         start_ms = time.time()
         camera.capture(stream, use_video_port=True, format='rgb')
         elapsed_ms = time.time() - start_ms
