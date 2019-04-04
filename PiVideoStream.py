@@ -4,11 +4,11 @@ from picamera import PiCamera
 from threading import Thread
  
 class PiVideoStream:
-	def __init__(self, width, height, framerate=32):
+	def __init__(self):
 		# initialize the camera and stream
 		self.camera = PiCamera()
-		self.camera.resolution = (width, height)
-		self.camera.framerate = framerate
+	        self.camera.resolution = (320, 320)
+		self.camera.framerate = 32
 		self.rbgCapture = PiRGBArray(self.camera, size=resolution)
 		self.stream = self.camera.capture_continuous(self.rbgCapture,
 			format="rgb", use_video_port=True)
@@ -20,6 +20,7 @@ class PiVideoStream:
 
 	def start(self):
 		# start the thread to read frames from the video stream
+
 		Thread(target=self.update, args=()).start()
 		return self
  
