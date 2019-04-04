@@ -22,8 +22,8 @@ args = parser.parse_args()
 mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 
 #Set max num of objects you want to detect per frame
-max_obj = 20
-max_fps = 20
+max_obj = 10
+max_fps = 15
 engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
