@@ -34,7 +34,7 @@ def main():
     #Set camera resolution equal to model dims
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-    camera.framerate = 30
+    camera.framerate = 45
     _, width, height, channels = engine.get_input_tensor_shape()
 
     x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
