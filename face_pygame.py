@@ -51,7 +51,7 @@ def main():
                 
         stream = io.BytesIO()
         start_ms = time.time()
-        camera.capture(stream, use_video_port=True, format='rgb', resize=(mdl_dims, mdl_dims))
+        camera.capture(stream, use_video_port=True, format='rgb')
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
         stream.readinto(rgb)
@@ -60,7 +60,7 @@ def main():
         camera.resolution, 'RGB')
         input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
-        results = engine.DetectWithInputTensor(io.BytesIO(img), top_k=max_obj)
+        results = engine.DetectWithInputTensor(input, top_k=max_obj)
         stream.close()                                                                 
         if img:
              screen.blit(img, (0,0))
