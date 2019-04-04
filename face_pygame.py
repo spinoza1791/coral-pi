@@ -21,7 +21,7 @@ def main():
     mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
 
     #Set max num of objects you want to detect per frame
-    max_obj = 20
+    max_obj = 10
     engine = edgetpu.detection.engine.DetectionEngine(args.model)
     pygame.init()
     pygame.display.set_caption('Face Detection')
