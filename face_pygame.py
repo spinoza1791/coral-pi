@@ -8,7 +8,6 @@ import numpy as np
 import picamera
 from PIL import Image
 import edgetpu.detection.engine
-import yuv2rgb
 
 def main():
     parser = argparse.ArgumentParser()
@@ -55,21 +54,16 @@ def main():
                 
         stream = io.BytesIO()
         start_ms = time.time()
-        #camera.capture(stream, use_video_port=True, format='bgr', resize=(mdl_dims, mdl_dims))
-        camera.capture(stream, use_video_port=True, format='raw')
+        camera.capture(stream, use_video_port=True, format='jpeg', resize=(mdl_dims, mdl_dims))
         elapsed_ms = time.time() - start_ms
         stream.seek(0)
-        #stream.readinto(rgb)
-        stream.readinto(yuv)  # stream -> YUV buffer
-        yuv2rgb.convert(yuv, rgb, sizeData[sizeMode][1][0], sizeData[sizeMode][1][1])
-        img = pygame.image.frombuffer(rgb[0:(sizeData[sizeMode][1][0] * sizeData[sizeMode][1][1] * 3)], sizeData[sizeMode][1], 'RGB')
-        input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+        stream.readinto(rgb)
+        img = pygame.image.frombuffer(rgb[0:
+        (camera.resolution[0] * camera.resolution[1] * 3)],
+        camera.resolution, 'RGB') 
         #Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
-        stream.close()
-        #img = pygame.image.frombuffer(rgb[0:
-        #(camera.resolution[0] * camera.resolution[1] * 3)],
-        #camera.resolution, 'RGB')                                                                      
+        stream.close()                                                                 
         if img:
              screen.blit(img, (0,0))
              if results:
