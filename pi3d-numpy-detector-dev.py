@@ -62,12 +62,12 @@ Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
-    #stream = PiRGBArray(camera, size=camera.resolution * 3)
+    stream = PiRGBArray(camera, size=camera.resolution * 3)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     #_, width, height, channels = engine.get_input_tensor_shape()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     time.sleep(2) #camera warm-up
-    stream = io.BytesIO()
+    #stream = io.BytesIO()
     #with picamera.array.PiRGBArray(camera) as stream:
     try:   
         for foo in camera.capture_continuous(stream, 'jpeg'):
