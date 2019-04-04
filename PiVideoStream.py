@@ -11,13 +11,8 @@ class PiVideoStream:
 		self.camera.resolution = resolution
 		self.camera.framerate = framerate
 		self.rgbCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-		#self.rawCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-		#_, width, height, channels = engine.get_input_tensor_shape()
-		#self.stream = self.camera.capture_continuous(self.rawCapture,
-		#	format="bgr", use_video_port=True)
 		self.stream = self.camera.capture_continuous(self.rgbCapture,
 			format="rgb", use_video_port=True)
-
 		# initialize the frame and the variable used to indicate
 		# if the thread should be stopped
 		self.frame = None
