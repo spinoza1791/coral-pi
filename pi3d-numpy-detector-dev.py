@@ -59,7 +59,7 @@ Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
 X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
 Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 
-stream = io.BytesIO()
+#stream = io.BytesIO()
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
