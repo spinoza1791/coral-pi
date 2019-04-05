@@ -19,7 +19,7 @@ class PiVideoStream:
 		time.sleep(2.0)
 		#self.stream = self.camera.capture_continuous(self.rawCapture, format="rgb", use_video_port=True)
 		#with picamera.array.PiRGBArray(self.camera, size=(320, 320)) as self.stream:
-		#self.camera.capture_continuous(self.stream, format="rgb", use_video_port=True)
+		self.camera.capture_continuous(self.stream, format="rgb", use_video_port=True)
 		#self.picamera.array.PiRGBArray(camera) as self.stream
 		self.input = None
 		self.stopped = False
@@ -30,7 +30,7 @@ class PiVideoStream:
 
 	def update(self):
 		self.stream = io.BytesIO()
-		self.camera.capture(self.stream, use_video_port=True, format='rgb')
+		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		self.stream.truncate()
 		self.stream.seek(0)
 		self.stream.readinto(self.rgbCapture)
