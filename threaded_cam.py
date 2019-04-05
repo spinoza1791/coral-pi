@@ -16,8 +16,10 @@ preview_H = 320
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
-vs = PiVideoStream().start()
-vs.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
+stream = PiVideoStream().start()
+stream.camera.resolution = (320, 320)
+stream.camera.framerate = 24
+stream.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
 time.sleep(2.0)
  
 # loop over some frames...this time using the threaded stream
