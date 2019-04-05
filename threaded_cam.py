@@ -45,14 +45,17 @@ linshader = pi3d.Shader('mat_flat')
 CAMERA = pi3d.Camera(is_3d=False)
 font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
 
-elapsed_ms = 1/1000
-ms = "00ms"
+elapsed_ms = 1000
+ms = str(elapsed_ms)
 ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
 ms_txt.set_shader(txtshader)
+ms_txt.draw()
+
 fps = "00.0 fps"
 N = 10
 fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
 fps_txt.set_shader(txtshader)
+fps_txt.draw()
 
 X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
 Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
@@ -97,17 +100,14 @@ try:
 		thread.update()
 		input = thread.read()
 		elapsed_ms = time.time() - start_ms
-		ms = str(elapsed_ms)
-		ms_txt.draw()
-		ms_txt.quick_change(ms)                
-		
+		ms = str(elapsed_ms*1000)
+		ms_txt.quick_change(ms)                		
 		if input:
 			results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		else :
 			results = None
 		i += 1
 		if i > N:
-			fps_txt.draw()
 			tm = time.time()
 			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
 			fps_txt.quick_change(fps)
