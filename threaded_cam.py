@@ -48,6 +48,12 @@ elapsed_ms = 1
 ms = "00ms"
 ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
 ms_txt.set_shader(txtshader)
+fps = "00.00FPS"
+N = 10
+fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
+fps_txt.set_shader(txtshader)
+i = 0
+last_tm = time.time()
 
 stream = PiVideoStream().start()
 stream.camera.resolution = (320, 320)
@@ -64,6 +70,14 @@ try:
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
 		ms_txt.quick_change(ms)
+		fps_txt.draw()
+		i += 1
+		if i > N:
+			tm = time.time()
+			fps = "{:6.2f}FPS".format(i / (tm - last_tm))
+			fps_txt.quick_change(fps)
+			i = 0
+			last_tm = tm
 		if keybd.read() == 27:
 			break
 			
