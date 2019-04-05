@@ -99,12 +99,13 @@ try:
 		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		start_ms = time.time()
 		thread.update()
-		input = thread.read()
+		frame = thread.read()
+		tpu_input = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		elapsed_ms = time.time() - start_ms
 		ms = str(elapsed_ms*1000)
 		ms_txt.quick_change(ms)                		
 		#if input:
-		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		results = engine.DetectWithInputTensor(tpu_input, top_k=max_obj)
 		#else :
 		#	results = None
 		i += 1
