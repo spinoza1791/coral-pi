@@ -98,7 +98,7 @@ try:
 		#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
 		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		start_ms = time.time()
-		thread.update()
+		#thread.update()
 		frame = thread.read()
 		tpu_input = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		elapsed_ms = time.time() - start_ms
