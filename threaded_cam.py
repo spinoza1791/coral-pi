@@ -74,7 +74,7 @@ try:
 		i += 1
 		if i > N:
 			tm = time.time()
-			fps = "{:6.1f}FPS".format(i / (tm - last_tm))
+			fps = "{:6.3f}FPS".format(i / (tm - last_tm))
 			fps_txt.quick_change(fps)
 			i = 0
 			last_tm = tm
