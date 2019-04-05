@@ -10,17 +10,12 @@ import numpy as np
 class PiVideoStream:
 	def __init__(self):
 		self.camera = PiCamera()
-		#self.rbgCapture = PiRGBArray(self.camera, size=(320, 320))
-		self.rbgCapture = bytearray(320 * 320 * 3)
-		self.stream = io.BytesIO()
-		self.stream = self.camera.capture_continuous(self.rbgCapture,
+		self.camera.resolution = (320, 320)
+		self.camera.framerate = 24
+		self.rgbCapture = PiRGBArray(camera, size=self.camera.resolution * 3)
+		self.stream = self.camera.capture_continuous(self.rgbCapture,
 			format="rgb", use_video_port=True)
-		#with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as self.stream:
-		#	self.frame = self.camera.capture(self.stream, use_video_port=True, format='rgb')
-		#self.modelpath = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
-		#self.engine = self.edgetpu.detection.engine.DetectionEngine(self.modelpath)
-		#self.input = None
-		#self.results = None
+		self.frame = None
 		self.stopped = False
 
 	def start(self):
@@ -28,12 +23,10 @@ class PiVideoStream:
 		return self
 
 	def update(self):
-		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
-		self.stream.truncate()
-		self.stream.seek(0)
-		#self.stream.readinto(self.rbgCapture)
+            	self.stream.seek(0)
+            	self.stream.readinto(self.rgbCapture)
+		self.rgbCapture.truncate(0)
 		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-		#self.results = self.engine.DetectWithInputTensor(self.input, top_k=10)
 		if self.stopped:
 			self.stream.close()
 			self.rbgCapture.close()
