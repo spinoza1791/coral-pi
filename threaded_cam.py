@@ -64,19 +64,13 @@ time.sleep(2.0)
 # loop over some frames...this time using the threaded stream
 try: 
 	while DISPLAY.loop_running():
-		frame = stream.read()
-		#stream.stream.seek(0)
-		#stream.stream.readinto(stream.rbgCapture)
-		#stream.truncate(0)
-		input = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		start_ms = time.time() 
-		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		results = stream.read()
 		elapsed_ms = time.time() - start_ms           
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
 		ms_txt.quick_change(ms)
-		fps_txt.draw()
-	
+		fps_txt.draw()	
 		i += 1
 		if i > N:
 			tm = time.time()
