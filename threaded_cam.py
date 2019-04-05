@@ -80,7 +80,7 @@ with picamera.PiCamera() as camera:
     #rgb.reshape(rgb * [0.2989, 0.5870, 0.1140]).sum(axis=2).astype(np.uint8)
     #_, width, height, channels = engine.get_input_tensor_shape()
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
-    time.sleep(1) #camera warm-up
+    time.sleep(2) #camera warm-up
  
 try: 
 	while DISPLAY.loop_running():
