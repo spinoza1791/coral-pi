@@ -12,8 +12,8 @@ class PiVideoStream:
 		self.camera = PiCamera()
 		self.camera.resolution = (320, 320)
 		self.camera.framerate = 24
-		#self.rgbCapture = PiRGBArray(self.camera, size=self.camera.resolution * 3)
-		self.rgbCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
+		self.rgbCapture = PiRGBArray(self.camera, size=self.camera.resolution * 3)
+		#self.rgbCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 		self.camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
 		time.sleep(2.0)
 		self.stream = io.BytesIO()
@@ -31,7 +31,7 @@ class PiVideoStream:
 	def update(self):
 		#self.stream = io.BytesIO()
 		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
-		self.stream.truncate(0)
+		#self.stream.truncate(0)
 		self.stream.seek(0)
 		self.stream.readinto(self.rgbCapture)
 		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
