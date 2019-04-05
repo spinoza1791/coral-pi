@@ -28,7 +28,7 @@ class PiVideoStream:
 		return self
 
 	def update(self):
-		self.camera.capture(self.stream, use_video_port=True, format='rgb'
+		self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		self.stream.seek(0)
 		self.stream.readinto(self.rgbCapture)
 		#self.stream.truncate()
