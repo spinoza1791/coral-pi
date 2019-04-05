@@ -29,7 +29,7 @@ class PiVideoStream:
 		self.stream.seek(0)
 		self.stream.readinto(self.rbgCapture)
 		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-		self.results = self.engine.DetectWithInputTensor(self.input, top_k=m10)
+		self.results = self.engine.DetectWithInputTensor(self.input, top_k=10)
 		if self.stopped:
 			self.stream.close()
 			self.rbgCapture.close()
