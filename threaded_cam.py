@@ -55,7 +55,6 @@ fps = "00.0 fps"
 N = 10
 fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
 fps_txt.set_shader(txtshader)
-fps_txt.draw()
 
 X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
 Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
@@ -109,6 +108,7 @@ try:
 		#	results = None
 		i += 1
 		if i > N:
+			fps_txt.draw()
 			tm = time.time()
 			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
 			fps_txt.quick_change(fps)
