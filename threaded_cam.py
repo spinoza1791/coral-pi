@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 from __future__ import absolute_import, division, print_function, unicode_literals
-from picamera.array import PiRGBArray
-import picamera
-import time
 import pi3d
 import math
 import tkinter
 import numpy as np
-import argparse
 import io
 import edgetpu.detection.engine
+from imutils.video.pivideostream import PiVideoStream
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import argparse
+import imutils
+import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
