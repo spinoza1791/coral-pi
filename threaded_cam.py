@@ -134,6 +134,6 @@ try:
 
 finally:
 		keybd.close()
-		#stream.close()
+		thread.close()
 		DISPLAY.destroy()
 		#camera.close()
