@@ -76,6 +76,7 @@ try:
 	while DISPLAY.loop_running():
 		start_ms = time.time() 
 		results = thread.read()
+		#results = engine.DetectWithInputTensor(input, top_k=10)
 		elapsed_ms = time.time() - start_ms           
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
