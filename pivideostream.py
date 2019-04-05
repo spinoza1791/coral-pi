@@ -26,7 +26,7 @@ class PiVideoStream:
 		#self.stream = io.BytesIO()
 		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		#self.stream.truncate()
-		self.stream.seek(0)
+		#self.stream.seek(0)
 		self.stream.readinto(self.rawCapture)
 		#for f in self.stream:
 		#	self.frame = f.array
