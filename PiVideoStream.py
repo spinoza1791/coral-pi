@@ -2,6 +2,7 @@
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
+import time
  
 class PiVideoStream:
 	def __init__(self):
@@ -9,6 +10,8 @@ class PiVideoStream:
 		self.camera = PiCamera()
 	        self.camera.resolution = (320, 320)
 		self.camera.framerate = 32
+		self.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
+                self.time.sleep(2) #camera warm-up
 		self.rbgCapture = PiRGBArray(self.camera, size=(320, 320))
 		#self.stream = self.camera.capture_continuous(self.rbgCapture,
 		#	format="rgb", use_video_port=True)
