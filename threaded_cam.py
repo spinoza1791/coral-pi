@@ -6,12 +6,11 @@ import tkinter
 import numpy as np
 import io
 import edgetpu.detection.engine
-#from imutils.video.pivideostream import PiVideoStream
-import PiVideoStream
+import imutils
+from imutils.video.pivideostream import PiVideoStream
 from picamera.array import PiRGBArray
 import picamera
 import argparse
-import imutils
 import time
 
 parser = argparse.ArgumentParser()
