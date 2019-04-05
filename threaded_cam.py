@@ -50,7 +50,6 @@ elapsed_ms = 1000
 ms = str(elapsed_ms)
 ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
 ms_txt.set_shader(txtshader)
-ms_txt.draw()
 
 fps = "00.0 fps"
 N = 10
@@ -107,6 +106,7 @@ try:
 		#else :
 		#	results = None
 		fps_txt.draw()
+		ms_txt.draw()
 		i += 1
 		if i > N:
 			tm = time.time()
