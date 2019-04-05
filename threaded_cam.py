@@ -78,7 +78,9 @@ try:
 		input = thread.read()
 		if input:
 			results = engine.DetectWithInputTensor(input, top_k=max_obj)
-		elapsed_ms = time.time() - start_ms           
+		else :
+			results = None
+		elapsed_ms = time.time() - start_ms 
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
 		ms_txt.quick_change(ms)
