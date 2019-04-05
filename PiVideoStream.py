@@ -16,9 +16,10 @@ class PiVideoStream:
 		#	format="rgb", use_video_port=True)
 		with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as self.stream:
 			self.camera.capture(self.stream, use_video_port=True, format='rgb')
-		self.modelpath = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
-		self.engine = self.edgetpu.detection.engine.DetectionEngine(self.modelpath)
-		self.frame = None
+		#self.modelpath = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
+		#self.engine = self.edgetpu.detection.engine.DetectionEngine(self.modelpath)
+		self.input = None
+		#self.results = None
 		self.stopped = False
 
 	def start(self):
@@ -29,7 +30,7 @@ class PiVideoStream:
 		self.stream.seek(0)
 		self.stream.readinto(self.rbgCapture)
 		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-		self.results = self.engine.DetectWithInputTensor(self.input, top_k=10)
+		#self.results = self.engine.DetectWithInputTensor(self.input, top_k=10)
 		if self.stopped:
 			self.stream.close()
 			self.rbgCapture.close()
@@ -37,7 +38,7 @@ class PiVideoStream:
 			return
 
 	def read(self):
-		return self.results
+		return self.input
 
 	def stop(self):
 		# indicate that the thread should be stopped
