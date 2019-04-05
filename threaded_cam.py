@@ -76,10 +76,6 @@ try:
 	while DISPLAY.loop_running():
 		start_ms = time.time() 
 		results = stream.read()
-		elapsed_ms = time.time() - start_ms           
-		ms = str(elapsed_ms*1000)+"ms"
-		ms_txt.draw()
-		ms_txt.quick_change(ms)
 		fps_txt.draw()	
 		i += 1
 		if i > N:
@@ -89,6 +85,10 @@ try:
 			i = 0
 			last_tm = tm
 		if results:
+			elapsed_ms = time.time() - start_ms           
+			ms = str(elapsed_ms*1000)+"ms"
+			ms_txt.draw()
+			ms_txt.quick_change(ms)
 			num_obj = 0
 			for obj in results:
 			    num_obj = num_obj + 1   
