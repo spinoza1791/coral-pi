@@ -14,8 +14,8 @@ class PiVideoStream:
 		self.rbgCapture = bytearray(320 * 320 * 3)
 		#self.stream = self.camera.capture_continuous(self.rbgCapture,
 		#	format="rgb", use_video_port=True)
-		with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as self.stream:
-			self.camera.capture(self.stream, use_video_port=True, format='rgb')
+		#with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as self.stream:
+		#	self.frame = self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		#self.modelpath = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
 		#self.engine = self.edgetpu.detection.engine.DetectionEngine(self.modelpath)
 		#self.input = None
@@ -27,8 +27,11 @@ class PiVideoStream:
 		return self
 
 	def update(self):
+		self.stream = io.BytesIO()
+		self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		self.stream.seek(0)
 		self.stream.readinto(self.rbgCapture)
+		#self.stream.truncate()
 		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 		#self.results = self.engine.DetectWithInputTensor(self.input, top_k=10)
 		if self.stopped:
