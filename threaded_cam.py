@@ -99,7 +99,7 @@ try:
 		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		start_ms = time.time()
 		#thread.update()
-		input = thread.read()
+		input = thread.update()
 		#input = np.frombuffer(input.getvalue(), dtype=np.uint8)
 		elapsed_ms = time.time() - start_ms
 		ms = str(elapsed_ms*1000)
