@@ -86,6 +86,8 @@ thread = PiVideoStream().start()
  
 try: 
 	while DISPLAY.loop_running():
+		fps_txt.draw()
+		ms_txt.draw()
 		#stream = io.BytesIO()
 		#start_ms = time.time() 
 		#camera.capture(stream, use_video_port=True, format='rgb', resize=(320, 320))
@@ -105,8 +107,6 @@ try:
 		results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		#else :
 		#	results = None
-		fps_txt.draw()
-		ms_txt.draw()
 		i += 1
 		if i > N:
 			tm = time.time()
