@@ -16,7 +16,8 @@ class PiVideoStream:
 		#	format="rgb", use_video_port=True)
 		with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as self.stream:
 			self.camera.capture(self.stream, use_video_port=True, format='rgb')
-		self.engine = self.edgetpu.detection.engine.DetectionEngine("/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite")
+		self.modelpath = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
+		self.engine = self.edgetpu.detection.engine.DetectionEngine(self.modelpath)
 		self.frame = None
 		self.stopped = False
 
