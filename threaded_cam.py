@@ -93,7 +93,6 @@ try:
 		#stream.truncate(0)
 		#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
 		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
-		fps_txt.draw()
 		start_ms = time.time()
 		thread.update()
 		elapsed_ms = time.time() - start_ms
@@ -107,6 +106,7 @@ try:
 			results = None
 		i += 1
 		if i > N:
+			fps_txt.draw()
 			tm = time.time()
 			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
 			fps_txt.quick_change(fps)
