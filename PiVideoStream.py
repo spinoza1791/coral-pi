@@ -3,6 +3,7 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from threading import Thread
 import time
+import io
  
 class PiVideoStream:
 	def __init__(self):
@@ -25,8 +26,8 @@ class PiVideoStream:
 		for f in self.stream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
-			self.stream.seek(0)
 			self.frame = f.array
+			self.frame.seek(0)
 			self.frame.readinto(self.rbgCapture)
 			#self.rbgCapture.truncate(0)
 			# if the thread indicator variable is set, stop the thread
