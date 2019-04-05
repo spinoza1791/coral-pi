@@ -65,17 +65,21 @@ bbox.set_shader(linshader)
 i = 0
 last_tm = time.time()
 
-stream = PiVideoStream().start()
-stream.camera.resolution = (320, 320)
-stream.camera.framerate = max_fps
-stream.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
+thread = PiVideoStream().start()
+thread.camera.resolution = (320, 320)
+thread.camera.framerate = max_fps
+thread.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
 time.sleep(2.0)
  
 # loop over some frames...this time using the threaded stream
 try: 
 	while DISPLAY.loop_running():
 		start_ms = time.time() 
-		results = stream.read()
+		results = thread.read()
+		elapsed_ms = time.time() - start_ms           
+		ms = str(elapsed_ms*1000)+"ms"
+		ms_txt.draw()
+		ms_txt.quick_change(ms)
 		fps_txt.draw()	
 		i += 1
 		if i > N:
@@ -85,10 +89,6 @@ try:
 			i = 0
 			last_tm = tm
 		if results:
-			elapsed_ms = time.time() - start_ms           
-			ms = str(elapsed_ms*1000)+"ms"
-			ms_txt.draw()
-			ms_txt.quick_change(ms)
 			num_obj = 0
 			for obj in results:
 			    num_obj = num_obj + 1   
@@ -108,4 +108,4 @@ try:
 finally:
 	keybd.close()
 	DISPLAY.destroy()
-	stream.stop()
+	thread.stop()
