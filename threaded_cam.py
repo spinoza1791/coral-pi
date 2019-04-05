@@ -8,7 +8,7 @@ import io
 import edgetpu.detection.engine
 from imutils.video.pivideostream import PiVideoStream
 from picamera.array import PiRGBArray
-from picamera import PiCamera
+import picamera
 import argparse
 import imutils
 import time
