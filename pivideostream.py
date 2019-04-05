@@ -31,11 +31,10 @@ class PiVideoStream:
 	def update(self):
 		#self.stream = io.BytesIO()
 		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
-		#self.stream.truncate()
+		self.stream.truncate(0)
 		self.stream.seek(0)
 		self.stream.readinto(self.rgbCapture)
 		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-		self.stream.truncate()
 		#self.stream.close()
 		if self.stopped:
 			self.stream.close()
