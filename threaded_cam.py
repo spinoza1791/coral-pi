@@ -68,8 +68,8 @@ last_tm = time.time()
 thread = PiVideoStream().start()
 #thread.camera.resolution = (mdl_dims, mdl_dims)
 #thread.camera.framerate = max_fps
-thread.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
-time.sleep(2.0)
+#thread.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
+#time.sleep(2.0)
 
 #with picamera.PiCamera() as camera:
 #    camera.resolution = (preview_W, preview_H)
