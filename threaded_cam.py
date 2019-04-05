@@ -7,7 +7,7 @@ import numpy as np
 import io
 import edgetpu.detection.engine
 from imutils.video.pivideostream import PiVideoStream
-from picamera.array import PiRGBArray
+#from picamera.array import PiRGBArray
 import picamera
 import argparse
 import imutils
@@ -70,6 +70,7 @@ last_tm = time.time()
 #thread.camera.framerate = max_fps
 #thread.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
 #time.sleep(1.0)
+
 with picamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
