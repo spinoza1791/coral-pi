@@ -17,7 +17,7 @@ class PiVideoStream:
 		#	format="bgr", use_video_port=True)
 		self.rgbCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 		self.camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
-                time.sleep(2) #camera warm-up
+		time.sleep(2) #camera warm-up
 		self.frame = None
 		self.stopped = False
 
