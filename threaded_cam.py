@@ -15,7 +15,7 @@ import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-  '--model', help='File path of Tflite model.', required=False)
+  '--model', help='File path of Tflite model.', required=True)
 parser.add_argument(
   '--dims', help='Model input dimension', required=True)
 args = parser.parse_args()
@@ -26,7 +26,7 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 #Set max num of objects you want to detect per frame
 max_obj = 10
 max_fps = 24
-#engine = edgetpu.detection.engine.DetectionEngine(args.model)
+engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -64,13 +64,19 @@ time.sleep(2.0)
 # loop over some frames...this time using the threaded stream
 try: 
 	while DISPLAY.loop_running():
-		start_ms = time.time() 
 		frame = stream.read()
+		frame.seek(0)
+            	frame.readinto(stream.rbgCapture)
+            	#stream.truncate(0)
+            	input = np.frombuffer(frame.getvalue(), dtype=np.uint8)
+		start_ms = time.time() 
+            	results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		elapsed_ms = time.time() - start_ms           
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
 		ms_txt.quick_change(ms)
 		fps_txt.draw()
+	
 		i += 1
 		if i > N:
 			tm = time.time()
