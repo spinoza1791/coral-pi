@@ -40,6 +40,7 @@ DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=previ
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 keybd = pi3d.Keyboard()
 txtshader = pi3d.Shader("uv_flat")
+linshader = pi3d.Shader('mat_flat')
 
 CAMERA = pi3d.Camera(is_3d=False)
 font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
