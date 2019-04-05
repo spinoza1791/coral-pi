@@ -11,7 +11,7 @@ import edgetpu.detection.engine
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-  '--model', help='File path of Tflite model.', required=True)
+  '--model', help='File path of Tflite model.', required=False)
 parser.add_argument(
   '--dims', help='Model input dimension', required=True)
 args = parser.parse_args()
@@ -27,8 +27,8 @@ engine = edgetpu.detection.engine.DetectionEngine(args.model)
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
 screen_H = root.winfo_screenheight()
-preview_W = 320
-preview_H = 320
+preview_W = mdl_dims
+preview_H = mdl_dims
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
