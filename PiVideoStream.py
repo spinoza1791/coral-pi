@@ -12,8 +12,8 @@ class PiVideoStream:
 		self.rbgCapture = bytearray(320 * 320 * 3)
 		#self.stream = self.camera.capture_continuous(self.rbgCapture,
 		#	format="rgb", use_video_port=True)
-		with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:
-			self.stream = self.camera.capture(self.rbgCapture, use_video_port=True, format='rgb')
+		with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as self.stream:
+			self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		self.frame = None
 		self.stopped = False
 
@@ -23,25 +23,27 @@ class PiVideoStream:
 
 	def update(self):
 		# keep looping infinitely until the thread is stopped
-		for f in self.stream:
+		self.stream.seek(0)
+		self.stream.readinto(self.rbgCapture)
+		#for f in self.stream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
-			self.frame = f.array
+			#self.frame = f.array
 			#self.frame.seek(0)
-			self.frame.readinto(self.rbgCapture)
+			#self.frame.readinto(self.rbgCapture)
 			#self.rbgCapture.truncate(0)
 			# if the thread indicator variable is set, stop the thread
 			# and resource camera resources
-			if self.stopped:
-				self.stream.close()
-				self.rbgCapture.close()
-				self.camera.close()
-				return
+		if self.stopped:
+			self.stream.close()
+			self.rbgCapture.close()
+			self.camera.close()
+			return
 
 	def read(self):
 		# return the frame most recently read
 		#return self.frame
-		return self.rbgCapture
+		return self.stream
 
 	def stop(self):
 		# indicate that the thread should be stopped
