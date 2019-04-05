@@ -66,11 +66,11 @@ try:
 	while DISPLAY.loop_running():
 		frame = stream.read()
 		frame.seek(0)
-            	frame.readinto(stream.rbgCapture)
-            	#stream.truncate(0)
-            	input = np.frombuffer(frame.getvalue(), dtype=np.uint8)
+		frame.readinto(stream.rbgCapture)
+		#stream.truncate(0)
+		input = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		start_ms = time.time() 
-            	results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		elapsed_ms = time.time() - start_ms           
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
