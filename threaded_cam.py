@@ -65,8 +65,8 @@ time.sleep(2.0)
 try: 
 	while DISPLAY.loop_running():
 		frame = stream.read()
-		frame.seek(0)
-		frame.readinto(stream.rbgCapture)
+		#stream.stream.seek(0)
+		#stream.stream.readinto(stream.rbgCapture)
 		#stream.truncate(0)
 		input = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		start_ms = time.time() 
