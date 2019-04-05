@@ -24,9 +24,7 @@ time.sleep(2.0)
  
 # loop over some frames...this time using the threaded stream
 while True:
-	# grab the frame from the threaded video stream and resize it
-	# to have a maximum width of 400 pixels
-	frame = vs.read()
+	frame = stream.read()
  
 # do a bit of cleanup
-vs.stop()
+stream.stop()
