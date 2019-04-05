@@ -103,10 +103,10 @@ try:
 		elapsed_ms = time.time() - start_ms
 		ms = str(elapsed_ms*1000)
 		ms_txt.quick_change(ms)                		
-		if input:
-			results = engine.DetectWithInputTensor(input, top_k=max_obj)
-		else :
-			results = None
+		#if input:
+		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		#else :
+		#	results = None
 		i += 1
 		if i > N:
 			tm = time.time()
