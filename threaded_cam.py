@@ -8,6 +8,7 @@ import io
 import edgetpu.detection.engine
 #from imutils.video.pivideostream import PiVideoStream
 #from picamera.array import PiRGBArray
+from picamera.array import PiRGBArray
 import picamera
 import argparse
 import imutils
@@ -82,54 +83,53 @@ with picamera.PiCamera() as camera:
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     time.sleep(2) #camera warm-up
  
-try: 
-	while DISPLAY.loop_running():
-		stream = io.BytesIO()
-		start_ms = time.time() 
-		camera.capture(stream, use_video_port=True, format='rgb', resize=(320, 320))
-		elapsed_ms = time.time() - start_ms
-		stream.seek(0)
-		stream.readinto(rgb)
-		#stream.truncate(0)
-		input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
-		results = engine.DetectWithInputTensor(input, top_k=max_obj)
-		#thread.update()
-		#input = thread.read()
-		#if input:
-	#		results = engine.DetectWithInputTensor(input, top_k=max_obj)
-		#else :
-		#	results = None
-		elapsed_ms = time.time() - start_ms 
-		ms = str(elapsed_ms*1000)+"ms"
-		ms_txt.draw()
-		ms_txt.quick_change(ms)
-		fps_txt.draw()	
-		i += 1
-		if i > N:
-			tm = time.time()
-			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
-			fps_txt.quick_change(fps)
-			i = 0
-			last_tm = tm
-		if results:
-			num_obj = 0
-			for obj in results:
-			    num_obj = num_obj + 1   
-			buf = bbox.buf[0] # alias for brevity below
-			buf.array_buffer[:,:3] = 0.0;
-			for j, obj in enumerate(results):
-			    coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-			    score = round(obj.score,2)
-			    ix = 8 * j
-			    buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-			    buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-			buf.re_init(); # 
-			bbox.draw() # i.e. one draw for all boxes
-		if keybd.read() == 27:
-			break
-			
-finally:
-	keybd.close()
-	DISPLAY.destroy()
-	camera.stop_preview()
-	#thread.stop()
+	try: 
+		while DISPLAY.loop_running():
+			stream = io.BytesIO()
+			start_ms = time.time() 
+			camera.capture(stream, use_video_port=True, format='rgb', resize=(320, 320))
+			elapsed_ms = time.time() - start_ms
+			stream.seek(0)
+			stream.readinto(bgr)
+			#stream.truncate(0)
+			input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+			results = engine.DetectWithInputTensor(input, top_k=max_obj)
+			ms = str(int(elapsed_ms*100000))+"ms"
+			ms_txt.draw()
+			ms_txt.quick_change(ms)                
+			fps_txt.draw()
+			#thread.update()
+			#input = thread.read()
+			#if input:
+		#		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+			#else :
+			#	results = None
+			i += 1
+			if i > N:
+				tm = time.time()
+				fps = "{:5.1f}FPS".format(i / (tm - last_tm))
+				fps_txt.quick_change(fps)
+				i = 0
+				last_tm = tm
+			if results:
+				num_obj = 0
+				for obj in results:
+					num_obj = num_obj + 1   
+				buf = bbox.buf[0] # alias for brevity below
+				buf.array_buffer[:,:3] = 0.0;
+				for j, obj in enumerate(results):
+					coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+					score = round(obj.score,2)
+					ix = 8 * j
+					buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+					buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+				buf.re_init(); # 
+				bbox.draw() # i.e. one draw for all boxes
+			if keybd.read() == 27:
+				break
+
+	finally:
+			keybd.close()
+			stream.close()
+			DISPLAY.destroy()
+			camera.close()
