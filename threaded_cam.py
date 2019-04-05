@@ -64,6 +64,7 @@ Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
 bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
 bbox.set_shader(linshader)
+bbox.draw()
 
 i = 0
 last_tm = time.time()
@@ -126,7 +127,7 @@ try:
 				buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
 				buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
 			buf.re_init(); # 
-			bbox.draw() # i.e. one draw for all boxes
+			#bbox.draw() # i.e. one draw for all boxes
 		if keybd.read() == 27:
 			break
 
