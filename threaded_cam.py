@@ -65,21 +65,40 @@ bbox.set_shader(linshader)
 i = 0
 last_tm = time.time()
 
-thread = PiVideoStream().start()
+#thread = PiVideoStream().start()
 #thread.camera.resolution = (mdl_dims, mdl_dims)
 #thread.camera.framerate = max_fps
-thread.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
-time.sleep(1.0)
+#thread.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
+#time.sleep(1.0)
+with picamera.PiCamera() as camera:
+    camera.resolution = (preview_W, preview_H)
+    camera.framerate = max_fps
+    #camera.color_effects = (128,128)
+    #bgr = PiRGBArray(camera, size=camera.resolution * 3)
+    rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+    #rgb.reshape(rgb * [0.2989, 0.5870, 0.1140]).sum(axis=2).astype(np.uint8)
+    #_, width, height, channels = engine.get_input_tensor_shape()
+    camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
+    time.sleep(1) #camera warm-up
  
 try: 
 	while DISPLAY.loop_running():
+		stream = io.BytesIO()
 		start_ms = time.time() 
-		thread.update()
-		input = thread.read()
-		if input:
-			results = engine.DetectWithInputTensor(input, top_k=max_obj)
-		else :
-			results = None
+		camera.capture(stream, use_video_port=True, format='rgb', resize=(320, 320))
+		elapsed_ms = time.time() - start_ms
+		stream.seek(0)
+		stream.readinto(rgb)
+		#stream.truncate(0)
+		input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		start_ms = time.time() 
+		#thread.update()
+		#input = thread.read()
+		#if input:
+	#		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		#else :
+		#	results = None
 		elapsed_ms = time.time() - start_ms 
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
