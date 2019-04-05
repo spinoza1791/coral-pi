@@ -6,7 +6,8 @@ import tkinter
 import numpy as np
 import io
 import edgetpu.detection.engine
-from imutils.video.pivideostream import PiVideoStream
+#from imutils.video.pivideostream import PiVideoStream
+import PiVideoStream
 from picamera.array import PiRGBArray
 import picamera
 import argparse
