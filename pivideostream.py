@@ -33,8 +33,9 @@ class PiVideoStream:
 		#self.stream.readinto(self.rgbCapture)
 		for f in self.stream:
 			self.frame = io.BytesIO(f.array)
+			self.frame.seek(0)
 			self.input = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
-			#self.rawCapture.truncate(0)
+			self.rawCapture.truncate(0)
 		#self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 		#self.stream.close()
 		if self.stopped:
