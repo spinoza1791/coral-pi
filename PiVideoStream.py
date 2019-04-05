@@ -4,6 +4,8 @@ from picamera import PiCamera
 from threading import Thread
 import time
 import io
+import edgetpu.detection.engine
+import numpy as np
  
 class PiVideoStream:
 	def __init__(self):
@@ -14,6 +16,7 @@ class PiVideoStream:
 		#	format="rgb", use_video_port=True)
 		with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as self.stream:
 			self.camera.capture(self.stream, use_video_port=True, format='rgb')
+		self.engine = edgetpu.detection.engine.DetectionEngine("/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite")
 		self.frame = None
 		self.stopped = False
 
@@ -22,18 +25,10 @@ class PiVideoStream:
 		return self
 
 	def update(self):
-		# keep looping infinitely until the thread is stopped
 		self.stream.seek(0)
 		self.stream.readinto(self.rbgCapture)
-		#for f in self.stream:
-			# grab the frame from the stream and clear the stream in
-			# preparation for the next frame
-			#self.frame = f.array
-			#self.frame.seek(0)
-			#self.frame.readinto(self.rbgCapture)
-			#self.rbgCapture.truncate(0)
-			# if the thread indicator variable is set, stop the thread
-			# and resource camera resources
+		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+		self.results = self.engine.DetectWithInputTensor(self.input, top_k=max_obj)
 		if self.stopped:
 			self.stream.close()
 			self.rbgCapture.close()
@@ -43,7 +38,7 @@ class PiVideoStream:
 	def read(self):
 		# return the frame most recently read
 		#return self.frame
-		return self.stream
+		return self.results
 
 	def stop(self):
 		# indicate that the thread should be stopped
