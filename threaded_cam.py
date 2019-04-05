@@ -64,7 +64,7 @@ time.sleep(2.0)
 # loop over some frames...this time using the threaded stream
 try: 
 	while DISPLAY.loop_running():
-		frame = stream.read()
+		frame = stream.readinto(stream.rbgCapture)
 		#stream.stream.seek(0)
 		#stream.stream.readinto(stream.rbgCapture)
 		#stream.truncate(0)
