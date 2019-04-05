@@ -7,10 +7,12 @@ import time
 class PiVideoStream:
 	def __init__(self):
 		self.camera = PiCamera()
-		self.rbgCapture = PiRGBArray(self.camera, size=(320, 320))
+		#self.rbgCapture = PiRGBArray(self.camera, size=(320, 320))
+		self.rbgCapture = bytearray(320 * 320 * 3)
 		#self.stream = self.camera.capture_continuous(self.rbgCapture,
 		#	format="rgb", use_video_port=True)
-		self.stream = self.camera.capture(self.rbgCapture, use_video_port=True, format='rgb')
+		with self.picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:
+			self.stream = self.camera.capture(self.rbgCapture, use_video_port=True, format='rgb')
 		self.frame = None
 		self.stopped = False
 
