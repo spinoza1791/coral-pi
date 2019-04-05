@@ -97,7 +97,7 @@ try:
 		thread.update()
 		input = thread.read()
 		elapsed_ms = time.time() - start_ms
-		ms = str(elapsed_ms*1000)+"ms"
+		ms = str(elapsed_ms)
 		ms_txt.draw()
 		ms_txt.quick_change(ms)                
 		
