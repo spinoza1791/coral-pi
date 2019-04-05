@@ -131,5 +131,5 @@ try:
 finally:
 	keybd.close()
 	DISPLAY.destroy()
-	#camera.close()
+	camera.stop_preview()
 	#thread.stop()
