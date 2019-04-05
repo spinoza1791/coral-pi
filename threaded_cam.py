@@ -70,7 +70,7 @@ last_tm = time.time()
 #thread.camera.framerate = max_fps
 #thread.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
 #time.sleep(1.0)
-with picamera.PiCamera() as camera:
+with PiCamera.PiCamera() as camera:
     camera.resolution = (preview_W, preview_H)
     camera.framerate = max_fps
     #camera.color_effects = (128,128)
