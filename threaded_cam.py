@@ -48,7 +48,7 @@ elapsed_ms = 1
 ms = "00ms"
 ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
 ms_txt.set_shader(txtshader)
-fps = "00.00FPS"
+fps = "00.FPS"
 N = 10
 fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
 fps_txt.set_shader(txtshader)
@@ -74,7 +74,7 @@ try:
 		i += 1
 		if i > N:
 			tm = time.time()
-			fps = "{:6.2f} FPS ".format(i / (tm - last_tm))
+			fps = "{:6.2f}FPS".format(i / (tm - last_tm))
 			fps_txt.quick_change(fps)
 			i = 0
 			last_tm = tm
