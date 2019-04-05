@@ -26,7 +26,7 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 #Set max num of objects you want to detect per frame
 max_obj = 10
 max_fps = 24
-#engine = edgetpu.detection.engine.DetectionEngine(args.model)
+engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -75,8 +75,8 @@ time.sleep(2.0)
 try: 
 	while DISPLAY.loop_running():
 		start_ms = time.time() 
-		results = thread.read()
-		#results = engine.DetectWithInputTensor(input, top_k=10)
+		input = thread.read()
+		results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		elapsed_ms = time.time() - start_ms           
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
