@@ -133,6 +133,6 @@ try:
 
 finally:
 		keybd.close()
-		stream.close()
+		#stream.close()
 		DISPLAY.destroy()
-		camera.close()
+		#camera.close()
