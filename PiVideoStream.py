@@ -24,7 +24,7 @@ class PiVideoStream:
 			# grab the frame from the stream and clear the stream in
 			# preparation for the next frame
 			self.frame = f.array
-			self.rbgCapture.truncate(0)
+			#self.rbgCapture.truncate(0)
 			# if the thread indicator variable is set, stop the thread
 			# and resource camera resources
 			if self.stopped:
