@@ -4,7 +4,7 @@ from picamera import PiCamera
 from threading import Thread
 import time
 import io
-import edgetpu.detection.engine
+#import edgetpu.detection.engine
 import numpy as np
  
 class PiVideoStream:
@@ -18,7 +18,7 @@ class PiVideoStream:
 			self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		#self.modelpath = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
 		#self.engine = self.edgetpu.detection.engine.DetectionEngine(self.modelpath)
-		self.input = None
+		#self.input = None
 		#self.results = None
 		self.stopped = False
 
