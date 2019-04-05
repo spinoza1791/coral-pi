@@ -131,4 +131,4 @@ try:
 finally:
 	keybd.close()
 	DISPLAY.destroy()
-	thread.stop()
+	#thread.stop()
