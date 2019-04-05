@@ -134,6 +134,5 @@ try:
 
 finally:
 		keybd.close()
-		thread.close()
+		thread.stop()
 		DISPLAY.destroy()
-		#camera.close()
