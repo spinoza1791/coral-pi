@@ -27,12 +27,11 @@ class PiVideoStream:
 		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		#self.stream.truncate()
 		#self.stream.seek(0)
-		self.stream.readinto(self.rawCapture)
-		#for f in self.stream:
-		#	self.frame = f.array
-		#	self.rawCapture.truncate(0)
-
-		self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+		#self.stream.readinto(self.rawCapture)
+		for f in self.stream:
+			self.frame = f.array
+			self.input = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
+			self.rawCapture.truncate(0)
 		#self.stream.close()
 		if self.stopped:
 			self.stream.close()
