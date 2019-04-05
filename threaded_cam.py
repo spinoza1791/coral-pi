@@ -25,7 +25,7 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 
 #Set max num of objects you want to detect per frame
 max_obj = 10
-max_fps = 40
+max_fps = 24
 engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
@@ -97,7 +97,7 @@ try:
 		thread.update()
 		input = thread.read()
 		elapsed_ms = time.time() - start_ms
-		ms = str(int(elapsed_ms*1000))+"ms"
+		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
 		ms_txt.quick_change(ms)                
 		
