@@ -75,7 +75,7 @@ time.sleep(2.0)
 try: 
 	while DISPLAY.loop_running():
 		start_ms = time.time() 
-		results = stream.read()
+		results = stream.results
 		elapsed_ms = time.time() - start_ms           
 		ms = str(elapsed_ms*1000)+"ms"
 		ms_txt.draw()
