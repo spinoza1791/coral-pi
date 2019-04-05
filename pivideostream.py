@@ -30,7 +30,7 @@ class PiVideoStream:
 		#self.stream.readinto(self.rawCapture)
 		for f in self.stream:
 			self.frame = f.array
-			self.input = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
+			#self.input = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
 			self.rawCapture.truncate(0)
 		#self.stream.close()
 		if self.stopped:
@@ -40,7 +40,7 @@ class PiVideoStream:
 			return
 
 	def read(self):
-		return self.input
+		return self.frame
 
 	def stop(self):
 		# indicate that the thread should be stopped
