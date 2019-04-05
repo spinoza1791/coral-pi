@@ -62,12 +62,12 @@ try:
 		frame = stream.read()
 		elapsed_ms = time.time() - start_ms           
 		ms = str(int(elapsed_ms*100000))+"ms"
-		#ms_txt.draw()
-		#ms_txt.quick_change(ms)
+		ms_txt.draw()
+		ms_txt.quick_change(ms)
 		if keybd.read() == 27:
 			break
 			
 finally:
 	keybd.close()
 	DISPLAY.destroy()
-	stream.close()
+	stream.stop()
