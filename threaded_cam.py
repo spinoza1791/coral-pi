@@ -98,7 +98,6 @@ try:
 		#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
 		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		start_ms = time.time()
-		#thread.update()
 		frame = thread.read()
 		#input = np.frombuffer(input.getvalue(), dtype=np.uint8)
 		elapsed_ms = time.time() - start_ms
@@ -136,4 +135,3 @@ finally:
 		keybd.close()
 		thread.stop()
 		DISPLAY.destroy()
-		sys.exit()
