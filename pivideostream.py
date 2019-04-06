@@ -5,6 +5,7 @@ import time
 import io
 import edgetpu.detection.engine
 import numpy as np
+import pi3d
  
 class PiVideoStream:
 	def __init__(self):
@@ -12,7 +13,7 @@ class PiVideoStream:
 		self.engine = edgetpu.detection.engine.DetectionEngine(self.model_path)
 		self.camera = PiCamera()
 		self.camera.resolution = (320, 320)
-		self.camera.framerate = 15
+		self.camera.framerate = 24
 		self.rawCapture = PiRGBArray(self.camera, size=(320, 320))
 		self.camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
 		time.sleep(2) #camera warm-up
