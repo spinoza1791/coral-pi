@@ -29,6 +29,7 @@ class PiVideoStream:
 		return self
 
 	def update(self):
+		self.stream.seek(0)
 		self.stream.readinto(self.rawCapture)
 		for f in self.stream:
 			self.frame = f.array
