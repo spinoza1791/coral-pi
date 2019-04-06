@@ -69,8 +69,8 @@ last_tm = time.time()
 thread = PiVideoStream().start()
 try: 
 	while DISPLAY.loop_running():
-		#fps_txt.draw()
-		#ms_txt.draw()
+		fps_txt.draw()
+		ms_txt.draw()
 		#stream = io.BytesIO()
 		#start_ms = time.time() 
 		#camera.capture(stream, use_video_port=True, format='rgb', resize=(320, 320))
