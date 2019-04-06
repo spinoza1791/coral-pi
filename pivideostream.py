@@ -29,8 +29,7 @@ class PiVideoStream:
 		return self
 
 	def update(self):
-		#self.stream.seek(0)
-		#self.stream.readinto(self.rawCapture)
+		self.stream = io.BytesIO()
 		self.stream = camera.capture(self.rawCapture, use_video_port=True, format='bgr')
 		self.rawCapture.seek(0)
 		self.stream.readinto(self.rawCapture)
