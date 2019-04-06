@@ -81,8 +81,8 @@ try:
 			i = 0
 			last_tm = tm
 		results = thread.read()
+		start_ms = time.time()
 		if results:
-			start_ms = time.time()
 			num_obj = 0
 			for obj in results:
 				num_obj = num_obj + 1   
@@ -96,7 +96,7 @@ try:
 					buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
 				buf.re_init(); # 
 				bbox.draw() # i.e. one draw for all boxes
-			elapsed_ms = time.time() - start_ms
+		elapsed_ms = time.time() - start_ms
 		if keybd.read() == 27:
 			break
 
