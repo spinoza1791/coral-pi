@@ -39,7 +39,7 @@ class PiVideoStream:
 			self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
 			self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
 			self.rawCapture.truncate(0)
-		self.elapsed_ms = time.time() - start_ms
+		self.elapsed_ms = time.time() - self.start_ms
 		if self.stopped:
 			self.stream.close()
 			self.rawCapture.close()
