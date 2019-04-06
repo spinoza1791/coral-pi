@@ -25,7 +25,7 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 
 #Set max num of objects you want to detect per frame
 max_obj = 10
-max_fps = 40
+max_fps = 24
 engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
@@ -37,7 +37,7 @@ preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 #DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
-DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1) #, frames_per_second=max_fps)
+DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 keybd = pi3d.Keyboard()
 txtshader = pi3d.Shader("uv_flat")
