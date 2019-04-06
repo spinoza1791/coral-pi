@@ -30,8 +30,8 @@ class PiVideoStream:
 
 	def update(self):
 		self.stream = io.BytesIO()
-		self.stream = camera.capture(self.rawCapture, use_video_port=True, format='bgr')
-		self.rawCapture.seek(0)
+		self.camera.capture(self.stream, use_video_port=True, format='bgr')
+		self.stream.seek(0)
 		self.stream.readinto(self.rawCapture)
 		self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 		self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
