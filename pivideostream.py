@@ -22,7 +22,7 @@ class PiVideoStream:
 		self.stopped = False
 
 	def start(self):
-		Thread(target=self.update, , daemon=True, args=()).start()
+		Thread(target=self.update, daemon=True, args=()).start()
 		return self
 
 	def update(self):
