@@ -23,8 +23,8 @@ class PiVideoStream:
 		self.frame_buf_val = None
 		self.output = None
 		self.stopped = False
-		self.start_ms = None
-		self.elapsed_ms = None
+		self.start_ms = 1000
+		self.elapsed_ms = 1000
 
 	def start(self):
 		Thread(target=self.update, daemon=True, args=()).start()
