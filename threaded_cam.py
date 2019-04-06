@@ -71,7 +71,7 @@ try:
 	while DISPLAY.loop_running():
 		fps_txt.draw()
 		ms_txt.draw()
-		elapsed_ms = get_elapsed()
+		elapsed_ms = thread.get_elapsed()
 		ms = str(elapsed_ms*1000)
 		ms_txt.quick_change(ms)
 		i += 1
