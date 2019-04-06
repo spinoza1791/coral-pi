@@ -84,7 +84,7 @@ try:
 		results = thread.read()
 		#input = np.frombuffer(input.getvalue(), dtype=np.uint8)
 		ms = str(elapsed_ms*1000)
-		#ms_txt.quick_change(ms)                		
+		ms_txt.quick_change(ms)                		
 		#if input:
 		#results = engine.DetectWithInputTensor(frame, top_k=max_obj)
 		#else :
@@ -93,7 +93,7 @@ try:
 		if i > N:
 			tm = time.time()
 			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
-			#fps_txt.quick_change(fps)
+			fps_txt.quick_change(fps)
 			i = 0
 			last_tm = tm
 		if results:
