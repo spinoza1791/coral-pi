@@ -2,6 +2,7 @@ import io
 import time
 import threading
 import picamera
+import pi3d
 
 # Create a pool of image processors
 done = False
@@ -47,6 +48,7 @@ def streams():
         processor.event.set()
 
 with picamera.PiCamera() as camera:
+    keybd = pi3d.Keyboard()
     pool = [ImageProcessor() for i in range (4)]
     camera.resolution = (320, 320)
     # Set the framerate appropriately; too fast and the image processors
@@ -55,6 +57,11 @@ with picamera.PiCamera() as camera:
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
     camera.capture_sequence(streams(), use_video_port=True)
+    while DISPLAY.loop_running():
+    if keybd.read() == 27:
+        keybd.close()
+        camera.close()
+	    break
 
 # Shut down the processors in an orderly fashion
 while pool:
