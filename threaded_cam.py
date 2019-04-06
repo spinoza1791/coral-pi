@@ -98,13 +98,14 @@ try:
 		#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
 		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		start_ms = time.time()
-		frame = thread.read()
+		#frame = thread.read()
+		results = thread.read()
 		#input = np.frombuffer(input.getvalue(), dtype=np.uint8)
 		elapsed_ms = time.time() - start_ms
 		ms = str(elapsed_ms*1000)
 		ms_txt.quick_change(ms)                		
 		#if input:
-		results = engine.DetectWithInputTensor(frame, top_k=max_obj)
+		#results = engine.DetectWithInputTensor(frame, top_k=max_obj)
 		#else :
 		#	results = None
 		i += 1
