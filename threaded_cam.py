@@ -71,6 +71,7 @@ try:
 	while DISPLAY.loop_running():
 		fps_txt.draw()
 		ms_txt.draw()
+		elapsed_ms = get_elapsed()
 		ms = str(elapsed_ms*1000)
 		ms_txt.quick_change(ms)
 		i += 1
@@ -81,7 +82,6 @@ try:
 			i = 0
 			last_tm = tm
 		results = thread.read()
-		start_ms = time.time()
 		if results:
 			num_obj = 0
 			for obj in results:
@@ -96,7 +96,6 @@ try:
 					buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
 				buf.re_init(); # 
 				bbox.draw() # i.e. one draw for all boxes
-		elapsed_ms = time.time() - start_ms
 		if keybd.read() == 27:
 			break
 
