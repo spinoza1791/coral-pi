@@ -97,11 +97,9 @@ try:
 		#stream.truncate(0)
 		#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
 		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
-		start_ms = time.time()
 		#frame = thread.read()
 		results = thread.read()
 		#input = np.frombuffer(input.getvalue(), dtype=np.uint8)
-		elapsed_ms = time.time() - start_ms
 		ms = str(elapsed_ms*1000)
 		ms_txt.quick_change(ms)                		
 		#if input:
@@ -116,6 +114,7 @@ try:
 			i = 0
 			last_tm = tm
 		if results:
+			start_ms = time.time()
 			num_obj = 0
 			for obj in results:
 				num_obj = num_obj + 1   
@@ -129,6 +128,7 @@ try:
 					buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
 				buf.re_init(); # 
 				bbox.draw() # i.e. one draw for all boxes
+			elapsed_ms = time.time() - start_ms
 		if keybd.read() == 27:
 			break
 
