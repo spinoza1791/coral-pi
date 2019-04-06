@@ -31,11 +31,12 @@ class PiVideoStream:
 	def update(self):
 		#self.stream.seek(0)
 		#self.stream.readinto(self.rawCapture)
-		for f in self.stream:
-			self.frame = io.BytesIO(f.array)
-			self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
-			self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
-			self.rawCapture.truncate(f)
+		#for f in self.stream:
+		#self.frame = io.BytesIO(f.array)
+		self.frame = io.BytesIO(self.stream)
+		self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
+		self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+		self.rawCapture.truncate(0)
 		if self.stopped:
 			self.stream.close()
 			self.rawCapture.close()
