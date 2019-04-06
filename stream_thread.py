@@ -51,8 +51,8 @@ with picamera.PiCamera() as camera:
     camera.resolution = (320, 320)
     # Set the framerate appropriately; too fast and the image processors
     # will stall the image pipeline and crash the script
-    camera.framerate = 10
-    camera.start_preview()
+    camera.framerate = 24
+    camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
     camera.capture_sequence(streams(), use_video_port=True)
 
