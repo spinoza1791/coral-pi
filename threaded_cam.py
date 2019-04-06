@@ -46,7 +46,7 @@ linshader = pi3d.Shader('mat_flat')
 CAMERA = pi3d.Camera(is_3d=False)
 font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
 
-elapsed_ms = 1000
+elapsed_ms = time.time()
 ms = str(elapsed_ms)
 ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
 ms_txt.set_shader(txtshader)
