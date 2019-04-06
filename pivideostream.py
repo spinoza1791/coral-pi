@@ -35,7 +35,7 @@ class PiVideoStream:
 			self.frame = io.BytesIO(f.array)
 			#self.frame.seek(0)
 			#self.frame.readinto(self.rawCapture)
-			self.input = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
+			self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
 			self.rawCapture.truncate(0)
 		#self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 		#self.stream.close()
@@ -46,7 +46,7 @@ class PiVideoStream:
 			return
 
 	def read(self):
-		return self.input
+		return self.frame_buf_val
 
 	def stop(self):
 		# indicate that the thread should be stopped
