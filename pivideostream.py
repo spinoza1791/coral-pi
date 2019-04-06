@@ -17,7 +17,6 @@ class PiVideoStream:
 		self.rawCapture = PiRGBArray(self.camera, size=(320, 320))
 		self.camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
 		time.sleep(2) #camera warm-up
-		self.stream = io.BytesIO()
 		self.stream = self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
 		self.frame = None
 		self.frame_buf_val = None
@@ -29,6 +28,7 @@ class PiVideoStream:
 		return self
 
 	def update(self):
+		self.stream = io.BytesIO()
 		#for f in self.stream:
 		#self.frame = io.BytesIO(f.array)
 		self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
