@@ -23,8 +23,6 @@ class PiVideoStream:
 		self.frame_buf_val = None
 		self.output = None
 		self.stopped = False
-		self.start_ms = (time.time()*1000)
-		self.elapsed_ms = (time.time()*1000)
 
 	def start(self):
 		Thread(target=self.update, daemon=True, args=()).start()
@@ -33,13 +31,12 @@ class PiVideoStream:
 	def update(self):
 		#self.stream.seek(0)
 		#self.stream.readinto(self.rawCapture)
-		self.start_ms = time.time()
 		for f in self.stream:
 			self.frame = io.BytesIO(f.array)
 			self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
 			self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
-			self.rawCapture.truncate(0)
-		self.elapsed_ms = time.time() - self.start_ms
+			self.rawCapture.seek(0)
+			self.rawCapture.truncate()
 		if self.stopped:
 			self.stream.close()
 			self.rawCapture.close()
