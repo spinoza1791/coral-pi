@@ -136,3 +136,4 @@ finally:
 		keybd.close()
 		thread.stop()
 		DISPLAY.destroy()
+		sys.exit()
