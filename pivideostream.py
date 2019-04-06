@@ -4,11 +4,13 @@ from picamera import PiCamera
 from threading import Thread
 import time
 import io
-#import edgetpu.detection.engine
+import edgetpu.detection.engine
 import numpy as np
  
 class PiVideoStream:
 	def __init__(self):
+		self.model_path = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
+		self.engine = edgetpu.detection.engine.DetectionEngine(self.model_path)
 		self.camera = PiCamera()
 		self.camera.resolution = (320, 320)
 		self.camera.framerate = 24
@@ -38,6 +40,7 @@ class PiVideoStream:
 			#self.frame.seek(0)
 			#self.frame.readinto(self.rawCapture)
 			self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
+			self.results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
 			self.rawCapture.truncate(0)
 		#self.input = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 		#self.stream.close()
@@ -48,7 +51,7 @@ class PiVideoStream:
 			return
 
 	def read(self):
-		return self.frame_buf_val
+		return self.results
 
 	def stop(self):
 		# indicate that the thread should be stopped
