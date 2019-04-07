@@ -22,7 +22,7 @@ args = parser.parse_args()
 ########################################################################
 
 #Set all input params equal to the input dimensions expected by the model
-mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
+mdl_dims = int(args.dims) #dims must be a factor of 32/16 for picamera resolution
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -62,6 +62,7 @@ Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
 bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
 bbox.set_shader(linshader)
+results = None
 
 ########################################################################
 
@@ -99,7 +100,7 @@ class ImageProcessor(threading.Thread):
                   #bnp = np.array(self.stream.getbuffer(),
                   #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                   #npa[:,:,0:3] = bnp
-                  new_pic = True
+                  #new_pic = True
             except Exception as e:
               print(e)
             finally:
@@ -140,8 +141,8 @@ def start_capture(): # has to be in yet another thread as blocking
 t = threading.Thread(target=start_capture)
 t.start()
 
-while not new_pic:
-    time.sleep(0.01)
+#while not new_pic:
+#    time.sleep(0.01)
 
 while DISPLAY.loop_running():
     fps_txt.draw()   
