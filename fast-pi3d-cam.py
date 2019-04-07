@@ -105,7 +105,7 @@ class ImageProcessor(threading.Thread):
                     num_obj = 0
                     for obj in self.output:
                       num_obj = num_obj + 1   
-                      #buf = bbox.buf[0] # alias for brevity below
+                      buf = bbox.buf[0] # alias for brevity below
                       #buf.array_buffer[:,:3] = 0.0;
                       #for j, obj in enumerate(self.output):
                       #  coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
