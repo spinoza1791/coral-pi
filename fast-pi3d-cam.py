@@ -96,11 +96,11 @@ class ImageProcessor(threading.Thread):
             # Wait for an image to be written to the stream
             #if self.event.wait(0.01):
             try:
+                self.stream.seek(0)
+                self.stream.truncate()
                 if self.stream.tell() >= NBYTES:
-                  #self.stream.seek(0)
                   self.stream.readinto(self.rawCapture)
                   self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-                  #self.stream.truncate()
                   self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=10)
                   results = self.output
                   #if self.output:
@@ -125,8 +125,8 @@ class ImageProcessor(threading.Thread):
               print(e)
             finally:
                 # Reset the stream and event
-                self.stream.seek(0)
-                self.stream.truncate()
+                #self.stream.seek(0)
+                #self.stream.truncate()
                 #self.event.clear()
                 # Return ourselves to the pool
                 with lock:
