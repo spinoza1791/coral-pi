@@ -8,10 +8,20 @@ import io
 import edgetpu.detection.engine
 #import imutils
 #from imutils.video.pivideostream import PiVideoStream
-from picamera.array import PiRGBArray
+#from picamera.array import PiRGBArray
 import picamera
 import argparse
 import time
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+from threading import Thread
+#import time
+#import io
+#import edgetpu.detection.engine
+#import numpy as np
+#import pi3d
+
+results = None
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
