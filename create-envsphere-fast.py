@@ -88,28 +88,28 @@ class ImageProcessor(threading.Thread):
         global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, results
         while not self.terminated:
             # Wait for an image to be written to the stream
-            if self.event.wait(0.01):
-                try:
-                    if self.stream.tell() >= NBYTES:
-                      self.stream.seek(0)
-                      self.stream.readinto(self.rawCapture)
-                      self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-                      #self.stream.truncate(0)
-                      results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
-                      #bnp = np.array(self.stream.getbuffer(),
-                      #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
-                      #npa[:,:,0:3] = bnp
-                      new_pic = True
-                except Exception as e:
-                  print(e)
-                finally:
-                    # Reset the stream and event
-                    self.stream.seek(0)
-                    self.stream.truncate()
-                    self.event.clear()
-                    # Return ourselves to the pool
-                    with lock:
-                        pool.append(self)
+            #if self.event.wait(0.01):
+            try:
+                if self.stream.tell() >= NBYTES:
+                  self.stream.seek(0)
+                  self.stream.readinto(self.rawCapture)
+                  self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+                  #self.stream.truncate(0)
+                  results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+                  #bnp = np.array(self.stream.getbuffer(),
+                  #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
+                  #npa[:,:,0:3] = bnp
+                  new_pic = True
+            except Exception as e:
+              print(e)
+            finally:
+                # Reset the stream and event
+                self.stream.seek(0)
+                self.stream.truncate()
+                self.event.clear()
+                # Return ourselves to the pool
+                with lock:
+                    pool.append(self)
 
 def streams():
     while not done:
