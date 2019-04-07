@@ -113,7 +113,7 @@ class ImageProcessor(threading.Thread):
                         ix = 8 * j
                         buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
                         buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-                      #buf.re_init(); # 
+                      buf.re_init(); # 
                       #bbox.draw() # i.e. one draw for all boxes
                   #else:
                   #  results = None
