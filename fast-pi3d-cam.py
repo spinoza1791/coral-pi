@@ -161,7 +161,8 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
+    if frame_buf_val:
+      results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
     if results:
         num_obj = 0
         for obj in results:
