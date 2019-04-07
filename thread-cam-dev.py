@@ -47,7 +47,6 @@ class PiVideoStream:
 		#self.rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 		self.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
 		time.sleep(2) #camera warm-up
-		self.stream = io.BytesIO()
 		#self.stream = self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
 		self.frame = None
 		self.frame_buf_val = None
@@ -60,6 +59,7 @@ class PiVideoStream:
 
 	def update(self):
 		global results
+		self.stream = io.BytesIO()
 		self.camera.capture(self.stream, use_video_port=True, format='bgr')
 		self.stream.truncate()
 		self.stream.seek(0)
