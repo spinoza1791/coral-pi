@@ -61,11 +61,16 @@ with picamera.PiCamera() as camera:
 		if keybd.read() == 27:
 			keybd.close()
 			camera.close()
+			while pool:
+				with lock:
+					processor = pool.pop()
+				processor.terminated = True
+    				processor.join()
 			break
 
 # Shut down the processors in an orderly fashion
-while pool:
-    with lock:
-        processor = pool.pop()
-    processor.terminated = True
-    processor.join()
+#while pool:
+#    with lock:
+#        processor = pool.pop()
+#    processor.terminated = True
+#    processor.join()
