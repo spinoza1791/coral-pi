@@ -40,9 +40,9 @@ engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 CAMW, CAMH = 320, 320
 NBYTES = CAMW * CAMH * 3
-npa = np.zeros((CAMH, CAMW, 4), dtype=np.uint8)
-npa[:,:,3] = 255
-new_pic = False
+#npa = np.zeros((CAMH, CAMW, 4), dtype=np.uint8)
+#npa[:,:,3] = 255
+#new_pic = False
 
 # Create a pool of image processors
 done = False
@@ -66,12 +66,10 @@ class ImageProcessor(threading.Thread):
                 try:
                     if self.stream.tell() >= NBYTES:
                       self.stream.seek(0)
-                      # python2 doesn't have the getbuffer() method
-                      #bnp = np.fromstring(self.stream.read(NBYTES),
+
+                      #bnp = np.array(self.stream.getbuffer(),
                       #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
-                      bnp = np.array(self.stream.getbuffer(),
-                                    dtype=np.uint8).reshape(CAMH, CAMW, 3)
-                      npa[:,:,0:3] = bnp
+                      #npa[:,:,0:3] = bnp
                       new_pic = True
                 except Exception as e:
                   print(e)
@@ -127,7 +125,7 @@ CAMERA = pi3d.Camera(is_3d=False)
 
 while DISPLAY.loop_running():
   if keybd.read() == 27:
-      mykeys.close()
+      keybd.close()
       DISPLAY.destroy()
       break
 
