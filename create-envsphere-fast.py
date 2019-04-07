@@ -106,8 +106,8 @@ def start_capture(): # has to be in yet another thread as blocking
     camera.framerate = 24
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
-    #camera.capture_sequence(streams(), format='rgb', use_video_port=True)
-    camera.capture(streams(), use_video_port=True, format='rgb')
+    camera.capture_sequence(streams(), format='rgb', use_video_port=True)
+    #camera.capture(streams(), use_video_port=True, format='rgb')
 
 t = threading.Thread(target=start_capture)
 t.start()
@@ -124,8 +124,30 @@ linshader = pi3d.Shader('mat_flat')
 # Fetch key presses
 keybd = pi3d.Keyboard()
 CAMERA = pi3d.Camera(is_3d=False)
+font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
+elapsed_ms = 1000
+ms = str(elapsed_ms)
+ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
+ms_txt.set_shader(txtshader)
+fps = "00.0 fps"
+N = 10
+fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
+fps_txt.set_shader(txtshader)
+i = 0
+last_tm = time.time()
 
 while DISPLAY.loop_running():
+    fps_txt.draw()
+    #ms_txt.draw()
+    #ms = str(elapsed_ms*1000)
+    #ms_txt.quick_change(ms)
+    i += 1
+    if i > N:
+        tm = time.time()
+        fps = "{:5.1f}FPS".format(i / (tm - last_tm))
+        fps_txt.quick_change(fps)
+        i = 0
+        last_tm = tm
   if keybd.read() == 27:
       keybd.close()
       DISPLAY.destroy()
