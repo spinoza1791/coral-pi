@@ -96,15 +96,15 @@ class ImageProcessor(threading.Thread):
             #if self.event.wait(0.01):
             try:
                 if self.stream.tell() >= NBYTES:
-                  self.stream.seek(0)
+                  #self.stream.seek(0)
                   self.stream.readinto(self.rawCapture)
                   self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                   #self.stream.truncate(0)
                   self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=10)
-                  if self.output:
-                    results = self.output
-                  else:
-                    results = None
+                  #if self.output:
+                  results = self.output
+                  #else:
+                  #  results = None
                   #bnp = np.array(self.stream.getbuffer(),
                   #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                   #npa[:,:,0:3] = bnp
