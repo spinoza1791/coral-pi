@@ -115,7 +115,8 @@ class ImageProcessor(threading.Thread):
                           ix = 8 * j
                           buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
                           buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-                        buf.re_init(); # 
+                        if buf:
+                          buf.re_init(); # 
                         bbox.draw() # i.e. one draw for all boxes
                     #bnp = np.array(self.stream.getbuffer(),
                     #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
