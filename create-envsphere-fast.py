@@ -67,7 +67,21 @@ class ImageProcessor(threading.Thread):
                       self.stream.readinto(self.rawCapture)
                       self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                       #self.stream.truncate(0)
-                      self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+                      self.results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+                      if self.results:
+                        num_obj = 0
+                        for obj in self.results:
+                          num_obj = num_obj + 1   
+                          buf = bbox.buf[0] # alias for brevity below
+                          buf.array_buffer[:,:3] = 0.0;
+                          for j, obj in enumerate(self.results):
+                            coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+                            score = round(obj.score,2)
+                            ix = 8 * j
+                            buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+                            buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+                          buf.re_init(); # 
+                          bbox.draw() # i.e. one draw for all boxes
                       #bnp = np.array(self.stream.getbuffer(),
                       #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                       #npa[:,:,0:3] = bnp
@@ -135,6 +149,14 @@ fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=
 fps_txt.set_shader(txtshader)
 i = 0
 last_tm = time.time()
+
+X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
+Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
+X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
+Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
+verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
+bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
+bbox.set_shader(linshader)
 
 while DISPLAY.loop_running():
     fps_txt.draw()
