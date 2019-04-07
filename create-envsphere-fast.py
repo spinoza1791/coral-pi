@@ -16,6 +16,16 @@ import time
 import threading
 from math import cos, sin, radians
 
+parser = argparse.ArgumentParser()
+parser.add_argument(
+  '--model', help='File path of Tflite model.', required=False)
+parser.add_argument(
+  '--dims', help='Model input dimension', required=False)
+args = parser.parse_args()
+
+#Set all input params equal to the input dimensions expected by the model
+mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
+
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
 screen_H = root.winfo_screenheight()
