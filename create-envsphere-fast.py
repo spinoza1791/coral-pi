@@ -161,7 +161,7 @@ while DISPLAY.loop_running():
         last_tm = tm
     if results:
         num_obj = 0
-        for obj in output:
+        for obj in results:
             num_obj = num_obj + 1   
             buf = bbox.buf[0] # alias for brevity below
             buf.array_buffer[:,:3] = 0.0;
