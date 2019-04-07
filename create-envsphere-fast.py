@@ -34,6 +34,10 @@ preview_H = mdl_dims
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
+max_obj = 10
+max_fps = 24
+engine = edgetpu.detection.engine.DetectionEngine(args.model)
+
 CAMW, CAMH = 320, 320
 NBYTES = CAMW * CAMH * 3
 npa = np.zeros((CAMH, CAMW, 4), dtype=np.uint8)
