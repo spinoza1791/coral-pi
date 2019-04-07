@@ -114,7 +114,7 @@ class ImageProcessor(threading.Thread):
             finally:
                 # Reset the stream and event
                 #self.stream.seek(0)
-                #self.stream.truncate()
+                self.stream.truncate()
                 #self.event.clear()
                 # Return ourselves to the pool
                 with lock:
