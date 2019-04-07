@@ -101,22 +101,21 @@ class ImageProcessor(threading.Thread):
                   self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                   #self.stream.truncate()
                   self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=10)
-                  if self.output:
-                    num_obj = 0
-                    for obj in self.output:
-                      num_obj = num_obj + 1   
-                      buf = bbox.buf[0] # alias for brevity below
-                      buf.array_buffer[:,:3] = 0.0;
-                      for j, obj in enumerate(self.output):
-                        coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-                        score = round(obj.score,2)
-                        ix = 8 * j
-                        buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-                        buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-                      buf.re_init(); # 
-                      #bbox.draw() # i.e. one draw for all boxes
-                  #else:
-                  #  results = None
+                  results = self.output
+                  #if self.output:
+                  #  num_obj = 0
+                  #  for obj in self.output:
+                  #    num_obj = num_obj + 1   
+                  #    buf = bbox.buf[0] # alias for brevity below
+                  #    buf.array_buffer[:,:3] = 0.0;
+                  #    for j, obj in enumerate(self.output):
+                  #      coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+                  #      score = round(obj.score,2)
+                  #      ix = 8 * j
+                  #      buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+                  #      buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+                  #    buf.re_init(); # 
+                  #     bbox.draw() # i.e. one draw for all boxes
                   #bnp = np.array(self.stream.getbuffer(),
                   #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                   #npa[:,:,0:3] = bnp
@@ -176,6 +175,20 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
+    if results:
+      num_obj = 0
+      for obj in self.output:
+        num_obj = num_obj + 1   
+        buf = bbox.buf[0] # alias for brevity below
+        buf.array_buffer[:,:3] = 0.0;
+        for j, obj in enumerate(self.output):
+          coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+          score = round(obj.score,2)
+          ix = 8 * j
+          buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+          buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+        buf.re_init(); # 
+        bbox.draw() # i.e. one draw for all boxes
     if keybd.read() == 27:
       keybd.close()
       DISPLAY.destroy()
