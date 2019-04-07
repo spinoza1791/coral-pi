@@ -66,6 +66,7 @@ class PiVideoStream:
 		#self.stream.readinto(self.rawCapture)
 		self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 		self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+		results = self.output
 		#self.stream.close()
 		#for f in self.stream:
 		#	self.frame = io.BytesIO(f.array)
