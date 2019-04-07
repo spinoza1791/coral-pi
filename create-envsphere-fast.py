@@ -104,7 +104,7 @@ def start_capture(): # has to be in yet another thread as blocking
   with picamera.PiCamera() as camera:
     pool = [ImageProcessor() for i in range(3)]
     camera.resolution = (CAMW, CAMH)
-    camera.framerate = 30
+    camera.framerate = 24
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
@@ -122,25 +122,11 @@ txtshader = pi3d.Shader("uv_flat")
 linshader = pi3d.Shader('mat_flat')
 
 # Fetch key presses
-mykeys = pi3d.Keyboard()
-mymouse = pi3d.Mouse(restrict=False)
-mymouse.start()
-
-#CAMERA = pi3d.Camera.instance()
+keybd = pi3d.Keyboard()
 CAMERA = pi3d.Camera(is_3d=False)
 
-dist = [-4.0, -4.0, -4.0]
-rot = 0.0
-tilt = 0.0
-
 while DISPLAY.loop_running():
-  k = mykeys.read()
-  if k >-1:
-    if k==ord('w'):
-      dist = [i + 0.02 for i in dist]
-    if k==ord('s'):
-      dist = [i - 0.02 for i in dist]
-    elif k==27:
+  if keybd.read() == 27:
       mykeys.close()
       DISPLAY.destroy()
       break
