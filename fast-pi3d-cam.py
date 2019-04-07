@@ -94,7 +94,7 @@ class ImageProcessor(threading.Thread):
         global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, verts, bbox, results
         while not self.terminated:
             # Wait for an image to be written to the stream
-            #if self.event.wait(0.01):
+            if self.event.wait(1):
             try:
                 if self.stream.tell() >= NBYTES:
                   #self.stream.readinto(self.rawCapture)
@@ -119,14 +119,14 @@ class ImageProcessor(threading.Thread):
                   #bnp = np.array(self.stream.getbuffer(),
                   #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                   #npa[:,:,0:3] = bnp
-                  #new_pic = True
+                  new_pic = True
             except Exception as e:
               print(e)
             finally:
                 # Reset the stream and event
                 self.stream.seek(0)
                 self.stream.truncate()
-                #self.event.clear()
+                self.event.clear()
                 # Return ourselves to the pool
                 with lock:
                     pool.append(self)
@@ -160,8 +160,8 @@ def start_capture(): # has to be in yet another thread as blocking
 t = threading.Thread(target=start_capture)
 t.start()
 
-#while not new_pic:
-#    time.sleep(0.01)
+while not new_pic:
+    time.sleep(0.01)
 
 while DISPLAY.loop_running():
     fps_txt.draw()   
