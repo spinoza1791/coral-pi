@@ -161,7 +161,7 @@ t = threading.Thread(target=start_capture)
 t.start()
 
 while not new_pic:
-    time.sleep(0.01)
+    time.sleep(1)
 
 while DISPLAY.loop_running():
     fps_txt.draw()   
