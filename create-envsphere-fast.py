@@ -77,7 +77,7 @@ def start_capture(): # has to be in yet another thread as blocking
     pool = [ImageProcessor() for i in range(3)]
     camera.resolution = (CAMW, CAMH)
     camera.framerate = 30
-    amera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
+    camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
