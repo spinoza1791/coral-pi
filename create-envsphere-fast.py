@@ -99,7 +99,7 @@ class ImageProcessor(threading.Thread):
                       self.stream.readinto(self.rawCapture)
                       self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                       #self.stream.truncate(0)
-                      results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+                      self.results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
                       #bnp = np.array(self.stream.getbuffer(),
                       #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                       #npa[:,:,0:3] = bnp
@@ -159,7 +159,7 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    if results:
+    if t.results:
         num_obj = 0
         for obj in results:
             num_obj = num_obj + 1   
