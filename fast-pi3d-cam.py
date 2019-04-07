@@ -178,11 +178,11 @@ while DISPLAY.loop_running():
         last_tm = tm
     if results:
       num_obj = 0
-      for obj in self.output:
+      for obj in results:
         num_obj = num_obj + 1   
         buf = bbox.buf[0] # alias for brevity below
         buf.array_buffer[:,:3] = 0.0;
-        for j, obj in enumerate(self.output):
+        for j, obj in enumerate(results):
           coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
           score = round(obj.score,2)
           ix = 8 * j
