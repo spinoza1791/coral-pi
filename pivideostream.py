@@ -14,11 +14,11 @@ class PiVideoStream:
 		self.camera = PiCamera()
 		self.camera.resolution = (320, 320)
 		self.camera.framerate = 24
-		#self.rawCapture = PiRGBArray(self.camera, size=(320, 320))
-		self.rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
+		self.rawCapture = PiRGBArray(self.camera, size=(320, 320))
+		#self.rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 		self.camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
 		time.sleep(2) #camera warm-up
-		self.stream = io.BytesIO()
+		#self.stream = io.BytesIO()
 		self.stream = self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
 		self.frame = None
 		self.frame_buf_val = None
