@@ -28,12 +28,12 @@ pool = []
 
 class ImageProcessor(threading.Thread):
     def __init__(self):
-        super(ImageProcessor, self).__init__()
+		super(ImageProcessor, self).__init__()
 		self.rawCapture = bytearray(320 * 320 * 3)
-        self.stream = io.BytesIO()
-        self.event = threading.Event()
-        self.terminated = False
-        self.start()
+		self.stream = io.BytesIO()
+		self.event = threading.Event()
+		self.terminated = False
+		self.start()
 
     def run(self):
         # This method runs in a separate thread
