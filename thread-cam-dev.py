@@ -61,8 +61,8 @@ class PiVideoStream:
 	def update(self):
 		global results
 		self.camera.capture(self.rawCapture, use_video_port=True, format='bgr')
-            	self.rawCapture.truncate()
-            	self.rawCapture.seek(0)
+		self.rawCapture.truncate()
+		self.rawCapture.seek(0)
 		#self.stream.readinto(self.rawCapture)
 		self.frame_buf_val = np.frombuffer(self.rawCapture.getvalue(), dtype=np.uint8)
 		self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
