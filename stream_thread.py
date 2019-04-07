@@ -65,7 +65,7 @@ with picamera.PiCamera() as camera:
 				with lock:
 					processor = pool.pop()
 				processor.terminated = True
-    			processor.join()
+				processor.join()
 			break
 
 # Shut down the processors in an orderly fashion
