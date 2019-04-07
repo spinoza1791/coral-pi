@@ -146,7 +146,7 @@ def streams():
             processor.event.set()
         else:
             # When the pool is starved, wait a while for it to refill
-            time.sleep(1)
+            time.sleep(0.0001)
 
 
 def start_capture(): # has to be in yet another thread as blocking
