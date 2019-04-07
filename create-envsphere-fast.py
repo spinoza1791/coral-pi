@@ -42,7 +42,7 @@ CAMW, CAMH = 320, 320
 NBYTES = CAMW * CAMH * 3
 #npa = np.zeros((CAMH, CAMW, 4), dtype=np.uint8)
 #npa[:,:,3] = 255
-#new_pic = False
+new_pic = False
 
 # Create a pool of image processors
 done = False
@@ -52,6 +52,7 @@ pool = []
 class ImageProcessor(threading.Thread):
     def __init__(self):
         super(ImageProcessor, self).__init__()
+        self.rawCapture = bytearray(320 * 320 * 3)
         self.stream = io.BytesIO()
         self.event = threading.Event()
         self.terminated = False
@@ -66,7 +67,10 @@ class ImageProcessor(threading.Thread):
                 try:
                     if self.stream.tell() >= NBYTES:
                       self.stream.seek(0)
-
+                      self.stream.readinto(self.rawCapture)
+                      self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+                      #self.stream.truncate(0)
+                      self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
                       #bnp = np.array(self.stream.getbuffer(),
                       #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                       #npa[:,:,0:3] = bnp
