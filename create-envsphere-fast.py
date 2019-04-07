@@ -77,7 +77,7 @@ def start_capture(): # has to be in yet another thread as blocking
     pool = [ImageProcessor() for i in range(3)]
     camera.resolution = (CAMW, CAMH)
     camera.framerate = 30
-    camera.start_preview()
+    amera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
@@ -88,10 +88,10 @@ while not new_pic:
     time.sleep(0.1)
 
 ########################################################################
-DISPLAY = pi3d.Display.create(x=100, y=100,
-                         background=(0.2, 0.4, 0.6, 1))
-shader = pi3d.Shader("uv_reflect")
-flatsh = pi3d.Shader('uv_flat')
+DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
+DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
+txtshader = pi3d.Shader("uv_flat")
+linshader = pi3d.Shader('mat_flat')
 
 # Fetch key presses
 mykeys = pi3d.Keyboard()
