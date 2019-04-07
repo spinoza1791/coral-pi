@@ -58,10 +58,10 @@ with picamera.PiCamera() as camera:
 	time.sleep(2)
 	camera.capture_sequence(streams(), use_video_port=True)
 	while DISPLAY.loop_running():
-	if keybd.read() == 27:
-		keybd.close()
-		camera.close()
-		break
+		if keybd.read() == 27:
+			keybd.close()
+			camera.close()
+			break
 
 # Shut down the processors in an orderly fashion
 while pool:
