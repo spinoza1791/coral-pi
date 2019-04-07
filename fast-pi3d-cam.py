@@ -130,7 +130,7 @@ class ImageProcessor(threading.Thread):
                   # Return ourselves to the pool
                   with lock:
                       pool.append(self)
-  	def read(self):
+	def read(self):
 		return self.output
 
 def streams():
