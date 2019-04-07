@@ -64,6 +64,7 @@ verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each e
 bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
 bbox.set_shader(linshader)
 results = None
+old_results = None
 output = None
 frame_buf_val= None
 
@@ -163,7 +164,7 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    if results:
+    if results and results != old_results:
         num_obj = 0
         for obj in results:
             num_obj = num_obj + 1   
@@ -177,6 +178,7 @@ while DISPLAY.loop_running():
                 buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
             buf.re_init(); # 
             bbox.draw() # i.e. one draw for all boxes
+    old_results = results
     if keybd.read() == 27:
       keybd.close()
       DISPLAY.destroy()
