@@ -6,7 +6,9 @@ import io
 import edgetpu.detection.engine
 import numpy as np
 import pi3d
- 
+
+results = None
+
 class PiVideoStream:
 	def __init__(self):
 		self.model_path = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
@@ -30,6 +32,7 @@ class PiVideoStream:
 		return self
 
 	def update(self):
+		global results
 		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
 		#self.stream.readinto(self.rawCapture)
 		#self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
@@ -40,6 +43,7 @@ class PiVideoStream:
 			self.frame = io.BytesIO(f.array)
 			self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
 			self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+			results = self.output
 			self.rawCapture.truncate(0)
 		if self.stopped:
 			self.stream.close()
