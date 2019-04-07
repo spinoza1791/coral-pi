@@ -90,19 +90,31 @@ class ImageProcessor(threading.Thread):
 
     def run(self):
         # This method runs in a separate thread
-        global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, results
+        global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, verts, bbox
         while not self.terminated:
             # Wait for an image to be written to the stream
             #if self.event.wait(0.01):
             try:
                 if self.stream.tell() >= NBYTES:
-                  #self.stream.seek(0)
+                  self.stream.seek(0)
                   self.stream.readinto(self.rawCapture)
                   self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-                  #self.stream.truncate(0)
+                  self.stream.truncate()
                   self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=10)
-                  #if self.output:
-                  results = self.output
+                  if self.output:
+                    num_obj = 0
+                    for obj in self.output:
+                  num_obj = num_obj + 1   
+                  buf = bbox.buf[0] # alias for brevity below
+                  buf.array_buffer[:,:3] = 0.0;
+                  for j, obj in enumerate(self.output):
+                    coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+                    score = round(obj.score,2)
+                    ix = 8 * j
+                    buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+                    buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+                  buf.re_init(); # 
+                  bbox.draw() # i.e. one draw for all boxes
                   #else:
                   #  results = None
                   #bnp = np.array(self.stream.getbuffer(),
@@ -113,8 +125,8 @@ class ImageProcessor(threading.Thread):
               print(e)
             finally:
                 # Reset the stream and event
-                self.stream.seek(0)
-                self.stream.truncate()
+                #self.stream.seek(0)
+                #self.stream.truncate()
                 #self.event.clear()
                 # Return ourselves to the pool
                 with lock:
@@ -164,21 +176,6 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    if results: # and results != old_results:
-        num_obj = 0
-        for obj in results:
-            num_obj = num_obj + 1   
-            buf = bbox.buf[0] # alias for brevity below
-            buf.array_buffer[:,:3] = 0.0;
-            for j, obj in enumerate(results):
-                coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-                score = round(obj.score,2)
-                ix = 8 * j
-                buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-                buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-            buf.re_init(); # 
-            bbox.draw() # i.e. one draw for all boxes
-    old_results = results
     if keybd.read() == 27:
       keybd.close()
       DISPLAY.destroy()
