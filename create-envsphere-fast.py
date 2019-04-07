@@ -37,10 +37,7 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 max_obj = 10
 max_fps = 24
 
-CAMW, CAMH = 320, 320
-NBYTES = CAMW * CAMH * 3
-#npa = np.zeros((CAMH, CAMW, 4), dtype=np.uint8)
-#npa[:,:,3] = 255
+NBYTES = mdl_dims * mdl_dims * 3
 new_pic = False
 
 # Create a pool of image processors
@@ -60,7 +57,7 @@ class ImageProcessor(threading.Thread):
 
     def run(self):
         # This method runs in a separate thread
-        global done, npa, new_pic, CAMH, CAMW, NBYTES
+        global done, npa, new_pic, mdl_dims, NBYTES
         while not self.terminated:
             # Wait for an image to be written to the stream
             if self.event.wait(1):
@@ -102,10 +99,10 @@ def streams():
 
 
 def start_capture(): # has to be in yet another thread as blocking
-  global CAMW, CAMH, pool
+  global mdl_dims, pool
   with picamera.PiCamera() as camera:
     pool = [ImageProcessor() for i in range(3)]
-    camera.resolution = (CAMW, CAMH)
+    camera.resolution = (mdl_dims, mdl_dims)
     camera.framerate = 24
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
