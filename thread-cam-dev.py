@@ -80,7 +80,7 @@ try:
 			fps_txt.quick_change(fps)
 			i = 0
 			last_tm = tm
-		results = thread.read()
+		#results = thread.read()
 		if results:
 			num_obj = 0
 			for obj in results:
