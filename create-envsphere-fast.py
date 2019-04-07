@@ -36,7 +36,6 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 max_obj = 10
 max_fps = 24
-engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 CAMW, CAMH = 320, 320
 NBYTES = CAMW * CAMH * 3
@@ -52,6 +51,7 @@ pool = []
 class ImageProcessor(threading.Thread):
     def __init__(self):
         super(ImageProcessor, self).__init__()
+        self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
         self.rawCapture = bytearray(320 * 320 * 3)
         self.stream = io.BytesIO()
         self.event = threading.Event()
