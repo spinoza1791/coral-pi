@@ -23,7 +23,7 @@ args = parser.parse_args()
 
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32/16 for picamera resolution
-engine = edgetpu.detection.engine.DetectionEngine(args.model)
+#engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -80,7 +80,7 @@ pool = []
 class ImageProcessor(threading.Thread):
     def __init__(self):
         super(ImageProcessor, self).__init__()
-        #self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
+        self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
         self.rawCapture = bytearray(320 * 320 * 3)
         self.stream = io.BytesIO()
         self.event = threading.Event()
@@ -89,7 +89,7 @@ class ImageProcessor(threading.Thread):
 
     def run(self):
         # This method runs in a separate thread
-        global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, output, frame_buf_val
+        global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, results
         while not self.terminated:
             # Wait for an image to be written to the stream
             #if self.event.wait(0.01):
@@ -99,11 +99,11 @@ class ImageProcessor(threading.Thread):
                   self.stream.readinto(self.rawCapture)
                   self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                   #self.stream.truncate(0)
-                  #output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
-                  if self.input_val:
-                    frame_buf_val = self.input_val
+                  self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=10)
+                  if self.output:
+                    results = self.output
                   else:
-                    frame_buf_val = None
+                    results = None
                   #bnp = np.array(self.stream.getbuffer(),
                   #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                   #npa[:,:,0:3] = bnp
@@ -163,8 +163,6 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    if frame_buf_val:
-      results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
     if results:
         num_obj = 0
         for obj in results:
