@@ -87,6 +87,7 @@ class ImageProcessor(threading.Thread):
         self.event = threading.Event()
         self.terminated = False
         self.start()
+        self.output = None
 
     def run(self):
         # This method runs in a separate thread
