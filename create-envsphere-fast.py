@@ -1,14 +1,28 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 from __future__ import absolute_import, division, print_function, unicode_literals
-
 import pi3d
+import math
+import tkinter
 import numpy as np
+import io
+import edgetpu.detection.engine
+import imutils
+from imutils.video.pivideostream import PiVideoStream
+from picamera.array import PiRGBArray
 import picamera
 import picamera.array
-import threading
+import argparse
 import time
-import io
+import threading
 from math import cos, sin, radians
+
+root = tkinter.Tk()
+screen_W = root.winfo_screenwidth()
+screen_H = root.winfo_screenheight()
+preview_W = mdl_dims
+preview_H = mdl_dims
+preview_mid_X = int(screen_W/2 - preview_W/2)
+preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 CAMW, CAMH = 320, 320
 NBYTES = CAMW * CAMH * 3
@@ -98,7 +112,8 @@ mykeys = pi3d.Keyboard()
 mymouse = pi3d.Mouse(restrict=False)
 mymouse.start()
 
-CAMERA = pi3d.Camera.instance()
+#CAMERA = pi3d.Camera.instance()
+CAMERA = pi3d.Camera(is_3d=False)
 
 dist = [-4.0, -4.0, -4.0]
 rot = 0.0
