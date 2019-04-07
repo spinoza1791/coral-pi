@@ -19,7 +19,7 @@ class PiVideoStream:
 		self.camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
 		time.sleep(2) #camera warm-up
 		self.stream = io.BytesIO()
-		#self.stream = self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
+		self.stream = self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
 		self.frame = None
 		self.frame_buf_val = None
 		self.output = None
@@ -30,18 +30,18 @@ class PiVideoStream:
 		return self
 
 	def update(self):
-		self.camera.capture(self.stream, use_video_port=True, format='rgb')
-		self.stream.seek(0)
-		self.stream.readinto(self.rawCapture)
-		self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+		#self.camera.capture(self.stream, use_video_port=True, format='rgb')
+		#self.stream.seek(0)
+		#self.stream.readinto(self.rawCapture)
+		#self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 		#self.stream.truncate(0)
-		self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+		#self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
 		#self.stream.close()
-		#for f in self.stream:
-		#	self.frame = io.BytesIO(f.array)
-		#	self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
-		#	self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
-		#	self.rawCapture.truncate(0)
+		for f in self.stream:
+			self.frame = io.BytesIO(f.array)
+			self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
+			self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
+			self.rawCapture.truncate(0)
 		if self.stopped:
 			self.stream.close()
 			self.rawCapture.close()
