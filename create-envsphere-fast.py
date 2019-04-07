@@ -103,7 +103,7 @@ class ImageProcessor(threading.Thread):
                       #bnp = np.array(self.stream.getbuffer(),
                       #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                       #npa[:,:,0:3] = bnp
-                      new_pic = True
+                      #new_pic = True
                 except Exception as e:
                   print(e)
                 finally:
@@ -144,8 +144,8 @@ def start_capture(): # has to be in yet another thread as blocking
 t = threading.Thread(target=start_capture)
 t.start()
 
-while not new_pic:
-    time.sleep(0.1)
+#while not new_pic:
+#    time.sleep(0.1)
 
 while DISPLAY.loop_running():
     fps_txt.draw()   
