@@ -83,31 +83,31 @@ class ImageProcessor(threading.Thread):
                     with lock:
                         pool.append(self)
 
-def streams():
-    while not done:
-        with lock:
-            if pool:
-                processor = pool.pop()
+    def streams():
+        while not done:
+            with lock:
+                if pool:
+                    processor = pool.pop()
+                else:
+                    processor = None
+            if processor:
+                yield processor.stream
+                processor.event.set()
             else:
-                processor = None
-        if processor:
-            yield processor.stream
-            processor.event.set()
-        else:
-            # When the pool is starved, wait a while for it to refill
-            time.sleep(0.1)
+                # When the pool is starved, wait a while for it to refill
+                time.sleep(0.1)
 
 
-def start_capture(): # has to be in yet another thread as blocking
-  global mdl_dims, pool
-  with picamera.PiCamera() as camera:
-    pool = [ImageProcessor() for i in range(3)]
-    camera.resolution = (mdl_dims, mdl_dims)
-    camera.framerate = 24
-    camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
-    time.sleep(2)
-    camera.capture_sequence(streams(), format='rgb', use_video_port=True)
-    #camera.capture(streams(), use_video_port=True, format='rgb')
+    def start_capture(): # has to be in yet another thread as blocking
+      global mdl_dims, pool
+      with picamera.PiCamera() as camera:
+        pool = [ImageProcessor() for i in range(3)]
+        camera.resolution = (mdl_dims, mdl_dims)
+        camera.framerate = 24
+        camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
+        time.sleep(2)
+        camera.capture_sequence(streams(), format='rgb', use_video_port=True)
+        #camera.capture(streams(), use_video_port=True, format='rgb')
 
 t = threading.Thread(target=start_capture)
 t.start()
@@ -148,7 +148,7 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-  if keybd.read() == 27:
+    if keybd.read() == 27:
       keybd.close()
       DISPLAY.destroy()
       break
