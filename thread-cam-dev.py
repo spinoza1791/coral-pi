@@ -28,6 +28,14 @@ max_obj = 10
 max_fps = 24
 results = None
 
+root = tkinter.Tk()
+screen_W = root.winfo_screenwidth()
+screen_H = root.winfo_screenheight()
+preview_W = mdl_dims
+preview_H = mdl_dims
+preview_mid_X = int(screen_W/2 - preview_W/2)
+preview_mid_Y = int(screen_H/2 - preview_H/2)
+
 class PiVideoStream:
 	def __init__(self):
 		#self.model_path = "/home/pi/python-tflite-source/edgetpu/test_data/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite"
@@ -37,7 +45,7 @@ class PiVideoStream:
 		self.camera.framerate = 24
 		self.rawCapture = PiRGBArray(self.camera, size=(mdl_dims, mdl_dims))
 		#self.rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
-		self.camera.start_preview(fullscreen=False, layer=0, window=(0, 0, mdl_dims, mdl_dims))
+		self.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
 		time.sleep(2) #camera warm-up
 		#self.stream = io.BytesIO()
 		self.stream = self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
@@ -78,15 +86,6 @@ class PiVideoStream:
 
 	def stop(self):
 		self.stopped = True
-
-
-root = tkinter.Tk()
-screen_W = root.winfo_screenwidth()
-screen_H = root.winfo_screenheight()
-preview_W = mdl_dims
-preview_H = mdl_dims
-preview_mid_X = int(screen_W/2 - preview_W/2)
-preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
 #DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
