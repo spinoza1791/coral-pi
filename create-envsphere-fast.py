@@ -99,13 +99,11 @@ class ImageProcessor(threading.Thread):
                       self.stream.readinto(self.rawCapture)
                       self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                       #self.stream.truncate(0)
-                      self.results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
-                      if self.results:
-                        results = self.results
+                      results = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
                       #bnp = np.array(self.stream.getbuffer(),
                       #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
                       #npa[:,:,0:3] = bnp
-                      #new_pic = True
+                      new_pic = True
                 except Exception as e:
                   print(e)
                 finally:
@@ -146,8 +144,8 @@ def start_capture(): # has to be in yet another thread as blocking
 t = threading.Thread(target=start_capture)
 t.start()
 
-#while not new_pic:
-#    time.sleep(0.1)
+while not new_pic:
+    time.sleep(0.01)
 
 while DISPLAY.loop_running():
     fps_txt.draw()   
