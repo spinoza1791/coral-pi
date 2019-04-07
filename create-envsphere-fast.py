@@ -106,7 +106,8 @@ def start_capture(): # has to be in yet another thread as blocking
     camera.framerate = 24
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
-    camera.capture_sequence(streams(), format='rgb', use_video_port=True)
+    #camera.capture_sequence(streams(), format='rgb', use_video_port=True)
+    camera.capture(streams(), use_video_port=True, format='rgb')
 
 t = threading.Thread(target=start_capture)
 t.start()
