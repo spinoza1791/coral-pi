@@ -10,7 +10,7 @@ import time
 import io
 from math import cos, sin, radians
 
-CAMW, CAMH = 640, 320
+CAMW, CAMH = 320, 320
 NBYTES = CAMW * CAMH * 3
 npa = np.zeros((CAMH, CAMW, 4), dtype=np.uint8)
 npa[:,:,3] = 255
@@ -77,7 +77,7 @@ def start_capture(): # has to be in yet another thread as blocking
     pool = [ImageProcessor() for i in range(3)]
     camera.resolution = (CAMW, CAMH)
     camera.framerate = 30
-    #camera.start_preview()
+    camera.start_preview()
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
@@ -92,22 +92,6 @@ DISPLAY = pi3d.Display.create(x=100, y=100,
                          background=(0.2, 0.4, 0.6, 1))
 shader = pi3d.Shader("uv_reflect")
 flatsh = pi3d.Shader('uv_flat')
-#========================================
-# this is a bit of a one off because the texture has transparent parts
-# comment out and google to see why it's included here.
-from pi3d import opengles, GL_CULL_FACE
-opengles.glDisable(GL_CULL_FACE)
-#========================================
-# load bump and reflection textures
-bumptex = pi3d.Texture("textures/floor_nm.jpg")
-shinetex = pi3d.Texture(npa)
-# load model_loadmodel
-mymodel = pi3d.Model(file_string='models/teapot.obj', name='teapot')
-mymodel.set_shader(shader)
-mymodel.set_normal_shine(bumptex, 0.0, shinetex, 0.7)
-
-mysphere = pi3d.Sphere(radius=400.0, rx=180, ry=180, invert=True)
-mysphere.set_draw_details(flatsh, [shinetex], vmult=3.0, umult=3.0)
 
 # Fetch key presses
 mykeys = pi3d.Keyboard()
@@ -131,21 +115,6 @@ while DISPLAY.loop_running():
       mykeys.close()
       DISPLAY.destroy()
       break
-
-  if new_pic:
-    shinetex.update_ndarray(npa)
-    new_pic = False
-
-  mx, my = mymouse.position()
-  rot = mx * -0.4
-  tilt = my * 0.2
-  CAMERA.relocate(rot, tilt, [0.0, 0.0, 0.0], dist)
-
-  mymodel.draw()
-  mysphere.draw()
-  mymodel.rotateIncY(0.41)
-  mymodel.rotateIncZ(0.12)
-  mymodel.rotateIncX(0.23)
 
 # Shut down the processors in an orderly fashion
 while pool:
