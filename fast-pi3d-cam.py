@@ -92,7 +92,14 @@ class ImageProcessor(threading.Thread):
 
     def run(self):
         # This method runs in a separate thread
-        global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, verts, bbox, results, buf
+        global done, npa, new_pic, mdl_dims, NBYTES
+        X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
+        Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
+        X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
+        Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
+        verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
+        bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
+        bbox.set_shader(linshader)
         while not self.terminated:
             # Wait for an image to be written to the stream
             if self.event.wait(1):
@@ -115,8 +122,7 @@ class ImageProcessor(threading.Thread):
                           ix = 8 * j
                           buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
                           buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-                        if buf:
-                          buf.re_init(); # 
+                        buf.re_init(); # 
                         bbox.draw() # i.e. one draw for all boxes
                     #bnp = np.array(self.stream.getbuffer(),
                     #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
