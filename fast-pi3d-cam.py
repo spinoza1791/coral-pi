@@ -98,7 +98,7 @@ class ImageProcessor(threading.Thread):
             try:
                 if self.stream.tell() >= NBYTES:
                   #self.stream.readinto(self.rawCapture)
-                  bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims, mdl_dims, 3)
+                  bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
                   #self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                   self.output = self.engine.DetectWithInputTensor(bnp, top_k=10)
                   results = self.output
