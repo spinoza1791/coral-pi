@@ -23,6 +23,8 @@ parser.add_argument(
   '--dims', help='Model input dimension', required=False)
 args = parser.parse_args()
 
+########################################################################
+
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
 
@@ -36,6 +38,36 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 max_obj = 10
 max_fps = 24
+
+DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
+DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
+txtshader = pi3d.Shader("uv_flat")
+linshader = pi3d.Shader('mat_flat')
+
+# Fetch key presses
+keybd = pi3d.Keyboard()
+CAMERA = pi3d.Camera(is_3d=False)
+font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
+elapsed_ms = 1000
+ms = str(elapsed_ms)
+ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
+ms_txt.set_shader(txtshader)
+fps = "00.0 fps"
+N = 10
+fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
+fps_txt.set_shader(txtshader)
+i = 0
+last_tm = time.time()
+
+X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
+Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
+X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
+Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
+verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
+bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
+bbox.set_shader(linshader)
+
+########################################################################
 
 NBYTES = mdl_dims * mdl_dims * 3
 new_pic = False
@@ -128,35 +160,6 @@ t.start()
 
 while not new_pic:
     time.sleep(0.1)
-
-########################################################################
-DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
-DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
-txtshader = pi3d.Shader("uv_flat")
-linshader = pi3d.Shader('mat_flat')
-
-# Fetch key presses
-keybd = pi3d.Keyboard()
-CAMERA = pi3d.Camera(is_3d=False)
-font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
-elapsed_ms = 1000
-ms = str(elapsed_ms)
-ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
-ms_txt.set_shader(txtshader)
-fps = "00.0 fps"
-N = 10
-fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
-fps_txt.set_shader(txtshader)
-i = 0
-last_tm = time.time()
-
-X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
-Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
-X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
-Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
-verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
-bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
-bbox.set_shader(linshader)
 
 while DISPLAY.loop_running():
     fps_txt.draw()
