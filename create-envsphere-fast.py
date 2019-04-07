@@ -14,9 +14,9 @@ import threading
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-  '--model', help='File path of Tflite model.', required=False)
+  '--model', help='File path of Tflite model.', required=True)
 parser.add_argument(
-  '--dims', help='Model input dimension', required=False)
+  '--dims', help='Model input dimension', required=True)
 args = parser.parse_args()
 
 ########################################################################
