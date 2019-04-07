@@ -187,7 +187,7 @@ while DISPLAY.loop_running():
           score = round(obj.score,2)
           ix = 8 * j
           buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-         buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+          buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
         buf.re_init(); # 
         bbox.draw() # i.e. one draw for all boxes
     if keybd.read() == 27:
