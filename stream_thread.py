@@ -29,6 +29,7 @@ pool = []
 class ImageProcessor(threading.Thread):
     def __init__(self):
         super(ImageProcessor, self).__init__()
+		self.rawCapture = bytearray(320 * 320 * 3)
         self.stream = io.BytesIO()
         self.event = threading.Event()
         self.terminated = False
@@ -41,6 +42,10 @@ class ImageProcessor(threading.Thread):
             if self.event.wait(1):
                 try:
                     self.stream.seek(0)
+					self.stream.readinto(self.rawCapture)
+					self.input_frame = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+					#self.stream.truncate(0)
+					self.result = self.engine.DetectWithInputTensor(self.input_frame, top_k=10)
                     # Read the image and do some processing on it
                     #Image.open(self.stream)
                     #...
@@ -119,7 +124,7 @@ with picamera.PiCamera() as camera:
 	camera.framerate = 24
 	camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
 	time.sleep(2)
-	camera.capture_sequence(streams(), use_video_port=True)
+	camera.capture(streams(), use_video_port=True, format='rgb')
 	while DISPLAY.loop_running():
 		if keybd.read() == 27:
 			keybd.close()
