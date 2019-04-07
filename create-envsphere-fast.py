@@ -6,15 +6,11 @@ import tkinter
 import numpy as np
 import io
 import edgetpu.detection.engine
-import imutils
-from imutils.video.pivideostream import PiVideoStream
-from picamera.array import PiRGBArray
 import picamera
 import picamera.array
 import argparse
 import time
 import threading
-from math import cos, sin, radians
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -92,7 +88,7 @@ class ImageProcessor(threading.Thread):
         global done, npa, new_pic, mdl_dims, NBYTES, bbox, X_OFF, Y_OFF, X_IX, Y_IX, results
         while not self.terminated:
             # Wait for an image to be written to the stream
-            if self.event.wait(1):
+            if self.event.wait(0.01):
                 try:
                     if self.stream.tell() >= NBYTES:
                       self.stream.seek(0)
