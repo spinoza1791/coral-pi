@@ -98,7 +98,7 @@ class ImageProcessor(threading.Thread):
                   self.stream.seek(0)
                   self.stream.readinto(self.rawCapture)
                   self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-                  #self.stream.truncate(0)
+                  self.stream.truncate()
                   self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=10)
                   if self.output:
                     results = self.output
