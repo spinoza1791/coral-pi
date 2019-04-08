@@ -54,14 +54,14 @@ class ImageProcessor(threading.Thread):
 		#global verts, linshader
 		super(ImageProcessor, self).__init__()
 		#self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
-		self.stream = io.BytesIO()
+		#self.stream = io.BytesIO()
 		self.event = threading.Event()
 		self.terminated = False
 		self.start()
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, new_pic, NBYTES, max_obj, results #, start_ms, elapsed_ms, 
+		global done, new_pic, NBYTES, max_obj, results, rgb #, start_ms, elapsed_ms, 
 		while not self.terminated:
 			# Wait for an image to be written to the stream
 			if self.event.wait(1):
@@ -69,6 +69,7 @@ class ImageProcessor(threading.Thread):
 					if self.stream.tell() >= NBYTES:
 						#start_ms = time.time() 
 						self.stream.seek(0)
+						self.stream.readinto(rgb)
 						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 						#self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
