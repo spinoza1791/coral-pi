@@ -59,15 +59,16 @@ pool = []
 
 class ImageProcessor(threading.Thread):
     def __init__(self):
+        global mdl_dims, preview_mid_X, preview_mid_Y
         super(ImageProcessor, self).__init__()
         with picamera.PiCamera() as camera:
           pool = [ImageProcessor() for i in range(4)]
-          camera.resolution = (mdl_dims, mdl_dims)
-          camera.framerate = 30
-          camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
+          self.camera.resolution = (mdl_dims, mdl_dims)
+          self.camera.framerate = 30
+          self.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
           time.sleep(2)
-          camera.capture_sequence(streams(), use_video_port=True)
-          self.rawCapture = PiRGBArray(camera, size=(mdl_dims, mdl_dims))
+          self.camera.capture_sequence(streams(), use_video_port=True)
+          self.rawCapture = PiRGBArray(self.camera, size=(mdl_dims, mdl_dims))
           self.stream = io.BytesIO()
           self.frame_buf_val = None
           self.output = None
