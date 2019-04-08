@@ -7,7 +7,7 @@ import pygame
 import numpy as np
 import picamera
 from picamera.array import PiRGBArray
-import PiVideoStream
+import pivideostream
 from PIL import Image
 import edgetpu.detection.engine
 
