@@ -83,7 +83,7 @@ class ImageProcessor(threading.Thread):
     def __init__(self):
         super(ImageProcessor, self).__init__()
         self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
-        self.rawCapture = bytearray(320 * 320 * 3)
+        #self.rawCapture = bytearray(320 * 320 * 3)
         self.stream = io.BytesIO()
         self.event = threading.Event()
         self.terminated = False
@@ -96,30 +96,31 @@ class ImageProcessor(threading.Thread):
         while not self.terminated:
             # Wait for an image to be written to the stream
             if self.event.wait(1):
-              try:
-                  if self.stream.tell() >= NBYTES:
-                    #self.stream.readinto(self.rawCapture)
-                    bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
-                    #self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-                    self.output = self.engine.DetectWithInputTensor(bnp, top_k=10)
-                    results = self.output
-                    #if self.output:
-                    #  num_obj = 0
-                    #  for obj in self.output:
-                    #    num_obj = num_obj + 1   
-                    #    buf.array_buffer[:,:3] = 0.0;
-                    #    for j, obj in enumerate(self.output):
-                    #      coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-                    #      score = round(obj.score,2)
-                    #      ix = 8 * j
-                    #      buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-                    #      buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-                    #    buf.re_init(); # 
-                    #    bbox.draw() # i.e. one draw for all boxes
-                    #bnp = np.array(self.stream.getbuffer(),
-                    #              dtype=np.uint8).reshape(CAMH, CAMW, 3)
-                    #npa[:,:,0:3] = bnp
-                    new_pic = True
+				try:
+					#if self.stream.tell() >= NBYTES:
+					#self.stream.readinto(self.rawCapture)
+					self.stream.seek(0)
+					bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
+					#self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+					self.output = self.engine.DetectWithInputTensor(bnp, top_k=10)
+					results = self.output
+					#if self.output:
+					#  num_obj = 0
+					#  for obj in self.output:
+					#    num_obj = num_obj + 1   
+					#    buf.array_buffer[:,:3] = 0.0;
+					#    for j, obj in enumerate(self.output):
+					#      coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+					#      score = round(obj.score,2)
+					#      ix = 8 * j
+					#      buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+					#      buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+					#    buf.re_init(); # 
+					#    bbox.draw() # i.e. one draw for all boxes
+					#bnp = np.array(self.stream.getbuffer(),
+					#              dtype=np.uint8).reshape(CAMH, CAMW, 3)
+					#npa[:,:,0:3] = bnp
+					new_pic = True
               except Exception as e:
                 print(e)
               finally:
