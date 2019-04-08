@@ -92,7 +92,7 @@ class ImageProcessor(threading.Thread):
 
     def run(self):
         # This method runs in a separate thread
-        global done, npa, new_pic, mdl_dims, NBYTES
+        global done, npa, new_pic, mdl_dims, NBYTES, results
         while not self.terminated:
             # Wait for an image to be written to the stream
             if self.event.wait(1):
@@ -102,7 +102,7 @@ class ImageProcessor(threading.Thread):
                     bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
                     #self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
                     self.output = self.engine.DetectWithInputTensor(bnp, top_k=10)
-                    #results = self.output
+                    results = self.output
                     #if self.output:
                     #  num_obj = 0
                     #  for obj in self.output:
