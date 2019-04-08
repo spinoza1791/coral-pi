@@ -115,7 +115,7 @@ with picamera.PiCamera() as camera:
   camera.framerate = 30
   camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
   time.sleep(2)
-  rawCapture = PiRGBArray(self.camera, size=(mdl_dims, mdl_dims))
+  rawCapture = PiRGBArray(camera, size=(mdl_dims, mdl_dims))
   camera.capture_sequence(streams(), use_video_port=True)
     
 # Shut down the processors in an orderly fashion
