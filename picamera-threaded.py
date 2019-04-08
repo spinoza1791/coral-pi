@@ -57,34 +57,33 @@ done = False
 lock = threading.Lock()
 pool = []
 
-with picamera.PiCamera() as camera:
-    pool = [ImageProcessor() for i in range(4)]
-    camera.resolution = (mdl_dims, mdl_dims)
-    camera.framerate = 30
-    rawCapture = PiRGBArray(camera, size=(mdl_dims, mdl_dims))
-    camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
-    time.sleep(2)
-    camera.capture_sequence(streams(), use_video_port=True)
-
 class ImageProcessor(threading.Thread):
     def __init__(self):
         super(ImageProcessor, self).__init__()
-        self.stream = io.BytesIO()
-        self.frame_buf_val = None
-        self.output = None
-        self.event = threading.Event()
-        self.terminated = False
-        self.start()
+        with picamera.PiCamera() as camera:
+          pool = [ImageProcessor() for i in range(4)]
+          camera.resolution = (mdl_dims, mdl_dims)
+          camera.framerate = 30
+          camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
+          time.sleep(2)
+          camera.capture_sequence(streams(), use_video_port=True)
+          self.rawCapture = PiRGBArray(camera, size=(mdl_dims, mdl_dims))
+          self.stream = io.BytesIO()
+          self.frame_buf_val = None
+          self.output = None
+          self.event = threading.Event()
+          self.terminated = False
+          self.start()
 
     def run(self):
         # This method runs in a separate thread
-        global done, rawCapture
+        global done
         while not self.terminated:
             # Wait for an image to be written to the stream
             if self.event.wait(1):
                 try:
                     self.stream.seek(0)
-                    self.stream.readinto(rawCapture)
+                    self.stream.readinto(self.rawCapture)
                     # Read the image and do some processing on it
                     #Image.open(self.stream)
                     #...
@@ -116,7 +115,6 @@ def streams():
         else:
             # When the pool is starved, wait a while for it to refill
             time.sleep(0.1)
-
 
 # Shut down the processors in an orderly fashion
 while pool:
