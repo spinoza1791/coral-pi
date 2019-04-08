@@ -90,10 +90,10 @@ class ImageProcessor(threading.Thread):
         self.start()
         self.output = None
 
-    def run(self):
-        # This method runs in a separate thread
-        global done, npa, new_pic, mdl_dims, NBYTES, results
-        while not self.terminated:
+	def run(self):
+		# This method runs in a separate thread
+		global done, npa, new_pic, mdl_dims, NBYTES, results
+		while not self.terminated:
 		# Wait for an image to be written to the stream
 		if self.event.wait(1):
 			try:
