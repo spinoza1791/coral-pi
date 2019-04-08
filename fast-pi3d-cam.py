@@ -173,7 +173,7 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    if results and empty_results = 1:
+    if results and empty_results == 1:
       num_obj = 0
       for obj in results:
         num_obj = num_obj + 1   
