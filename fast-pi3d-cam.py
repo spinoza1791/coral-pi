@@ -33,7 +33,7 @@ preview_H = mdl_dims
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
-max_obj = 10
+max_obj = 5
 max_fps = 60
 
 DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1) #, frames_per_second=max_fps)
@@ -61,31 +61,34 @@ Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
 X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
 Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
-#bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
-#bbox.set_shader(linshader)
+bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
+bbox.set_shader(linshader)
 #results = None
 
-#global detection
+global detection
 def detection(input_val):
-	results = engine.DetectWithInputTensor(input_val, top_k=4)
+	global engine, max_obj
+	results = engine.DetectWithInputTensor(input_val, top_k=max_obj)
 	return results
 
-#global bbox_results
-def bbox_results(bbox, results): 
-	num_obj = 0
-	for obj in results:
-		num_obj = num_obj + 1   
-		buf = bbox.buf[0] # alias for brevity below
-		buf.array_buffer[:,:3] = 0.0;
-	for j, obj in enumerate(results):
-		coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-		score = round(obj.score,2)
-		ix = 8 * j
-		buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-		buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-	buf.re_init(); # 
-	new_pic = False
-	bbox.draw() # i.e. one draw for all boxes
+global bbox_results
+def bbox_results(results):
+	global mdl_dims, X_OFF, Y_OFF, X_IX, Y_IX, verts, bbox
+	if results:
+		num_obj = 0
+		for obj in results:
+			num_obj = num_obj + 1   
+			buf = bbox.buf[0] # alias for brevity below
+			buf.array_buffer[:,:3] = 0.0;
+		for j, obj in enumerate(results):
+			coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+			score = round(obj.score,2)
+			ix = 8 * j
+			buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+			buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+		buf.re_init(); # 
+		#new_pic = False
+		bbox.draw() # i.e. one draw for all boxes
 
 ########################################################################
 
@@ -103,8 +106,6 @@ class ImageProcessor(threading.Thread):
 	def __init__(self):
 		global verts, linshader
 		super(ImageProcessor, self).__init__()
-		self.bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
-		self.bbox.set_shader(linshader)
 		#self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
 		self.stream = io.BytesIO()
 		self.event = threading.Event()
@@ -128,7 +129,7 @@ class ImageProcessor(threading.Thread):
 						elapsed_ms = time.time() - start_ms
 						#if self.input_val:
 						self.results = detection(self.input_val)
-						bbox_results(self.bbox, self.results)
+						bbox_results(self.results)
 						#new_pic = True
 				except Exception as e:
 					print(e)
