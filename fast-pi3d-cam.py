@@ -69,6 +69,7 @@ results = None
 
 NBYTES = mdl_dims * mdl_dims * 3
 new_pic = False
+empty_results = 0
 
 # Create a pool of image processors
 done = False
@@ -137,8 +138,9 @@ def streams():
 		if processor:
 			yield processor.stream
 			processor.event.set()
+			empty_results = 1
 		else:
-			results = None	
+			empty_results = 0
 			# When the pool is starved, wait a while for it to refill
 			time.sleep(0.1)
 
@@ -171,8 +173,7 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    #results = t.read()
-    if results:
+    if results and empty_results = 1:
       num_obj = 0
       for obj in results:
         num_obj = num_obj + 1   
