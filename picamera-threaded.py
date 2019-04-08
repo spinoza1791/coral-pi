@@ -132,11 +132,11 @@ with picamera.PiCamera() as camera:
 while DISPLAY.loop_running():
 	fps_txt.draw()
 	ms_txt.draw()
-    ms = str(int(elapsed_ms*1000))+"ms"
-    ms_txt.draw()
-    ms_txt.quick_change(ms)                
-    fps_txt.draw()
-    i += 1
+	ms = str(int(elapsed_ms*1000))+"ms"
+	ms_txt.draw()
+	ms_txt.quick_change(ms)                
+	fps_txt.draw()
+	i += 1
     if i > N:
         tm = time.time()
         fps = "{:6.2f}FPS".format(i / (tm - last_tm))
