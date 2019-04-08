@@ -124,7 +124,7 @@ with picamera.PiCamera() as camera:
 	camera.framerate = 24
 	camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
 	time.sleep(2)
-	camera.capture(streams(), use_video_port=True, format='rgb')
+	camera.capture_sequence(streams(), use_video_port=True)
 	while DISPLAY.loop_running():
 		if keybd.read() == 27:
 			keybd.close()
