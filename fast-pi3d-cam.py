@@ -154,7 +154,7 @@ while DISPLAY.loop_running():
         fps = "{:5.1f}FPS".format(i / (tm - last_tm))
         fps_txt.quick_change(fps)
         i = 0
-	last_tm = tm
+		last_tm = tm
 	if new_pic:  
 		if results: # != None and empty_results == 1:
 			  num_obj = 0
