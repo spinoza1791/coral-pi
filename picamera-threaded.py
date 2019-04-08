@@ -44,6 +44,16 @@ DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 keybd = pi3d.Keyboard()
 txtshader = pi3d.Shader("uv_flat")
 linshader = pi3d.Shader('mat_flat')
+fps = "00.00FPS"
+N = 10
+fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
+fps_txt.set_shader(txtshader)
+elapsed_ms = 1/1000
+ms = "00ms"
+ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
+ms_txt.set_shader(txtshader)
+last_tm = time.time()
+i = 0
 CAMERA = pi3d.Camera(is_3d=False)
 X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
 Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
@@ -76,7 +86,7 @@ class ImageProcessor(threading.Thread):
             # Wait for an image to be written to the stream
             if self.event.wait(1):
                 try:
-                    self.stream.seek(0)
+                    #self.stream.seek(0)
                     self.stream.readinto(rawCapture)
                     # Read the image and do some processing on it
                     #Image.open(self.stream)
