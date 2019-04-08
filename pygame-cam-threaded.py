@@ -102,7 +102,7 @@ def streams():
 			time.sleep(0.1)
 
 def start_capture(): # has to be in yet another thread as blocking
-	global mdl_dims, pool, results, screen, start_ms, elapsed_ms, fnt_sz, preview_mid_X, preview_mid_Y, camera
+	global mdl_dims, pool, results, screen, start_ms, elapsed_ms, fnt_sz, preview_mid_X, preview_mid_Y, camera, rgb
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
