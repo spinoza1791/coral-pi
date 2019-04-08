@@ -139,7 +139,9 @@ while(exitFlag):
         #stream.seek(0)
         #stream.readinto(rgb)
         #stream.truncate() #needed??
-        img = pygame.image.frombuffer(rgb[0:(camera.resolution[0] * camera.resolution[1] * 3)], camera.resolution, 'RGB')
+		img = pygame.image.frombuffer(stream.rgbCapture[0:
+		(camera.resolution[0] * camera.resolution[1] * 3)],
+		camera.resolution, 'RGB')
         #input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
         #results = engine.DetectWithInputTensor(input, top_k=max_obj)
