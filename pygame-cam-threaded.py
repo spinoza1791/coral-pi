@@ -102,18 +102,12 @@ def streams():
 			time.sleep(0.1)
 
 def start_capture(): # has to be in yet another thread as blocking
-	global mdl_dims, pool, results, screen, start_ms, elapsed_ms, fnt_sz, preview_mid_X, preview_mid_Y
+	global mdl_dims, pool, results, screen, start_ms, elapsed_ms, fnt_sz, preview_mid_X, preview_mid_Y, camera
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
 	with picamera.PiCamera() as camera:
 		pool = [ImageProcessor() for i in range(4)]
-		pygame.init()
-		pygame.display.set_caption('Face Detection')
-		screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-		pygame.font.init()
-		fnt_sz = 18
-		myfont = pygame.font.SysFont('Arial', fnt_sz)
 		camera.resolution = (mdl_dims, mdl_dims)
 		rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 		camera.framerate = 24
@@ -122,42 +116,6 @@ def start_capture(): # has to be in yet another thread as blocking
 		start_ms = time.time()
 		camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 		elapsed_ms = time.time() - start_ms
-		img = pygame.image.frombuffer(rgb[0:
-			  (camera.resolution[0] * camera.resolution[1] * 3)],
-			   camera.resolution, 'RGB')
-		if img:
-			screen.blit(img, (0,0))
-			if results:
-				num_obj = 0
-				for obj in results:
-					num_obj = num_obj + 1
-				for obj in results:
-					bbox = obj.bounding_box.flatten().tolist()
-					score = round(obj.score,2)
-					x1 = round(bbox[0] * mdl_dims)
-					y1 = round(bbox[1] * mdl_dims)
-					x2 = round(bbox[2] * mdl_dims)
-					y2 = round(bbox[3] * mdl_dims)
-					rect_width = x2 - x1
-					rect_height = y2 - y1
-					class_score = "%.2f" % (score)
-					ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
-					fnt_class_score = myfont.render(class_score, True, (0,0,255))
-					fnt_class_score_width = fnt_class_score.get_rect().width
-					screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-					fnt_ms = myfont.render(ms, True, (255,255,255))
-					fnt_ms_width = fnt_ms.get_rect().width
-					screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-					bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
-					#pygame.display.update(bbox_rect)
-			else:
-				elapsed_ms = time.time() - start_ms
-				ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
-				fnt_ms = myfont.render(ms, True, (255,0,0))
-				fnt_ms_width = fnt_ms.get_rect().width
-				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-		pygame.display.update()
-
 
 t = threading.Thread(target=start_capture)
 t.start()
@@ -172,6 +130,50 @@ while pool:
 		processor = pool.pop()
 		processor.terminated = True
 		processor.join()
+		
+pygame.init()
+pygame.display.set_caption('Face Detection')
+screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
+pygame.font.init()
+fnt_sz = 18
+myfont = pygame.font.SysFont('Arial', fnt_sz)
+img = pygame.image.frombuffer(rgb[0:
+	  (camera.resolution[0] * camera.resolution[1] * 3)],
+	   camera.resolution, 'RGB')
+if img:
+	screen.blit(img, (0,0))
+	if results:
+		num_obj = 0
+		for obj in results:
+			num_obj = num_obj + 1
+		for obj in results:
+			bbox = obj.bounding_box.flatten().tolist()
+			score = round(obj.score,2)
+			x1 = round(bbox[0] * mdl_dims)
+			y1 = round(bbox[1] * mdl_dims)
+			x2 = round(bbox[2] * mdl_dims)
+			y2 = round(bbox[3] * mdl_dims)
+			rect_width = x2 - x1
+			rect_height = y2 - y1
+			class_score = "%.2f" % (score)
+			ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
+			fnt_class_score = myfont.render(class_score, True, (0,0,255))
+			fnt_class_score_width = fnt_class_score.get_rect().width
+			screen.blit(fnt_class_score,(x1, y1-fnt_sz))
+			fnt_ms = myfont.render(ms, True, (255,255,255))
+			fnt_ms_width = fnt_ms.get_rect().width
+			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+			bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
+			#pygame.display.update(bbox_rect)
+	else:
+		elapsed_ms = time.time() - start_ms
+		ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
+		fnt_ms = myfont.render(ms, True, (255,0,0))
+		fnt_ms_width = fnt_ms.get_rect().width
+		screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+
+pygame.display.update()
+
 
 #camera = picamera.PiCamera()
 #Set camera resolution equal to model dims
