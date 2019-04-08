@@ -102,8 +102,8 @@ class ImageProcessor(threading.Thread):
 						#self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=4)
 						elapsed_ms = time.time() - start_ms
 						#if self.input_val:
-							#self.results = detection(self.input_val)
-							#bbox_results(bbox, self.results)
+						self.results = detection(self.input_val)
+						bbox_results(bbox, self.results)
 						#new_pic = True
 				except Exception as e:
 					print(e)
