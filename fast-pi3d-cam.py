@@ -65,6 +65,28 @@ verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each e
 #bbox.set_shader(linshader)
 #results = None
 
+#global detection
+def detection(input_val):
+	results = engine.DetectWithInputTensor(input_val, top_k=4)
+	return results
+
+#global bbox_results
+def bbox_results(bbox, results): 
+	num_obj = 0
+	for obj in results:
+		num_obj = num_obj + 1   
+		buf = bbox.buf[0] # alias for brevity below
+		buf.array_buffer[:,:3] = 0.0;
+	for j, obj in enumerate(results):
+		coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+		score = round(obj.score,2)
+		ix = 8 * j
+		buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+		buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+	buf.re_init(); # 
+	new_pic = False
+	bbox.draw() # i.e. one draw for all boxes
+
 ########################################################################
 
 NBYTES = mdl_dims * mdl_dims * 3
@@ -91,7 +113,7 @@ class ImageProcessor(threading.Thread):
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, npa, new_pic, mdl_dims, NBYTES, glb_input, start_ms, elapsed_ms, bbox
+		global done, new_pic, NBYTES
 		self.results = None
 		while not self.terminated:
 			# Wait for an image to be written to the stream
@@ -144,25 +166,6 @@ def start_capture(): # has to be in yet another thread as blocking
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
-def detection(input_val):
-	results = engine.DetectWithInputTensor(input_val, top_k=4)
-	return results
-	
-def bbox_result(bbox, results): 
-	num_obj = 0
-	for obj in results:
-		num_obj = num_obj + 1   
-		buf = bbox.buf[0] # alias for brevity below
-		buf.array_buffer[:,:3] = 0.0;
-	for j, obj in enumerate(results):
-		coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-		score = round(obj.score,2)
-		ix = 8 * j
-		buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-		buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-	buf.re_init(); # 
-	new_pic = False
-	bbox.draw() # i.e. one draw for all boxes
 
 t = threading.Thread(target=start_capture)
 t.start()
