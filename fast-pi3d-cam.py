@@ -133,7 +133,7 @@ def start_capture(): # has to be in yet another thread as blocking
   with picamera.PiCamera() as camera:
     pool = [ImageProcessor() for i in range(4)]
     camera.resolution = (mdl_dims, mdl_dims)
-    camera.framerate = 30
+    camera.framerate = 40
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
