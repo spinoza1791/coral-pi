@@ -144,7 +144,7 @@ def streams():
 def start_capture(): # has to be in yet another thread as blocking
   global mdl_dims, pool
   with picamera.PiCamera() as camera:
-    pool = [ImageProcessor() for i in range(2)]
+    pool = [ImageProcessor() for i in range(1)]
     camera.resolution = (mdl_dims, mdl_dims)
     camera.framerate = 30
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
