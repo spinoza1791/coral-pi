@@ -11,7 +11,7 @@ from PIL import Image
 import edgetpu.detection.engine
 import tkinter
 import threading
-
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -25,7 +25,17 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution t
 
 #Set max num of objects you want to detect per frame
 max_obj = 10
+
+root = tkinter.Tk()
+screen_W = root.winfo_screenwidth()
+screen_H = root.winfo_screenheight()
+preview_W = mdl_dims
+preview_H = mdl_dims
+preview_mid_X = int(screen_W/2 - preview_W/2)
+preview_mid_Y = int(screen_H/2 - preview_H/2)
+
 #engine = edgetpu.detection.engine.DetectionEngine(args.model)
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 pygame.display.set_caption('Face Detection')
 screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
@@ -33,6 +43,7 @@ pygame.font.init()
 fnt_sz = 18
 myfont = pygame.font.SysFont('Arial', fnt_sz)
 results = None
+
 
 ########################################################################
 
