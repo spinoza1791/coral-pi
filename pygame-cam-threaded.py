@@ -106,12 +106,12 @@ def start_capture(): # has to be in yet another thread as blocking
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
-    pygame.init()
-    pygame.display.set_caption('Face Detection')
-    screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-    pygame.font.init()
-    fnt_sz = 18
-    myfont = pygame.font.SysFont('Arial', fnt_sz)
+	pygame.init()
+	pygame.display.set_caption('Face Detection')
+	screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
+	pygame.font.init()
+	fnt_sz = 18
+	myfont = pygame.font.SysFont('Arial', fnt_sz)
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
