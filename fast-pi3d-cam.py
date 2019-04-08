@@ -128,19 +128,19 @@ class ImageProcessor(threading.Thread):
 					  pool.append(self)
 						
 def streams():
-    while not done:
-        with lock:
-            if pool:
-                processor = pool.pop()
-            else:
-                processor = None
-        if processor:
-            yield processor.stream
-            processor.event.set()
-        else:
+	while not done:
+		with lock:
+			if pool:
+				processor = pool.pop()
+			else:
+				processor = None
+		if processor:
+			yield processor.stream
+			processor.event.set()
+		else:
 			results = None	
-            # When the pool is starved, wait a while for it to refill
-            time.sleep(0.1)
+			# When the pool is starved, wait a while for it to refill
+			time.sleep(0.1)
 
 def start_capture(): # has to be in yet another thread as blocking
   global mdl_dims, pool
