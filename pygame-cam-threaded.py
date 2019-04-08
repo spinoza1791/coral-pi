@@ -25,6 +25,8 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution t
 
 #Set max num of objects you want to detect per frame
 max_obj = 10
+last_tm = time.time()
+results = None
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -59,7 +61,7 @@ class ImageProcessor(threading.Thread):
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, new_pic, NBYTES, max_obj, start_ms, elapsed_ms, results
+		global done, new_pic, NBYTES, max_obj, results #, start_ms, elapsed_ms, 
 		while not self.terminated:
 			# Wait for an image to be written to the stream
 			if self.event.wait(1):
@@ -104,9 +106,6 @@ def start_capture(): # has to be in yet another thread as blocking
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
-	last_tm = time.time()
-	i = 0
-	results = None
 	with picamera.PiCamera() as camera:
 		pool = [ImageProcessor() for i in range(4)]
 		pygame.init()
