@@ -174,12 +174,12 @@ i = 0
 
 exitFlag = True
 while(exitFlag):
-    for event in pygame.event.get():
-         keys = pygame.key.get_pressed()
-         if(keys[pygame.K_ESCAPE] == 1):
+	for event in pygame.event.get():
+		keys = pygame.key.get_pressed()
+		if(keys[pygame.K_ESCAPE] == 1):
 			pygame.display.quit()
 			camera.close()
-            exitFlag = False
+			exitFlag = False
     #with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
         #stream = io.BytesIO()
         #start_ms = time.time()
