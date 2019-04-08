@@ -130,10 +130,10 @@ class ImageProcessor(threading.Thread):
 						
 def streams():
 	while not done:
+		empty_results = 1
 		with lock:
 			if pool:
 				processor = pool.pop()
-				empty_results = 1
 			else:
 				processor = None
 		if processor:
