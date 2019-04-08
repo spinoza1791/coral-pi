@@ -35,39 +35,39 @@ class ImageProcessor(threading.Thread):
 		self.terminated = False
 		self.start()
 
-	def run(self):
-		# This method runs in a separate thread
-		global done
-		while not self.terminated:
-			if self.event.wait(1):
-				try:
-					self.stream.seek(0)
-					self.stream.readinto(self.rawCapture)
-					self.input_frame = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-					#self.stream.truncate(0)
-					self.result = self.engine.DetectWithInputTensor(self.input_frame, top_k=10)
-					# Read the image and do some processing on it
-					#Image.open(self.stream)
-					#...
-					#...
-					# Set done to True if you want the script to terminate
-					# at some point
-					#done=True
-				finally:
-					# Reset the stream and event
-					self.stream.seek(0)
-					self.stream.truncate()
-					self.event.clear()
-					# Return ourselves to the pool
-					with lock:
-						pool.append(self)
+def run(self):
+	# This method runs in a separate thread
+	global done
+	while not self.terminated:
+		if self.event.wait(1):
+			try:
+				self.stream.seek(0)
+				self.stream.readinto(self.rawCapture)
+				self.input_frame = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+				#self.stream.truncate(0)
+				self.result = self.engine.DetectWithInputTensor(self.input_frame, top_k=10)
+				# Read the image and do some processing on it
+				#Image.open(self.stream)
+				#...
+				#...
+				# Set done to True if you want the script to terminate
+				# at some point
+				#done=True
+			finally:
+				# Reset the stream and event
+				self.stream.seek(0)
+				self.stream.truncate()
+				self.event.clear()
+				# Return ourselves to the pool
+				with lock:
+					pool.append(self)
 
-	def streams():
-		while not done:
-			with lock:
-				processor = pool.pop()
-			yield processor.stream
-			processor.event.set()
+def streams():
+	while not done:
+		with lock:
+			processor = pool.pop()
+		yield processor.stream
+		processor.event.set()
 
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
