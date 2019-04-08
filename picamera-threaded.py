@@ -22,6 +22,7 @@ args = parser.parse_args()
 
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
+engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 #Set max num of objects you want to detect per frame
 max_obj = 10
@@ -36,6 +37,21 @@ preview_H = mdl_dims
 preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
+DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
+#DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
+DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
+keybd = pi3d.Keyboard()
+txtshader = pi3d.Shader("uv_flat")
+linshader = pi3d.Shader('mat_flat')
+CAMERA = pi3d.Camera(is_3d=False)
+X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
+Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
+X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
+Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
+verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
+bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
+bbox.set_shader(linshader)
+
 # Create a pool of image processors
 done = False
 lock = threading.Lock()
@@ -45,6 +61,8 @@ class ImageProcessor(threading.Thread):
     def __init__(self):
         super(ImageProcessor, self).__init__()
         self.stream = io.BytesIO()
+        self.frame_buf_val = None
+        self.output = None
         self.event = threading.Event()
         self.terminated = False
         self.start()
@@ -57,10 +75,13 @@ class ImageProcessor(threading.Thread):
             if self.event.wait(1):
                 try:
                     self.stream.seek(0)
+                    self.stream.readinto(rawCapture)
                     # Read the image and do some processing on it
                     #Image.open(self.stream)
                     #...
                     #...
+                    self.frame_buf_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+                    self.output = engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
                     # Set done to True if you want the script to terminate
                     # at some point
                     #done=True
@@ -89,11 +110,13 @@ def streams():
 
 with picamera.PiCamera() as camera:
     pool = [ImageProcessor() for i in range(4)]
-    camera.resolution = (320, 480)
+    camera.resolution = (mdl_dims, mdl_dims)
     camera.framerate = 30
+    rawCapture = PiRGBArray(camera, size=(mdl_dims, mdl_dims))
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
     time.sleep(2)
     camera.capture_sequence(streams(), use_video_port=True)
+
 
 # Shut down the processors in an orderly fashion
 while pool:
