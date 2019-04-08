@@ -138,13 +138,14 @@ def streams():
             yield processor.stream
             processor.event.set()
         else:
+	    results = None	
             # When the pool is starved, wait a while for it to refill
             time.sleep(0.1)
 
 def start_capture(): # has to be in yet another thread as blocking
   global mdl_dims, pool
   with picamera.PiCamera() as camera:
-    pool = [ImageProcessor() for i in range(1)]
+    pool = [ImageProcessor() for i in range(4)]
     camera.resolution = (mdl_dims, mdl_dims)
     camera.framerate = 30
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
@@ -156,7 +157,7 @@ t = threading.Thread(target=start_capture)
 t.start()
 
 while not new_pic:
-    time.sleep(1)
+    time.sleep(0.1)
 
 while DISPLAY.loop_running():
     fps_txt.draw()   
