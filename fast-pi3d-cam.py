@@ -84,11 +84,10 @@ class ImageProcessor(threading.Thread):
 		super(ImageProcessor, self).__init__()
 		self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
 		#self.rawCapture = bytearray(320 * 320 * 3)
-		self.stream = io.BytesIO()
-		self.event = threading.Event()
-		self.terminated = False
-		self.start()
-		self.output = None
+        self.stream = io.BytesIO()
+        self.event = threading.Event()
+        self.terminated = False
+        self.start()
 
 	def run(self):
 		# This method runs in a separate thread
@@ -120,7 +119,7 @@ class ImageProcessor(threading.Thread):
 				#bnp = np.array(self.stream.getbuffer(),
 				#              dtype=np.uint8).reshape(CAMH, CAMW, 3)
 				#npa[:,:,0:3] = bnp
-				new_pic = True
+				#new_pic = True
 			#except Exception as e:
 			#print(e)
 			finally:
@@ -144,8 +143,7 @@ def streams():
             processor.event.set()
         else:
             # When the pool is starved, wait a while for it to refill
-            time.sleep(0.0001)
-
+            time.sleep(0.1)
 
 def start_capture(): # has to be in yet another thread as blocking
   global mdl_dims, pool
@@ -161,8 +159,8 @@ def start_capture(): # has to be in yet another thread as blocking
 t = threading.Thread(target=start_capture)
 t.start()
 
-while not new_pic:
-    time.sleep(1)
+#while not new_pic:
+#    time.sleep(1)
 
 while DISPLAY.loop_running():
     fps_txt.draw()   
