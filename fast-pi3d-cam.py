@@ -23,7 +23,7 @@ args = parser.parse_args()
 
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32/16 for picamera resolution
-#engine = edgetpu.detection.engine.DetectionEngine(args.model)
+engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -70,6 +70,7 @@ results = None
 NBYTES = mdl_dims * mdl_dims * 3
 new_pic = False
 empty_results = 0
+glb_input = None
 
 # Create a pool of image processors
 done = False
@@ -79,7 +80,7 @@ pool = []
 class ImageProcessor(threading.Thread):
 	def __init__(self):
 		super(ImageProcessor, self).__init__()
-		self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
+		#self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
 		self.stream = io.BytesIO()
 		self.event = threading.Event()
 		self.terminated = False
@@ -87,7 +88,7 @@ class ImageProcessor(threading.Thread):
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, npa, new_pic, mdl_dims, NBYTES, results, start_ms, elapsed_ms
+		global done, npa, new_pic, mdl_dims, NBYTES, glb_input, start_ms, elapsed_ms
 		while not self.terminated:
 			# Wait for an image to be written to the stream
 			if self.event.wait(1):
@@ -97,9 +98,9 @@ class ImageProcessor(threading.Thread):
 						self.stream.seek(0)
 						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-						self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=4)
+						#self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=4)
 						elapsed_ms = time.time() - start_ms
-						results = self.output
+						glb_input = self.input_val
 						new_pic = True
 				except Exception as e:
 					print(e)
@@ -156,7 +157,8 @@ while DISPLAY.loop_running():
 		i = 0
 		last_tm = tm
 	if new_pic:  
-		if results: # != None and empty_results == 1:
+		results = engine.DetectWithInputTensor(glb_input, top_k=4)
+		if results: 
 			num_obj = 0
 			for obj in results:
 				num_obj = num_obj + 1   
