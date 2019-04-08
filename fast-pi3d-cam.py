@@ -61,9 +61,9 @@ Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
 X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
 Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
-bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
-bbox.set_shader(linshader)
-results = None
+#bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
+#bbox.set_shader(linshader)
+#results = None
 
 ########################################################################
 
@@ -79,7 +79,10 @@ pool = []
 
 class ImageProcessor(threading.Thread):
 	def __init__(self):
+		global verts, linshader
 		super(ImageProcessor, self).__init__()
+		self.bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
+		self.bbox.set_shader(linshader)
 		#self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
 		self.stream = io.BytesIO()
 		self.event = threading.Event()
@@ -103,7 +106,7 @@ class ImageProcessor(threading.Thread):
 						elapsed_ms = time.time() - start_ms
 						#if self.input_val:
 						self.results = detection(self.input_val)
-						bbox_results(bbox, self.results)
+						bbox_results(self.bbox, self.results)
 						#new_pic = True
 				except Exception as e:
 					print(e)
