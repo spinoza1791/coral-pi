@@ -130,8 +130,7 @@ with picamera.PiCamera() as camera:
   time.sleep(2)
   rawCapture = PiRGBArray(camera, size=(mdl_dims, mdl_dims))
   camera.capture_sequence(streams(), use_video_port=True)
-  
-while DISPLAY.loop_running():
+  while DISPLAY.loop_running():
 	print("display running")
 	fps_txt.draw()
 	ms_txt.draw()
