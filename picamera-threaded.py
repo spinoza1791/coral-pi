@@ -132,6 +132,7 @@ with picamera.PiCamera() as camera:
   camera.capture_sequence(streams(), use_video_port=True)
   
 while DISPLAY.loop_running():
+	print("display running")
 	fps_txt.draw()
 	ms_txt.draw()
 	ms = str(elapsed_ms*1000)
@@ -143,7 +144,7 @@ while DISPLAY.loop_running():
 		fps_txt.quick_change(fps)
 		i = 0
 		last_tm = tm
-	results = thread.read()
+	#results = thread.read()
 	if results:
 		num_obj = 0
 		for obj in results:
