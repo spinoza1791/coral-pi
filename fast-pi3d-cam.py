@@ -34,7 +34,7 @@ preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 max_obj = 10
-max_fps = 24
+max_fps = 60
 
 DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
