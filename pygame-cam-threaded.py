@@ -117,52 +117,58 @@ def start_capture(): # has to be in yet another thread as blocking
 	z = 5
 	last_tm = time.time()
 	i = 0
-	with picamera.PiCamera() as camera:
-		pool = [ImageProcessor() for i in range(4)]
-		camera.resolution = (mdl_dims, mdl_dims)
-		rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-		camera.framerate = 24
-		with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:
-			start_ms = time.time()
-			camera.capture_sequence(streams(), format='rgb', use_video_port=True)
-			elapsed_ms = time.time() - start_ms
-			#Inference
-			results = engine.DetectWithInputTensor(input, top_k=max_obj)
-			img = pygame.image.frombuffer(rgb[0:
-				  (camera.resolution[0] * camera.resolution[1] * 3)],
-				   camera.resolution, 'RGB')
-			if img:
-				screen.blit(img, (0,0))
-				if results:
-					num_obj = 0
-					for obj in results:
-						num_obj = num_obj + 1
-					for obj in results:
-						bbox = obj.bounding_box.flatten().tolist()
-						score = round(obj.score,2)
-						x1 = round(bbox[0] * mdl_dims)
-						y1 = round(bbox[1] * mdl_dims)
-						x2 = round(bbox[2] * mdl_dims)
-						y2 = round(bbox[3] * mdl_dims)
-						rect_width = x2 - x1
-						rect_height = y2 - y1
-						class_score = "%.2f" % (score)
-						ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
-						fnt_class_score = myfont.render(class_score, True, (0,0,255))
-						fnt_class_score_width = fnt_class_score.get_rect().width
-						screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-						fnt_ms = myfont.render(ms, True, (255,255,255))
+	exitFlag = True
+	while(exitFlag):
+		for event in pygame.event.get():
+			keys = pygame.key.get_pressed()
+			if(keys[pygame.K_ESCAPE] == 1):
+				exitFlag = False
+		with picamera.PiCamera() as camera:
+			pool = [ImageProcessor() for i in range(4)]
+			camera.resolution = (mdl_dims, mdl_dims)
+			rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+			camera.framerate = 24
+			with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:
+				start_ms = time.time()
+				camera.capture_sequence(streams(), format='rgb', use_video_port=True)
+				elapsed_ms = time.time() - start_ms
+				#Inference
+				results = engine.DetectWithInputTensor(input, top_k=max_obj)
+				img = pygame.image.frombuffer(rgb[0:
+					  (camera.resolution[0] * camera.resolution[1] * 3)],
+					   camera.resolution, 'RGB')
+				if img:
+					screen.blit(img, (0,0))
+					if results:
+						num_obj = 0
+						for obj in results:
+							num_obj = num_obj + 1
+						for obj in results:
+							bbox = obj.bounding_box.flatten().tolist()
+							score = round(obj.score,2)
+							x1 = round(bbox[0] * mdl_dims)
+							y1 = round(bbox[1] * mdl_dims)
+							x2 = round(bbox[2] * mdl_dims)
+							y2 = round(bbox[3] * mdl_dims)
+							rect_width = x2 - x1
+							rect_height = y2 - y1
+							class_score = "%.2f" % (score)
+							ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
+							fnt_class_score = myfont.render(class_score, True, (0,0,255))
+							fnt_class_score_width = fnt_class_score.get_rect().width
+							screen.blit(fnt_class_score,(x1, y1-fnt_sz))
+							fnt_ms = myfont.render(ms, True, (255,255,255))
+							fnt_ms_width = fnt_ms.get_rect().width
+							screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+							bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
+							#pygame.display.update(bbox_rect)
+					else:
+						elapsed_ms = time.time() - start_ms
+						ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
+						fnt_ms = myfont.render(ms, True, (255,0,0))
 						fnt_ms_width = fnt_ms.get_rect().width
 						screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-						bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
-						#pygame.display.update(bbox_rect)
-				else:
-					elapsed_ms = time.time() - start_ms
-					ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
-					fnt_ms = myfont.render(ms, True, (255,0,0))
-					fnt_ms_width = fnt_ms.get_rect().width
-					screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-		pygame.display.update()
+			pygame.display.update()
 
 t = threading.Thread(target=start_capture)
 t.start()
