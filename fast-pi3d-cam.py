@@ -120,8 +120,8 @@ class ImageProcessor(threading.Thread):
 					#              dtype=np.uint8).reshape(CAMH, CAMW, 3)
 					#npa[:,:,0:3] = bnp
 					new_pic = True
-				except Exception as e:
-				print(e)
+				#except Exception as e:
+				#print(e)
 				finally:
 					# Reset the stream and event
 					self.stream.seek(0)
