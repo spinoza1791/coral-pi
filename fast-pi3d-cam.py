@@ -116,7 +116,7 @@ class ImageProcessor(threading.Thread):
 						#bnp = np.array(self.stream.getbuffer(),
 						#              dtype=np.uint8).reshape(CAMH, CAMW, 3)
 						#npa[:,:,0:3] = bnp
-					new_pic = True
+						new_pic = True
 				except Exception as e:
 				print(e)
 				finally:
