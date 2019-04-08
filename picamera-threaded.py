@@ -1,7 +1,40 @@
+#!/usr/bin/python3
+from __future__ import absolute_import, division, print_function, unicode_literals
+import pi3d
+import math
+import tkinter
+import numpy as np
 import io
-import time
-import threading
+import edgetpu.detection.engine
 import picamera
+import argparse
+import time
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+from threading import Thread
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+  '--model', help='File path of Tflite model.', required=False)
+parser.add_argument(
+  '--dims', help='Model input dimension', required=True)
+args = parser.parse_args()
+
+#Set all input params equal to the input dimensions expected by the model
+mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
+
+#Set max num of objects you want to detect per frame
+max_obj = 10
+max_fps = 24
+results = None
+
+root = tkinter.Tk()
+screen_W = root.winfo_screenwidth()
+screen_H = root.winfo_screenheight()
+preview_W = mdl_dims
+preview_H = mdl_dims
+preview_mid_X = int(screen_W/2 - preview_W/2)
+preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 # Create a pool of image processors
 done = False
@@ -58,7 +91,7 @@ with picamera.PiCamera() as camera:
     pool = [ImageProcessor() for i in range(4)]
     camera.resolution = (320, 480)
     camera.framerate = 30
-    camera.start_preview()
+    self.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
     time.sleep(2)
     camera.capture_sequence(streams(), use_video_port=True)
 
