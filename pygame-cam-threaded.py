@@ -108,13 +108,13 @@ def streams():
 			time.sleep(0.1)
 
 def start_capture(): # has to be in yet another thread as blocking
-	global mdl_dims, pool, results, screen, start_ms, elapsed_ms, fnt_sz
+	global mdl_dims, pool, results, screen, start_ms, elapsed_ms, fnt_sz, preview_mid_X, preview_mid_Y
 	with picamera.PiCamera() as camera:
 		pool = [ImageProcessor() for i in range(4)]
 		camera.resolution = (mdl_dims, mdl_dims)
 		rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 		camera.framerate = 24
-		camera.start_preview(fullscreen=False, layer=0, window=(0, 0, mdl_dims, mdl_dims))
+		camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
 		time.sleep(2)
 		camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 		img = pygame.image.frombuffer(rgb[0:
@@ -151,6 +151,7 @@ def start_capture(): # has to be in yet another thread as blocking
 			  fnt_ms = myfont.render(ms, True, (255,0,0))
 			  fnt_ms_width = fnt_ms.get_rect().width
 			  screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+		pygame.display.update()
 
 
 t = threading.Thread(target=start_capture)
@@ -176,6 +177,8 @@ while(exitFlag):
     for event in pygame.event.get():
          keys = pygame.key.get_pressed()
          if(keys[pygame.K_ESCAPE] == 1):
+			pygame.display.quit()
+			camera.close()
             exitFlag = False
     #with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
         #stream = io.BytesIO()
@@ -192,8 +195,8 @@ while(exitFlag):
         #stream.close()                                                                 
  
 
-    pygame.display.update()
+    #pygame.display.update()
 
-pygame.display.quit()
+#pygame.display.quit()
 
 
