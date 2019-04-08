@@ -15,7 +15,7 @@ import threading
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-  '--model', help='File path of Tflite model.', required=False)
+  '--model', help='File path of Tflite model.', required=True)
 parser.add_argument(
   '--dims', help='Model input dimension', required=True)
 args = parser.parse_args()
@@ -28,6 +28,7 @@ engine = edgetpu.detection.engine.DetectionEngine(args.model)
 max_obj = 10
 max_fps = 24
 results = None
+rawCapture = None
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -61,14 +62,7 @@ class ImageProcessor(threading.Thread):
     def __init__(self):
         global mdl_dims, preview_mid_X, preview_mid_Y
         super(ImageProcessor, self).__init__()
-        with picamera.PiCamera() as camera:
           pool = [ImageProcessor() for i in range(4)]
-          self.camera.resolution = (mdl_dims, mdl_dims)
-          self.camera.framerate = 30
-          self.camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
-          time.sleep(2)
-          self.camera.capture_sequence(streams(), use_video_port=True)
-          self.rawCapture = PiRGBArray(self.camera, size=(mdl_dims, mdl_dims))
           self.stream = io.BytesIO()
           self.frame_buf_val = None
           self.output = None
@@ -78,13 +72,13 @@ class ImageProcessor(threading.Thread):
 
     def run(self):
         # This method runs in a separate thread
-        global done
+        global done, rawCapture
         while not self.terminated:
             # Wait for an image to be written to the stream
             if self.event.wait(1):
                 try:
                     self.stream.seek(0)
-                    self.stream.readinto(self.rawCapture)
+                    self.stream.readinto(rawCapture)
                     # Read the image and do some processing on it
                     #Image.open(self.stream)
                     #...
@@ -117,6 +111,14 @@ def streams():
             # When the pool is starved, wait a while for it to refill
             time.sleep(0.1)
 
+with picamera.PiCamera() as camera:
+  camera.resolution = (mdl_dims, mdl_dims)
+  camera.framerate = 30
+  camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
+  time.sleep(2)
+  rawCapture = PiRGBArray(self.camera, size=(mdl_dims, mdl_dims))
+  camera.capture_sequence(streams(), use_video_port=True)
+    
 # Shut down the processors in an orderly fashion
 while pool:
     with lock:
