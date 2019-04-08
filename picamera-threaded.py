@@ -132,32 +132,30 @@ with picamera.PiCamera() as camera:
 while DISPLAY.loop_running():
 	fps_txt.draw()
 	ms_txt.draw()
-	ms = str(int(elapsed_ms*1000))+"ms"
-	ms_txt.draw()
-	ms_txt.quick_change(ms)                
-	fps_txt.draw()
+	ms = str(elapsed_ms*1000)
+	ms_txt.quick_change(ms)
 	i += 1
 	if i > N:
 		tm = time.time()
-		fps = "{:6.2f}FPS".format(i / (tm - last_tm))
+		fps = "{:5.1f}FPS".format(i / (tm - last_tm))
 		fps_txt.quick_change(fps)
 		i = 0
 		last_tm = tm
+	results = thread.read()
 	if results:
 		num_obj = 0
 		for obj in results:
 			num_obj = num_obj + 1   
-		buf = bbox.buf[0] # alias for brevity below
-		buf.array_buffer[:,:3] = 0.0;
-		for j, obj in enumerate(results):
-			coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-			score = round(obj.score,2)
-			ix = 8 * j
-			buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-			buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-		buf.re_init(); # 
-		bbox.draw() # i.e. one draw for all boxes
-
+			buf = bbox.buf[0] # alias for brevity below
+			buf.array_buffer[:,:3] = 0.0;
+			for j, obj in enumerate(results):
+				coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+				score = round(obj.score,2)
+				ix = 8 * j
+				buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+				buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+			buf.re_init(); # 
+			bbox.draw() # i.e. one draw for all boxes
 	if keybd.read() == 27:
 		break
     
