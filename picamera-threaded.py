@@ -130,8 +130,8 @@ with picamera.PiCamera() as camera:
   camera.capture_sequence(streams(), use_video_port=True)
   
 while DISPLAY.loop_running():
-  	fps_txt.draw()
-		ms_txt.draw()
+	fps_txt.draw()
+	ms_txt.draw()
     ms = str(int(elapsed_ms*1000))+"ms"
     ms_txt.draw()
     ms_txt.quick_change(ms)                
