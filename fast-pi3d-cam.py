@@ -88,7 +88,7 @@ class ImageProcessor(threading.Thread):
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, npa, new_pic, mdl_dims, NBYTES, glb_input, start_ms, elapsed_ms
+		global done, npa, new_pic, mdl_dims, NBYTES, glb_input, start_ms, elapsed_ms, bbox
 		while not self.terminated:
 			# Wait for an image to be written to the stream
 			if self.event.wait(1):
@@ -100,7 +100,9 @@ class ImageProcessor(threading.Thread):
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 						#self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=4)
 						elapsed_ms = time.time() - start_ms
-						glb_input = self.input_val
+						if self.input_val:
+							self.results = detection(self.input_val)
+							bbox_results(bbox, self.results)
 						new_pic = True
 				except Exception as e:
 					print(e)
@@ -138,6 +140,26 @@ def start_capture(): # has to be in yet another thread as blocking
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
+def detection(input_val)
+	results = engine.DetectWithInputTensor(self.input_val, top_k=4)
+	return results
+	
+def bbox_result(bbox, results): 
+	num_obj = 0
+	for obj in results:
+		num_obj = num_obj + 1   
+		buf = bbox.buf[0] # alias for brevity below
+		buf.array_buffer[:,:3] = 0.0;
+	for j, obj in enumerate(results):
+		coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+		score = round(obj.score,2)
+		ix = 8 * j
+		buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+		buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+	buf.re_init(); # 
+	new_pic = False
+	bbox.draw() # i.e. one draw for all boxes
+
 t = threading.Thread(target=start_capture)
 t.start()
 
@@ -156,23 +178,21 @@ while DISPLAY.loop_running():
 		fps_txt.quick_change(fps)
 		i = 0
 		last_tm = tm
-	if new_pic:  
-		results = engine.DetectWithInputTensor(glb_input, top_k=4)
-		if results: 
-			num_obj = 0
-			for obj in results:
-				num_obj = num_obj + 1   
-				buf = bbox.buf[0] # alias for brevity below
-				buf.array_buffer[:,:3] = 0.0;
-			for j, obj in enumerate(results):
-				coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-				score = round(obj.score,2)
-				ix = 8 * j
-				buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-				buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-			buf.re_init(); # 
-			new_pic = False
-		bbox.draw() # i.e. one draw for all boxes
+	#if new_pic:  
+	#	results = engine.DetectWithInputTensor(glb_input, top_k=4)
+	#	if results: 
+	#		num_obj = 0
+	#		for obj in results:
+	#			num_obj = num_obj + 1   
+	#			buf = bbox.buf[0] # alias for brevity below
+	#			buf.array_buffer[:,:3] = 0.0;
+	#		for j, obj in enumerate(results):
+	#			coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+	##			ix = 8 * j
+	#			buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+	##		buf.re_init(); # 
+	#		new_pic = False
+	#	bbox.draw() # i.e. one draw for all boxes
 	if keybd.read() == 27:
 		keybd.close()
 		DISPLAY.destroy()
