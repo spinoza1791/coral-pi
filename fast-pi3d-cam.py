@@ -133,12 +133,12 @@ def streams():
 		with lock:
 			if pool:
 				processor = pool.pop()
+				empty_results = 1
 			else:
 				processor = None
 		if processor:
 			yield processor.stream
 			processor.event.set()
-			empty_results = 1
 		else:
 			empty_results = 0
 			# When the pool is starved, wait a while for it to refill
