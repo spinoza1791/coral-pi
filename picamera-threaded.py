@@ -11,7 +11,7 @@ import argparse
 import time
 from picamera.array import PiRGBArray
 from picamera import PiCamera
-from threading import Thread
+import threading
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
