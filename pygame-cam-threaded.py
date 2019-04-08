@@ -67,7 +67,7 @@ class ImageProcessor(threading.Thread):
 						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 						self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
-            results = self.output
+						results = self.output
 						#elapsed_ms = time.time() - start_ms
 						new_pic = True
 				except Exception as e:
