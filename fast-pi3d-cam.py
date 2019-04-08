@@ -64,10 +64,6 @@ verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each e
 bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
 bbox.set_shader(linshader)
 results = None
-#old_results = None
-#output = None
-#frame_buf_val= None
-#buf = None
 
 ########################################################################
 
@@ -148,7 +144,7 @@ def streams():
 def start_capture(): # has to be in yet another thread as blocking
   global mdl_dims, pool
   with picamera.PiCamera() as camera:
-    pool = [ImageProcessor() for i in range(5)]
+    pool = [ImageProcessor() for i in range(2)]
     camera.resolution = (mdl_dims, mdl_dims)
     camera.framerate = 30
     camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
