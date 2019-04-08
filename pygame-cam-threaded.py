@@ -125,9 +125,9 @@ def start_capture(): # has to be in yet another thread as blocking
 		with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:
 			start_ms = time.time()
 			camera.capture_sequence(streams(), format='rgb', use_video_port=True)
-            elapsed_ms = time.time() - start_ms
-            #Inference
-            results = engine.DetectWithInputTensor(input, top_k=max_obj)
+			elapsed_ms = time.time() - start_ms
+			#Inference
+			results = engine.DetectWithInputTensor(input, top_k=max_obj)
 			img = pygame.image.frombuffer(rgb[0:
 				  (camera.resolution[0] * camera.resolution[1] * 3)],
 				   camera.resolution, 'RGB')
