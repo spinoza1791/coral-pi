@@ -121,15 +121,15 @@ class ImageProcessor(threading.Thread):
 			if self.event.wait(1):
 				try:
 					if self.stream.tell() >= NBYTES:
-						start_ms = time.time() 
+						#start_ms = time.time() 
 						self.stream.seek(0)
 						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 						self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
-						elapsed_ms = time.time() - start_ms
-						if new_pic and self.output:
-							bbox_results(self.output)
-						new_pic = True
+						#elapsed_ms = time.time() - start_ms
+						#if new_pic and self.output:
+						#	bbox_results(self.output)
+						#new_pic = True
 				except Exception as e:
 					print(e)
 				finally:
