@@ -63,11 +63,18 @@ def run(self):
 					pool.append(self)
 
 def streams():
-	while not done:
-		with lock:
-			processor = pool.pop()
-		yield processor.stream
-		processor.event.set()
+    while not done:
+        with lock:
+            if pool:
+                processor = pool.pop()
+            else:
+                processor = None
+        if processor:
+            yield processor.stream
+            processor.event.set()
+        else:
+            # When the pool is starved, wait a while for it to refill
+            time.sleep(0.1)
 
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolut$
