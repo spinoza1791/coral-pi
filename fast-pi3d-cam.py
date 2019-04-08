@@ -74,21 +74,21 @@ def detection(input_val):
 global bbox_results
 def bbox_results(results):
 	global mdl_dims, X_OFF, Y_OFF, X_IX, Y_IX, verts, bbox
-	if results:
-		num_obj = 0
-		for obj in results:
-			num_obj = num_obj + 1   
-			buf = bbox.buf[0] # alias for brevity below
-			buf.array_buffer[:,:3] = 0.0;
-		for j, obj in enumerate(results):
-			coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-			score = round(obj.score,2)
-			ix = 8 * j
-			buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-			buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-		buf.re_init(); # 
-		#new_pic = False
-		bbox.draw() # i.e. one draw for all boxes
+	#if results:
+	num_obj = 0
+	for obj in results:
+		num_obj = num_obj + 1   
+		buf = bbox.buf[0] # alias for brevity below
+		buf.array_buffer[:,:3] = 0.0;
+	for j, obj in enumerate(results):
+		coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+		score = round(obj.score,2)
+		ix = 8 * j
+		buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+		buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+	buf.re_init(); # 
+	new_pic = False
+	bbox.draw() # i.e. one draw for all boxes
 
 ########################################################################
 
@@ -114,7 +114,7 @@ class ImageProcessor(threading.Thread):
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, new_pic, NBYTES
+		global done, new_pic, NBYTES, max_obj, start_ms, elapsed_ms
 		self.results = None
 		while not self.terminated:
 			# Wait for an image to be written to the stream
@@ -125,12 +125,11 @@ class ImageProcessor(threading.Thread):
 						self.stream.seek(0)
 						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-						#self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=4)
+						self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
 						elapsed_ms = time.time() - start_ms
-						if self.input_val:
-							self.results = detection(self.input_val)
-							#bbox_results(self.results)
-						#new_pic = True
+						if new_pic and self.output:
+							bbox_results(self.output)
+						new_pic = True
 				except Exception as e:
 					print(e)
 				finally:
