@@ -44,18 +44,20 @@ DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 keybd = pi3d.Keyboard()
 txtshader = pi3d.Shader("uv_flat")
 linshader = pi3d.Shader('mat_flat')
+
 CAMERA = pi3d.Camera(is_3d=False)
 font = pi3d.Font("fonts/FreeMono.ttf", font_size=30, color=(0, 255, 0, 255)) # blue green 1.0 alpha
-fps = "00.00FPS"
+
+elapsed_ms = 1000
+ms = str(elapsed_ms)
+ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
+ms_txt.set_shader(txtshader)
+
+fps = "00.0 fps"
 N = 10
 fps_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=fps, x=0, y=preview_H/2 - 10, z=1.0)
 fps_txt.set_shader(txtshader)
-elapsed_ms = 1/1000
-ms = "00ms"
-ms_txt = pi3d.String(camera=CAMERA, is_3d=False, font=font, string=ms, x=0, y=preview_H/2 - 30, z=1.0)
-ms_txt.set_shader(txtshader)
-last_tm = time.time()
-i = 0
+
 X_OFF = np.array([0, 0, -1, -1, 0, 0, 1, 1])
 Y_OFF = np.array([-1, -1, 0, 0, 1, 1, 0, 0])
 X_IX = np.array([0, 1, 1, 1, 1, 0, 0, 0])
