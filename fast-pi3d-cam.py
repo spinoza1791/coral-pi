@@ -141,6 +141,7 @@ def streams():
 			processor.event.set()
 		else:
 			empty_results = 0
+			print("pool starved")
 			# When the pool is starved, wait a while for it to refill
 			time.sleep(0.1)
 
@@ -173,7 +174,7 @@ while DISPLAY.loop_running():
         fps_txt.quick_change(fps)
         i = 0
         last_tm = tm
-    if results != None and empty_results == 1:
+    if results: # != None and empty_results == 1:
       num_obj = 0
       for obj in results:
         num_obj = num_obj + 1   
