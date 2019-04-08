@@ -119,7 +119,9 @@ def start_capture(): # has to be in yet another thread as blocking
 		camera.framerate = 24
 		camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, mdl_dims, mdl_dims))
 		time.sleep(2)
+		start_ms = time.time()
 		camera.capture_sequence(streams(), format='rgb', use_video_port=True)
+		elapsed_ms = time.time() - start_ms
 		img = pygame.image.frombuffer(rgb[0:
 			  (camera.resolution[0] * camera.resolution[1] * 3)],
 			   camera.resolution, 'RGB')
