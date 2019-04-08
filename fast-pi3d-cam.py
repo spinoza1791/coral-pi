@@ -103,7 +103,7 @@ class ImageProcessor(threading.Thread):
 						elapsed_ms = time.time() - start_ms
 						if self.input_val:
 							self.results = detection(self.input_val)
-							bbox_results(bbox, self.results)
+							#bbox_results(bbox, self.results)
 						new_pic = True
 				except Exception as e:
 					print(e)
