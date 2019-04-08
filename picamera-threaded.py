@@ -60,15 +60,14 @@ pool = []
 
 class ImageProcessor(threading.Thread):
     def __init__(self):
-        global mdl_dims, preview_mid_X, preview_mid_Y
         super(ImageProcessor, self).__init__()
-          pool = [ImageProcessor() for i in range(4)]
-          self.stream = io.BytesIO()
-          self.frame_buf_val = None
-          self.output = None
-          self.event = threading.Event()
-          self.terminated = False
-          self.start()
+        pool = [ImageProcessor() for i in range(4)]
+        self.stream = io.BytesIO()
+        self.frame_buf_val = None
+        self.output = None
+        self.event = threading.Event()
+        self.terminated = False
+        self.start()
 
     def run(self):
         # This method runs in a separate thread
