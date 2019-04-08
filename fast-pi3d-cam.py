@@ -140,8 +140,8 @@ def start_capture(): # has to be in yet another thread as blocking
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
-def detection(input_val)
-	results = engine.DetectWithInputTensor(self.input_val, top_k=4)
+def detection(input_val):
+	results = engine.DetectWithInputTensor(input_val, top_k=4)
 	return results
 	
 def bbox_result(bbox, results): 
