@@ -9,6 +9,8 @@ import picamera
 import picamera.array
 from PIL import Image
 import edgetpu.detection.engine
+import tkinter
+import threading
 
 
 parser = argparse.ArgumentParser()
@@ -23,20 +25,100 @@ mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution t
 
 #Set max num of objects you want to detect per frame
 max_obj = 10
-engine = edgetpu.detection.engine.DetectionEngine(args.model)
+#engine = edgetpu.detection.engine.DetectionEngine(args.model)
 pygame.init()
 pygame.display.set_caption('Face Detection')
 screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
 pygame.font.init()
 fnt_sz = 18
 myfont = pygame.font.SysFont('Arial', fnt_sz)
+results = None
 
-camera = picamera.PiCamera()
+########################################################################
+
+NBYTES = mdl_dims * mdl_dims * 3
+new_pic = False
+
+# Create a pool of image processors
+done = False
+lock = threading.Lock()
+pool = []
+
+class ImageProcessor(threading.Thread):
+	def __init__(self):
+		#global verts, linshader
+		super(ImageProcessor, self).__init__()
+		self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
+		self.stream = io.BytesIO()
+		self.event = threading.Event()
+		self.terminated = False
+		self.start()
+
+	def run(self):
+		# This method runs in a separate thread
+		global done, new_pic, NBYTES, max_obj, start_ms, elapsed_ms, results
+		while not self.terminated:
+			# Wait for an image to be written to the stream
+			if self.event.wait(1):
+				try:
+					if self.stream.tell() >= NBYTES:
+						#start_ms = time.time() 
+						self.stream.seek(0)
+						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
+						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
+						self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
+            results = self.output
+						#elapsed_ms = time.time() - start_ms
+						new_pic = True
+				except Exception as e:
+					print(e)
+				finally:
+					# Reset the stream and event
+					self.stream.seek(0)
+					self.stream.truncate()
+					self.event.clear()
+					# Return ourselves to the pool
+					with lock:
+					  pool.append(self)
+						
+def streams():
+	while not done:
+		with lock:
+			if pool:
+				processor = pool.pop()
+			else:
+				processor = None
+		if processor:
+			yield processor.stream
+			processor.event.set()
+		else:
+			print("pool starved")
+			# When the pool is starved, wait a while for it to refill
+			time.sleep(0.1)
+
+def start_capture(): # has to be in yet another thread as blocking
+  global mdl_dims, pool
+  with picamera.PiCamera() as camera:
+    pool = [ImageProcessor() for i in range(4)]
+    camera.resolution = (mdl_dims, mdl_dims)
+    camera.framerate = 24
+    camera.start_preview(fullscreen=False, layer=0, window=(0, 0, mdl_dims, mdl_dims))
+    time.sleep(2)
+    camera.capture_sequence(streams(), format='rgb', use_video_port=True)
+
+
+t = threading.Thread(target=start_capture)
+t.start()
+
+while not new_pic:
+    time.sleep(0.1)
+
+#camera = picamera.PiCamera()
 #Set camera resolution equal to model dims
-camera.resolution = (mdl_dims, mdl_dims)
-rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-camera.framerate = 40
-_, width, height, channels = engine.get_input_tensor_shape()
+#camera.resolution = (mdl_dims, mdl_dims)
+#rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+#camera.framerate = 40
+#_, width, height, channels = engine.get_input_tensor_shape()
 x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 z = 5
@@ -49,21 +131,21 @@ while(exitFlag):
          keys = pygame.key.get_pressed()
          if(keys[pygame.K_ESCAPE] == 1):
             exitFlag = False
-    with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
+    #with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
         #stream = io.BytesIO()
-        start_ms = time.time()
-        camera.capture(stream, use_video_port=True, format='rgb')
-        elapsed_ms = time.time() - start_ms
-        stream.seek(0)
-        stream.readinto(rgb)
-        stream.truncate() #needed??
+        #start_ms = time.time()
+        #camera.capture(stream, use_video_port=True, format='rgb')
+        #elapsed_ms = time.time() - start_ms
+        #stream.seek(0)
+        #stream.readinto(rgb)
+        #stream.truncate() #needed??
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
-        input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+        #input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         #Inference
-        results = engine.DetectWithInputTensor(input, top_k=max_obj)
-        stream.close()                                                                 
+        #results = engine.DetectWithInputTensor(input, top_k=max_obj)
+        #stream.close()                                                                 
         if img:
              screen.blit(img, (0,0))
              if results:
