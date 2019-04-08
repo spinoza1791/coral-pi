@@ -80,15 +80,15 @@ lock = threading.Lock()
 pool = []
 
 class ImageProcessor(threading.Thread):
-    def __init__(self):
-        super(ImageProcessor, self).__init__()
-        self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
-        #self.rawCapture = bytearray(320 * 320 * 3)
-        self.stream = io.BytesIO()
-        self.event = threading.Event()
-        self.terminated = False
-        self.start()
-        self.output = None
+	def __init__(self):
+		super(ImageProcessor, self).__init__()
+		self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
+		#self.rawCapture = bytearray(320 * 320 * 3)
+		self.stream = io.BytesIO()
+		self.event = threading.Event()
+		self.terminated = False
+		self.start()
+		self.output = None
 
 	def run(self):
 		# This method runs in a separate thread
