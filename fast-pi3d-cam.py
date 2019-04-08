@@ -23,7 +23,7 @@ args = parser.parse_args()
 
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32/16 for picamera resolution
-engine = edgetpu.detection.engine.DetectionEngine(args.model)
+#engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -104,9 +104,9 @@ pool = []
 
 class ImageProcessor(threading.Thread):
 	def __init__(self):
-		global verts, linshader
+		#global verts, linshader
 		super(ImageProcessor, self).__init__()
-		#self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
+		self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
 		self.stream = io.BytesIO()
 		self.event = threading.Event()
 		self.terminated = False
