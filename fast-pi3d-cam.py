@@ -144,16 +144,16 @@ while not new_pic:
     time.sleep(0.1)
 
 while DISPLAY.loop_running():
-    fps_txt.draw()   
-    ms_txt.draw()
-    ms = str(elapsed_ms*1000)
-    ms_txt.quick_change(ms)
-    i += 1
-    if i > N:
-        tm = time.time()
-        fps = "{:5.1f}FPS".format(i / (tm - last_tm))
-        fps_txt.quick_change(fps)
-        i = 0
+	fps_txt.draw()   
+	ms_txt.draw()
+	ms = str(elapsed_ms*1000)
+	ms_txt.quick_change(ms)
+	i += 1
+	if i > N:
+		tm = time.time()
+		fps = "{:5.1f}FPS".format(i / (tm - last_tm))
+		fps_txt.quick_change(fps)
+		i = 0
 		last_tm = tm
 	if new_pic:  
 		if results: # != None and empty_results == 1:
