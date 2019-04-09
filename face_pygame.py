@@ -71,12 +71,12 @@ def main():
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	img = cam.get_image()
 	img = pygame.transform.scale(img,(320,320))
-	img = io.BytesIO(img)
+	#img = io.BytesIO(img)
 	#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
-	input = np.frombuffer(img.getvalue(), dtype=np.uint8)
+	#input = np.frombuffer(img.getvalue(), dtype=np.uint8)
 	#Inference
-	results = engine.DetectWithInputTensor(input, top_k=max_obj)
-	stream.close()                                                                 
+	#results = engine.DetectWithInputTensor(input, top_k=max_obj)
+	#stream.close()                                                                 
 	if img:
 		screen.blit(img, (0,0))
 	if results:
