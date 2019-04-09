@@ -73,13 +73,13 @@ def main():
 		#img_io.seek(0)
 		#img.readinto(rgb)
 		#img_arr = pygame.surfarray.array3d(img)
-		#img_frame = io.BytesIO(img_arr)	
+		img_frame = io.BytesIO(img_buf)	
 		#img_frame.truncate()
 		#img_frame.seek(0)
 		#img_frame.readinto(rgb)
-		#input = np.frombuffer(img_buf.getvalue(), dtype=np.uint8)
+		input = np.frombuffer(img_buf.getvalue(), dtype=np.uint8)
 		#Inference
-		results = engine.DetectWithInputTensor(img_buf, top_k=max_obj)
+		results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		#stream.close()                                                                 
 		#if img:
 			#screen.blit(img, (0,0))
