@@ -81,11 +81,11 @@ def main():
         camera.resolution, 'RGB')
         if img:
             display.blit(img, (0,0))
-        glRotatef(1, 3, 1, 1)
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        Cube()
+        #glRotatef(1, 3, 1, 1)
+        #glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        #Cube()
         pygame.display.flip()
-        pygame.time.wait(10)
+        #pygame.time.wait(10)
 
 
 main()
