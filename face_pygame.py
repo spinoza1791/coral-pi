@@ -70,7 +70,6 @@ def main():
 		img = cam.get_image()
 		img = pygame.transform.scale(img,(320,320))
 		screen.blit(img, (0,0))
-		pygame.display.update()
 		#img_io.seek(0)
 		#img.readinto(rgb)
 		img_arr = pygame.surfarray.array3d(img)
@@ -121,6 +120,8 @@ def main():
 				cam.stop()
 				pygame.quit()
 				sys.exit()
+				
+		pygame.display.update()
 				
 
 if __name__ == '__main__':
