@@ -62,7 +62,7 @@ def main():
     pygame.init()
     #display = (800,600)
     #pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
-    display = pygame.display.set_mode((mdl_dims, mdl_dims), DOUBLEBUF|OPENGLBLIT)
+    display = pygame.display.set_mode((mdl_dims, mdl_dims), DOUBLEBUF|HWSURFACE) #OPENGLBLIT)
     camera = picamera.PiCamera()
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
