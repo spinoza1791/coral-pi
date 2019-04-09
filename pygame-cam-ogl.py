@@ -16,8 +16,8 @@ screen = pygame.camera.Camera("/dev/video0",(640,480))
 screen.start()
 
 while True:
-   image1 = cam.get_image()
-   image1 = pygame.transform.scale(image1,(320,320))
+   image1 = screen.get_image()
+   image1 = pygame.transform.scale(image1,(640,480))
    screen.blit(image1,(0,0))
    pygame.display.update()
    exitFlag = True
