@@ -69,17 +69,18 @@ def main():
 	while True:
 		img = cam.get_image()
 		img = pygame.transform.scale(img,(320,320))
-		screen.blit(img, (0,0))
+		img_arr = pygame.surfarray.array3d(img)
+		pygame.surfarray.blit_array(img, img_arr)
+		#screen.blit(img, (0,0))
 		#img_io.seek(0)
 		#img.readinto(rgb)
-		img_arr = pygame.surfarray.array3d(img)
 		#img_frame = io.BytesIO(img_arr)	
 		#img_frame.truncate()
 		#img_frame.seek(0)
 		#img_frame.readinto(rgb)
-		input = np.frombuffer(img_arr.getvalue(), dtype=np.uint8)
+		#input = np.frombuffer(img_arr.getvalue(), dtype=np.uint8)
 		#Inference
-		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		#stream.close()                                                                 
 		#if img:
 			#screen.blit(img, (0,0))
