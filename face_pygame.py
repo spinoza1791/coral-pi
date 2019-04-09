@@ -82,6 +82,7 @@ def main():
 		screen.fill(0)
 		if img:
 			screen.blit(img, (0,0))
+		elapsed_ms = time.time() - start_ms
 		#img = cam.get_image()
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
@@ -96,7 +97,6 @@ def main():
 		#stream.close()
 		#Inference
 		results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
-		elapsed_ms = time.time() - start_ms
 		#stream.close()                                                                 
 		#if img:
 			#screen.blit(img, (0,0))
