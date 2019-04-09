@@ -127,9 +127,6 @@ class ImageProcessor(threading.Thread):
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 						#self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
 						g_input = self.input_val
-						#elapsed_ms = time.time() - start_ms
-						#if new_pic and self.output:
-						#	bbox_results(self.output)
 						new_pic = True
 				except Exception as e:
 					print(e)
@@ -158,12 +155,12 @@ def streams():
 			time.sleep(0.1)
 
 def start_capture(): # has to be in yet another thread as blocking
-  global mdl_dims, pool
+  global mdl_dims, pool, preview_mid_X, preview_mid_Y, preview_W, preview_H, max_fps
   with picamera.PiCamera() as camera:
     pool = [ImageProcessor() for i in range(3)]
     camera.resolution = (mdl_dims, mdl_dims)
     camera.framerate = max_fps
-    camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_X, mdl_dims, mdl_dims))
+    camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
