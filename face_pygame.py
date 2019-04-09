@@ -68,7 +68,7 @@ def main():
         #img = pygame.image.frombuffer(rgb[0:
         #(camera.resolution[0] * camera.resolution[1] * 3)],
         #camera.resolution, 'RGB')
-        img = cam.get_image()
+        img = io.BytesIO(cam.get_image())
         img = pygame.transform.scale(img,(320,320))
         #input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         input = np.frombuffer(img.getvalue(), dtype=np.uint8)
