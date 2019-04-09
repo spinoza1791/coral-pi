@@ -16,6 +16,8 @@ screen = pygame.camera.Camera("/dev/video0",(320,320))
 try:
    screen.start()
    break
+finally:
+   print("cam started")
 
 while True:
    image1 = cam.get_image()
