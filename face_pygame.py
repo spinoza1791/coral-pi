@@ -34,6 +34,7 @@ def main():
 	screen = pygame.display.set_mode((320,320),0)
 	cam = pygame.camera.Camera("/dev/video0",(640,640))
 	cam.start()
+	snapshot = pygame.surface.Surface((320, 320), 0, screen)
 
 	pygame.font.init()
 	fnt_sz = 18
