@@ -79,6 +79,7 @@ def main():
 	#stream.close()                                                                 
 	if img:
 		screen.blit(img, (0,0))
+		pygame.display.update()
 	if results:
 		num_obj = 0
 		for obj in results:
@@ -108,8 +109,6 @@ def main():
 		fnt_ms = myfont.render(ms, True, (255,0,0))
 		fnt_ms_width = fnt_ms.get_rect().width
 		screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-
-	pygame.display.update()
 
 pygame.display.quit()
 
