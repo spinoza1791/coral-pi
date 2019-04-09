@@ -23,7 +23,7 @@ args = parser.parse_args()
 
 #Set all input params equal to the input dimensions expected by the model
 mdl_dims = int(args.dims) #dims must be a factor of 32/16 for picamera resolution
-#engine = edgetpu.detection.engine.DetectionEngine(args.model)
+engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 root = tkinter.Tk()
 screen_W = root.winfo_screenwidth()
@@ -106,7 +106,7 @@ class ImageProcessor(threading.Thread):
 	def __init__(self):
 		#global verts, linshader
 		super(ImageProcessor, self).__init__()
-		self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
+		#self.engine = edgetpu.detection.engine.DetectionEngine(args.model)
 		self.stream = io.BytesIO()
 		self.event = threading.Event()
 		self.terminated = False
@@ -125,8 +125,8 @@ class ImageProcessor(threading.Thread):
 						self.stream.seek(0)
 						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
-						self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
-						g_input = self.output
+						#self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
+						g_input = self.input_val
 						#elapsed_ms = time.time() - start_ms
 						#if new_pic and self.output:
 						#	bbox_results(self.output)
