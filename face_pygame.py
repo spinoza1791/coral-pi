@@ -71,8 +71,9 @@ def main():
 		screen.blit(img, (0,0))
 		pygame.display.update()
 		#img_io = io.BytesIO(img)
-		img_io.seek(0)
-		img_io.readinto(rgb)
+		img_io = io.BytesIO(img.array)
+		#img_io.seek(0)
+		#img_io.readinto(rgb)
 		input = np.frombuffer(img_io.getvalue(), dtype=np.uint8)
 		#Inference
 		results = engine.DetectWithInputTensor(input, top_k=max_obj)
