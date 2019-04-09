@@ -62,6 +62,7 @@ def main():
     display = pygame.display.set_mode((mdl_dims, mdl_dims), DOUBLEBUF|OPENGL)
     camera = picamera.PiCamera()
     camera.resolution = (mdl_dims, mdl_dims)
+    rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
     
     #gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     #glTranslatef(0.0,0.0, -5)
