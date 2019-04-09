@@ -34,9 +34,9 @@ preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 max_obj = 5
-max_fps = 60
+max_fps = 24
 
-DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_X, w=preview_W, h=preview_H, layer=1) #, frames_per_second=max_fps)
+DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=max_fps)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 txtshader = pi3d.Shader("uv_flat")
 linshader = pi3d.Shader('mat_flat')
@@ -162,7 +162,7 @@ def start_capture(): # has to be in yet another thread as blocking
   with picamera.PiCamera() as camera:
     pool = [ImageProcessor() for i in range(3)]
     camera.resolution = (mdl_dims, mdl_dims)
-    camera.framerate = 40
+    camera.framerate = max_fps
     camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_X, mdl_dims, mdl_dims))
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
