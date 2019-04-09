@@ -72,7 +72,8 @@ def main():
 	while True:
 		stream = io.BytesIO()
 		start_ms = time.time()
-		camera.capture(stream, use_video_port=True, format='rgb')
+		#camera.capture(stream, use_video_port=True, format='rgb')
+		camera.capture_sequence(stream, format='rgb', use_video_port=True)
 		elapsed_ms = time.time() - start_ms
 		stream.seek(0)
 		stream.readinto(rgb)
