@@ -75,8 +75,8 @@ def main():
 		#img.readinto(rgb)
 		img_arr = pygame.surfarray.array3d(img)
 		img_frame = io.BytesIO(img_arr)	
-		img_frame.truncate()
-		img_frame.seek(0)
+		#img_frame.truncate()
+		#img_frame.seek(0)
 		img_frame.readinto(rgb)
 		input = np.frombuffer(img_frame.getvalue(), dtype=np.uint8)
 		#Inference
