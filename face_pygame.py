@@ -74,7 +74,7 @@ def main():
 		#img_io.seek(0)
 		#img.readinto(rgb)
 		img_arr = pygame.surfarray.array3d(img)
-		img_frame = io.BytesIO(img_arr)	
+		#img_frame = io.BytesIO(img_arr)	
 		#img_frame.truncate()
 		#img_frame.seek(0)
 		img_frame.readinto(rgb)
