@@ -62,7 +62,7 @@ def main():
     pygame.init()
     #display = (800,600)
     #pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
-    display = pygame.display.set_mode((mdl_dims, mdl_dims), DOUBLEBUF|HWSURFACE) #OPENGLBLIT)
+    screen = pygame.display.set_mode((mdl_dims, mdl_dims), DOUBLEBUF|HWSURFACE) #OPENGLBLIT)
     camera = picamera.PiCamera()
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
@@ -75,17 +75,19 @@ def main():
         for event in pygame.event.get():
             keys = pygame.key.get_pressed()
             if(keys[pygame.K_ESCAPE] == 1):
-                exitFlag = False         
-        img = pygame.image.frombuffer(rgb[0:
-        (camera.resolution[0] * camera.resolution[1] * 3)],
-        camera.resolution, 'RGB')
-        if img:
-            display.blit(img, (0,0))
-        #glRotatef(1, 3, 1, 1)
-        #glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        #Cube()
-        pygame.display.update()
-        #pygame.time.wait(10)
+                exitFlag = False   
+        with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:
+            img = pygame.image.frombuffer(rgb[0:
+            (camera.resolution[0] * camera.resolution[1] * 3)],
+            camera.resolution, 'RGB')
+            if img:
+                screen.blit(img, (0,0))
+            #glRotatef(1, 3, 1, 1)
+            #glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+            #Cube()
+    pygame.display.update()
+    #pygame.time.wait(10)
 
+pygame.display.quit()
 
 main()
