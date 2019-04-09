@@ -66,8 +66,8 @@ def main():
 	#stream.readinto(rgb)
 	#stream.truncate() #needed??
 	img = pygame.image.frombuffer(rgb[0:
-	(screen.resolution[0] * screen.resolution[1] * 3)],
-	screen.resolution, 'RGB')
+	(320 * 320 * 3)],
+	(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	#img = cam.get_image()
 	#img = pygame.transform.scale(img,(320,320))
