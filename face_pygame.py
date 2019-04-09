@@ -75,8 +75,8 @@ def main():
 		img_arr = pygame.surfarray.array3d(img_buf)
 		img_frame = io.BytesIO(img_arr)	
 		#img_frame.truncate()
-		#img_frame.seek(0)
-		#img_frame.readinto(rgb)
+		img_frame.seek(0)
+		img_frame.readinto(rgb)
 		input = np.frombuffer(img_frame.getvalue(), dtype=np.uint8)
 		#Inference
 		results = engine.DetectWithInputTensor(input, top_k=max_obj)
