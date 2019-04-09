@@ -66,7 +66,7 @@ def main():
 	#(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	while True:
-		img = cam.get_image()
+		img = cam.get_image(snapshot)
 		img = pygame.transform.scale(img,(320,320))
 		screen.blit(img, (0,0))
 		pygame.display.update()
