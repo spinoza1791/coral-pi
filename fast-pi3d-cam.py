@@ -36,7 +36,7 @@ preview_mid_Y = int(screen_H/2 - preview_H/2)
 max_obj = 5
 max_fps = 60
 
-DISPLAY = pi3d.Display.create(0, 0, w=preview_W, h=preview_H, layer=1) #, frames_per_second=max_fps)
+DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_X, w=preview_W, h=preview_H, layer=1) #, frames_per_second=max_fps)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 txtshader = pi3d.Shader("uv_flat")
 linshader = pi3d.Shader('mat_flat')
@@ -65,37 +65,37 @@ bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=F
 bbox.set_shader(linshader)
 #results = None
 
-global detection
-def detection(input_val):
-	global engine, max_obj
-	results = engine.DetectWithInputTensor(input_val, top_k=max_obj)
-	return results
+#global detection
+#def detection(input_val):#
+#	global engine, max_obj
+#	results = engine.DetectWithInputTensor(input_val, top_k=max_obj)
+#	return results
 
-global bbox_results
-def bbox_results(results):
-	global mdl_dims, X_OFF, Y_OFF, X_IX, Y_IX, verts, bbox
-	if results:
-		num_obj = 0
-		for obj in results:
-			num_obj = num_obj + 1   
-			buf = bbox.buf[0] # alias for brevity below
-			buf.array_buffer[:,:3] = 0.0;
-		for j, obj in enumerate(results):
-			coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-			score = round(obj.score,2)
-			ix = 8 * j
-			buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-			buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
-		buf.re_init(); # 
-		new_pic = False
-	bbox.draw() # i.e. one draw for all boxes
+#global bbox_results
+#def bbox_results(results):
+#	global mdl_dims, X_OFF, Y_OFF, X_IX, Y_IX, verts, bbox
+#	if results:
+#		num_obj = 0
+#		for obj in results:
+#			num_obj = num_obj + 1   
+#			buf = bbox.buf[0] # alias for brevity below
+#			buf.array_buffer[:,:3] = 0.0;
+#		for j, obj in enumerate(results):
+#			coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+#			score = round(obj.score,2)
+#			ix = 8 * j
+#			buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+#			buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
+#		buf.re_init(); # 
+#		new_pic = False
+#	bbox.draw() # i.e. one draw for all boxes
 
 ########################################################################
 
 NBYTES = mdl_dims * mdl_dims * 3
 new_pic = False
 empty_results = 0
-glb_input = None
+g_input = None
 
 # Create a pool of image processors
 done = False
@@ -114,7 +114,7 @@ class ImageProcessor(threading.Thread):
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, new_pic, NBYTES, max_obj, start_ms, elapsed_ms, g_input
+		global done, new_pic, NBYTES, start_ms, elapsed_ms, g_input
 		self.results = None
 		while not self.terminated:
 			# Wait for an image to be written to the stream
@@ -160,10 +160,10 @@ def streams():
 def start_capture(): # has to be in yet another thread as blocking
   global mdl_dims, pool
   with picamera.PiCamera() as camera:
-    pool = [ImageProcessor() for i in range(4)]
+    pool = [ImageProcessor() for i in range(3)]
     camera.resolution = (mdl_dims, mdl_dims)
     camera.framerate = 40
-    camera.start_preview(fullscreen=False, layer=0, window=(0, 0, 320, 320))
+    camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_X, mdl_dims, mdl_dims))
     time.sleep(2)
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
