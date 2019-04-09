@@ -69,13 +69,13 @@ def main():
     
     #gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     #glTranslatef(0.0,0.0, -5)
-
-    while True:
+          
+    exitFlag = True
+    while(exitFlag):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()            
-            
+            keys = pygame.key.get_pressed()
+            if(keys[pygame.K_ESCAPE] == 1):
+                exitFlag = False         
         img = pygame.image.frombuffer(rgb[0:
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
