@@ -9,10 +9,11 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 pygame.camera.init()
 
-screen = pygame.display.set_mode((320,320),0)
-cam_list = pygame.camera.list_cameras()
-cam = pygame.camera.Camera(cam_list[0],(32,24))
-cam.start()
+#screen = pygame.display.set_mode((320,320),0)
+#cam_list = pygame.camera.list_cameras()
+#cam = pygame.camera.Camera(cam_list[0],(32,24))
+screen = pygame.camera.Camera("/dev/video0",(320,320))
+screen.start()
 
 while True:
    image1 = cam.get_image()
