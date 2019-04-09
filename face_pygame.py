@@ -13,35 +13,35 @@ from PIL import Image
 import edgetpu.detection.engine
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-      '--model', help='File path of Tflite model.', required=True)
-    parser.add_argument(
-      '--dims', help='Model input dimension', required=True)
-    args = parser.parse_args()
+	parser = argparse.ArgumentParser()
+	parser.add_argument(
+	  '--model', help='File path of Tflite model.', required=True)
+	parser.add_argument(
+	  '--dims', help='Model input dimension', required=True)
+	args = parser.parse_args()
 
-    #Set all input params equal to the input dimensions expected by the model
-    mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
+	#Set all input params equal to the input dimensions expected by the model
+	mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
 
-    #Set max num of objects you want to detect per frame
-    max_obj = 10
-    engine = edgetpu.detection.engine.DetectionEngine(args.model)
-    
-    pygame.init()
-    pygame.camera.init()
-    pygame.display.set_caption('Face Detection')
-    screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
-    cam = pygame.camera.Camera("/dev/video0",(640,640))
-    cam.start()
-    
-    pygame.font.init()
-    fnt_sz = 18
-    myfont = pygame.font.SysFont('Arial', fnt_sz)
+	#Set max num of objects you want to detect per frame
+	max_obj = 10
+	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
-    #camera = picamera.PiCamera()
-    #Set camera resolution equal to model dims
-    #camera.resolution = (mdl_dims, mdl_dims)
-    #rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+	pygame.init()
+	pygame.camera.init()
+	pygame.display.set_caption('Face Detection')
+	screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
+	cam = pygame.camera.Camera("/dev/video0",(640,640))
+	cam.start()
+
+	pygame.font.init()
+	fnt_sz = 18
+	myfont = pygame.font.SysFont('Arial', fnt_sz)
+
+	#camera = picamera.PiCamera()
+	#Set camera resolution equal to model dims
+	#camera.resolution = (mdl_dims, mdl_dims)
+	#rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 	rgb = bytearray(320 * 320 * 3)
 	#camera.framerate = 40
 	_, width, height, channels = engine.get_input_tensor_shape()
