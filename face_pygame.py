@@ -65,18 +65,13 @@ def main():
         #stream.seek(0)
         #stream.readinto(rgb)
         #stream.truncate() #needed??
-        img = pygame.image.frombuffer(rgb[0:
-        (640 * 640 * 3)],
-        cam.resolution, 'RGB')
+	img = pygame.image.frombuffer(rgb[0:
+		  (screen.resolution[0] * screen.resolution[1] * 3)],
+		   screen.resolution, 'RGB')
         #rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
         #img = cam.get_image()
-        img = pygame.transform.scale(img,(320,320))
+        #img = pygame.transform.scale(img,(320,320))
         #img = io.BytesIO(img)
-
-        #	self.frame = io.BytesIO(f.array)
-		#	self.frame_buf_val = np.frombuffer(self.frame.getvalue(), dtype=np.uint8)
-		#	self.output = self.engine.DetectWithInputTensor(self.frame_buf_val, top_k=10)
-		#	self.rawCapture.truncate(0)
         #input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
         input = np.frombuffer(img.getvalue(), dtype=np.uint8)
         #Inference
