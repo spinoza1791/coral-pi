@@ -63,7 +63,6 @@ Y_IX = np.array([0, 0, 0, 1, 1, 1, 1, 0])
 verts = [[0.0, 0.0, 1.0] for i in range(8 * max_obj)] # need a vertex for each end of each side 
 bbox = pi3d.Lines(vertices=verts, material=(1.0,0.8,0.05), closed=False, strip=False, line_width=4) 
 bbox.set_shader(linshader)
-#results = None
 
 #global detection
 #def detection(input_val):#
@@ -185,7 +184,7 @@ while DISPLAY.loop_running():
 		last_tm = tm
 	if new_pic:  
 		results = engine.DetectWithInputTensor(g_input, top_k=4)
-		if results: 
+		if results:
 			num_obj = 0
 			for obj in results:
 				num_obj = num_obj + 1   
@@ -193,8 +192,10 @@ while DISPLAY.loop_running():
 				buf.array_buffer[:,:3] = 0.0;
 			for j, obj in enumerate(results):
 				coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+				score = round(obj.score,2)
 				ix = 8 * j
 				buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+				buf.array_buffer[ix:(ix + 8), 1] = coords[Y_IX, 1] + 2 * Y_OFF
 			buf.re_init(); # 
 			new_pic = False
 		bbox.draw() # i.e. one draw for all boxes
