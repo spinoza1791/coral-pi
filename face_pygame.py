@@ -77,9 +77,9 @@ def main():
 		#img_frame.truncate()
 		#img_frame.seek(0)
 		#img_frame.readinto(rgb)
-		#input = np.frombuffer(img_arr.getvalue(), dtype=np.uint8)
+		frame_val = np.frombuffer(img_frame.getvalue(), dtype=np.uint8)
 		#Inference
-		results = engine.DetectWithInputTensor(img_frame, top_k=max_obj)
+		results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
 		#stream.close()                                                                 
 		#if img:
 			#screen.blit(img, (0,0))
