@@ -34,9 +34,9 @@ preview_mid_X = int(screen_W/2 - preview_W/2)
 preview_mid_Y = int(screen_H/2 - preview_H/2)
 
 max_obj = 5
-max_fps = 20
+max_fps = 35
 
-DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=60)
+DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1, frames_per_second=25)
 DISPLAY.set_background(0.0, 0.0, 0.0, 0.0) # transparent
 txtshader = pi3d.Shader("uv_flat")
 linshader = pi3d.Shader('mat_flat')
