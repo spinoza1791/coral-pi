@@ -34,17 +34,17 @@ def main():
 	screen = pygame.display.set_mode((320,320),0)
 	cam = pygame.camera.Camera("/dev/video0",(640,640))
 	cam.start()
-	snapshot = pygame.surface.Surface((640, 640), 0, screen)
+	#snapshot = pygame.surface.Surface((640, 640), 0, screen)
 
 	pygame.font.init()
 	fnt_sz = 18
 	myfont = pygame.font.SysFont('Arial', fnt_sz)
 
-	#camera = picamera.PiCamera()
+	#pi_camera = picamera.PiCamera()
 	#Set camera resolution equal to model dims
 	#camera.resolution = (mdl_dims, mdl_dims)
-	#rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-	rgb = bytearray(320 * 320 * 3)
+	rgb = bytearray(pi_camera.resolution[0] * pi_camera.resolution[1] * 3)
+	#rgb = bytearray(320 * 320 * 3)
 	#camera.framerate = 40
 	_, width, height, channels = engine.get_input_tensor_shape()
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
@@ -54,7 +54,7 @@ def main():
 	i = 0
 	results = None
 
-	#        with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
+	#with picamera.array.PiRGBArray(pi_camera, size=(mdl_dims, mdl_dims)) as stream:        
 	#stream = io.BytesIO()
 	start_ms = time.time()
 	#camera.capture(stream, use_video_port=True, format='rgb')
@@ -62,20 +62,18 @@ def main():
 	#stream.seek(0)
 	#stream.readinto(rgb)
 	#stream.truncate() #needed??
-	#img = pygame.image.frombuffer(rgb[0:
-	#(320 * 320 * 3)],
-	#(320, 320), 'RGB')
+	img_buf = pygame.image.frombuffer(rgb[0:
+	(320 * 320 * 3)],
+	(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	while True:
-		img = cam.get_image(snapshot)
-		#img = pygame.transform.scale(img,(320,320))
+		img = cam.get_image()
+		img = pygame.transform.scale(img,(320,320))
 		screen.blit(img, (0,0))
 		pygame.display.update()
-		#img_io = io.BytesIO(img)
-		#img_io = io.BytesIO(img)
 		#img_io.seek(0)
-		img_io.readinto(rgb)
-		input = np.frombuffer(img_io.getvalue(), dtype=np.uint8)
+		#img.readinto(rgb)
+		input = np.frombuffer(img.getvalue(), dtype=np.uint8)
 		#Inference
 		results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		#stream.close()                                                                 
@@ -111,7 +109,7 @@ def main():
 			fnt_ms = myfont.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
 			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-			
+
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
 			if(keys[pygame.K_ESCAPE] == 1):
