@@ -12,12 +12,8 @@ pygame.camera.init()
 #screen = pygame.display.set_mode((320,320),0)
 #cam_list = pygame.camera.list_cameras()
 #cam = pygame.camera.Camera(cam_list[0],(32,24))
-screen = pygame.camera.Camera("/dev/video0",(320,320))
-try:
-   screen.start()
-
-finally:
-   print("cam started")
+screen = pygame.camera.Camera("/dev/video0",(640,480))
+screen.start()
 
 while True:
    image1 = cam.get_image()
