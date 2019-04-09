@@ -8,9 +8,12 @@ from PIL import Image
 import edgetpu.detection.engine
 import pygame
 from pygame.locals import *
+import os
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 verticies = (
     (1, -1, -1),
@@ -59,7 +62,7 @@ def main():
     pygame.init()
     #display = (800,600)
     #pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
-    display = pygame.display.set_mode((mdl_dims, mdl_dims), DOUBLEBUF|OPENGL)
+    display = pygame.display.set_mode((mdl_dims, mdl_dims), DOUBLEBUF|OPENGLBLIT)
     camera = picamera.PiCamera()
     camera.resolution = (mdl_dims, mdl_dims)
     rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
