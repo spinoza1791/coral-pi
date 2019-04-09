@@ -45,7 +45,7 @@ def main():
 	#camera.resolution = (mdl_dims, mdl_dims)
 	#rgb = bytearray(pi_camera.resolution[0] * pi_camera.resolution[1] * 3)
 	#camera.framerate = 40
-	_, width, height, channels = engine.get_input_tensor_shape()
+	#_, width, height, channels = engine.get_input_tensor_shape()
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
@@ -72,12 +72,12 @@ def main():
 		screen.blit(img, (0,0))
 		#img_io.seek(0)
 		#img.readinto(rgb)
-		img_arr = pygame.surfarray.array3d(img_buf)
-		img_frame = io.BytesIO(img_arr)	
+		img_arr = pygame.surfarray.array3d(img)
+		#img_frame = io.BytesIO(img_arr)	
 		#img_frame.truncate()
-		img_frame.seek(0)
-		img_frame.readinto(rgb)
-		input = np.frombuffer(img_frame.getvalue(), dtype=np.uint8)
+		#img_frame.seek(0)
+		#img_frame.readinto(rgb)
+		input = np.frombuffer(img_arr.getvalue(), dtype=np.uint8)
 		#Inference
 		results = engine.DetectWithInputTensor(input, top_k=max_obj)
 		#stream.close()                                                                 
