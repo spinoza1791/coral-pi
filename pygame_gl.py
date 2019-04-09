@@ -80,7 +80,7 @@ def main():
         (camera.resolution[0] * camera.resolution[1] * 3)],
         camera.resolution, 'RGB')
         if img:
-            display.blit(img, (mdl_dims,mdl_dims))
+            display.blit(img, (0,0))
         glRotatef(1, 3, 1, 1)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         Cube()
