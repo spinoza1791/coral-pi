@@ -30,7 +30,8 @@ def main():
 	pygame.init()
 	pygame.camera.init()
 	pygame.display.set_caption('Face Detection')
-	screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
+	#screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
+	screen = pygame.display.set_mode((320,320),0)
 	cam = pygame.camera.Camera("/dev/video0",(640,640))
 	cam.start()
 
@@ -51,12 +52,6 @@ def main():
 	last_tm = time.time()
 	i = 0
 
-	exitFlag = True
-	while(exitFlag):
-		for event in pygame.event.get():
-			keys = pygame.key.get_pressed()
-			if(keys[pygame.K_ESCAPE] == 1):
-				exitFlag = False
 	#        with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
 	#stream = io.BytesIO()
 	start_ms = time.time()
@@ -69,48 +64,57 @@ def main():
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
-	img = cam.get_image()
-	img = pygame.transform.scale(img,(320,320))
-	#img = io.BytesIO(img)
-	#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
-	#input = np.frombuffer(img.getvalue(), dtype=np.uint8)
-	#Inference
-	#results = engine.DetectWithInputTensor(input, top_k=max_obj)
-	#stream.close()                                                                 
-	if img:
+	while True:
+		img = cam.get_image()
+		img = pygame.transform.scale(img,(320,320))
 		screen.blit(img, (0,0))
 		pygame.display.update()
-	if results:
-		num_obj = 0
-		for obj in results:
-			num_obj = num_obj + 1
-		for obj in results:
-			bbox = obj.bounding_box.flatten().tolist()
-			score = round(obj.score,2)
-			x1 = round(bbox[0] * mdl_dims)
-			y1 = round(bbox[1] * mdl_dims)
-			x2 = round(bbox[2] * mdl_dims)
-			y2 = round(bbox[3] * mdl_dims)
-			rect_width = x2 - x1
-			rect_height = y2 - y1
-			class_score = "%.2f" % (score)
-			ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
-			fnt_class_score = myfont.render(class_score, True, (0,0,255))
-			fnt_class_score_width = fnt_class_score.get_rect().width
-			screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-			fnt_ms = myfont.render(ms, True, (255,255,255))
+		#img = io.BytesIO(img)
+		#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+		#input = np.frombuffer(img.getvalue(), dtype=np.uint8)
+		#Inference
+		#results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		#stream.close()                                                                 
+		#if img:
+			#screen.blit(img, (0,0))
+			#pygame.display.update()
+		if results:
+			num_obj = 0
+			for obj in results:
+				num_obj = num_obj + 1
+			for obj in results:
+				bbox = obj.bounding_box.flatten().tolist()
+				score = round(obj.score,2)
+				x1 = round(bbox[0] * mdl_dims)
+				y1 = round(bbox[1] * mdl_dims)
+				x2 = round(bbox[2] * mdl_dims)
+				y2 = round(bbox[3] * mdl_dims)
+				rect_width = x2 - x1
+				rect_height = y2 - y1
+				class_score = "%.2f" % (score)
+				ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
+				fnt_class_score = myfont.render(class_score, True, (0,0,255))
+				fnt_class_score_width = fnt_class_score.get_rect().width
+				screen.blit(fnt_class_score,(x1, y1-fnt_sz))
+				fnt_ms = myfont.render(ms, True, (255,255,255))
+				fnt_ms_width = fnt_ms.get_rect().width
+				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+				bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
+				#pygame.display.update(bbox_rect)
+		else:
+			elapsed_ms = time.time() - start_ms
+			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
+			fnt_ms = myfont.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
 			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-			bbox_rect = pygame.draw.rect(screen, (0,0,255), (x1, y1, rect_width, rect_height), 2)
-			#pygame.display.update(bbox_rect)
-	else:
-		elapsed_ms = time.time() - start_ms
-		ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
-		fnt_ms = myfont.render(ms, True, (255,0,0))
-		fnt_ms_width = fnt_ms.get_rect().width
-		screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-
-pygame.display.quit()
+			
+		for event in pygame.event.get():
+			keys = pygame.key.get_pressed()
+			if(keys[pygame.K_ESCAPE] == 1):
+				cam.stop()
+				pygame.quit()
+				sys.exit()
+				
 
 if __name__ == '__main__':
 	main()
