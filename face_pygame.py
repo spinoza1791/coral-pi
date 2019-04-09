@@ -28,13 +28,18 @@ def main():
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
-	pygame.camera.init()
+	#pygame.camera.init()
 	pygame.display.set_caption('Face Detection')
 	screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
 	#screen = pygame.display.set_mode((320,320),0)
-	cam = pygame.camera.Camera("/dev/video0",(640,640))
-	cam.start()
+	#cam = pygame.camera.Camera("/dev/video0",(640,640))
+	#cam.start()
 	#snapshot = pygame.surface.Surface((640, 640), 0, screen)
+	# Init camera
+	camera = picamera.PiCamera()
+	camera.resolution = (320, 320)
+	camera.crop = (0.0, 0.0, 1.0, 1.0)
+	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 
 	pygame.font.init()
 	fnt_sz = 18
@@ -61,23 +66,35 @@ def main():
 	#stream.seek(0)
 	#stream.readinto(rgb)
 	#stream.truncate() #needed??
-	rgb = bytearray(320 * 320 * 3)
-	img_buf = pygame.image.frombuffer(rgb[0:
-	(320 * 320 * 3)],
-	(320, 320), 'RGB')
+	#rgb = bytearray(320 * 320 * 3)
+	#img_buf = pygame.image.frombuffer(rgb[0:
+	#(320 * 320 * 3)],
+	#(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	while True:
-		img = cam.get_image()
-		img = pygame.transform.scale(img,(320,320))
-		img_arr = pygame.surfarray.array3d(img)
-		screen.blit(img, (0,0))
+		stream = io.BytesIO()
+		camera.capture(stream, use_video_port=True, format='rgb')
+		stream.seek(0)
+		stream.readinto(rgb)
+		#stream.close()
+		img = pygame.image.frombuffer(rgb[0:
+		(camera.resolution[0] * camera.resolution[1] * 3)],
+		camera.resolution, 'RGB')
+		screen.fill(0)
+		if img:
+			screen.blit(img, (0,0))
+		#img = cam.get_image()
+		#img = pygame.transform.scale(img,(320,320))
+		#img_arr = pygame.surfarray.array3d(img)
+		#screen.blit(img, (0,0))
 		#img_io.seek(0)
 		#img.readinto(rgb)
-		img_frame = io.BytesIO(img_arr)	
+		#img_frame = io.BytesIO(img_arr)	
 		#img_frame.truncate()
 		#img_frame.seek(0)
 		#img_frame.readinto(rgb)
-		frame_val = np.frombuffer(img_frame.getvalue(), dtype=np.uint8)
+		frame_val = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+		stream.close()
 		#Inference
 		results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
 		#stream.close()                                                                 
@@ -117,8 +134,10 @@ def main():
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
 			if(keys[pygame.K_ESCAPE] == 1):
-				cam.stop()
-				pygame.quit()
+				#cam.stop()
+				#pygame.quit()
+				camera.close()
+				pygame.display.quit()
 				sys.exit()
 				
 		pygame.display.update()
