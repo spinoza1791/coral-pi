@@ -62,9 +62,9 @@ def main():
 	#stream.readinto(rgb)
 	#stream.truncate() #needed??
 	rgb = bytearray(320 * 320 * 3)
-	#img_buf = pygame.image.frombuffer(rgb[0:
-	#(320 * 320 * 3)],
-	#(320, 320), 'RGB')
+	img_buf = pygame.image.frombuffer(rgb[0:
+	(320 * 320 * 3)],
+	(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	while True:
 		img = cam.get_image()
@@ -72,14 +72,14 @@ def main():
 		screen.blit(img, (0,0))
 		#img_io.seek(0)
 		#img.readinto(rgb)
-		img_arr = pygame.surfarray.array3d(img)
-		img_frame = io.BytesIO(img_arr)	
+		#img_arr = pygame.surfarray.array3d(img)
+		#img_frame = io.BytesIO(img_arr)	
 		#img_frame.truncate()
-		img_frame.seek(0)
+		#img_frame.seek(0)
 		#img_frame.readinto(rgb)
-		input = np.frombuffer(img_frame.getvalue(), dtype=np.uint8)
+		#input = np.frombuffer(img_buf.getvalue(), dtype=np.uint8)
 		#Inference
-		results = engine.DetectWithInputTensor(input, top_k=max_obj)
+		results = engine.DetectWithInputTensor(img_buf, top_k=max_obj)
 		#stream.close()                                                                 
 		#if img:
 			#screen.blit(img, (0,0))
