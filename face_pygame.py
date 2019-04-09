@@ -44,7 +44,6 @@ def main():
 	#Set camera resolution equal to model dims
 	#camera.resolution = (mdl_dims, mdl_dims)
 	#rgb = bytearray(pi_camera.resolution[0] * pi_camera.resolution[1] * 3)
-	#rgb = bytearray(320 * 320 * 3)
 	#camera.framerate = 40
 	_, width, height, channels = engine.get_input_tensor_shape()
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
@@ -62,7 +61,7 @@ def main():
 	#stream.seek(0)
 	#stream.readinto(rgb)
 	#stream.truncate() #needed??
-	rgb = bytearray(320 * 320 * 3)
+	rgb = bytearray(320, 320)
 	#img_buf = pygame.image.frombuffer(rgb[0:
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
