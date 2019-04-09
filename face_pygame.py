@@ -70,9 +70,10 @@ def main():
 	#(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	while True:
-		start_ms = time.time()
 		stream = io.BytesIO()
+		start_ms = time.time()
 		camera.capture(stream, use_video_port=True, format='rgb')
+		elapsed_ms = time.time() - start_ms
 		stream.seek(0)
 		stream.readinto(rgb)
 		#stream.close()
@@ -82,7 +83,6 @@ def main():
 		screen.fill(0)
 		if img:
 			screen.blit(img, (0,0))
-		elapsed_ms = time.time() - start_ms
 		#img = cam.get_image()
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
