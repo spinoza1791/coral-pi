@@ -4,7 +4,7 @@ import io
 
 # Init pygame 
 pygame.init()
-screen = pygame.display.set_mode((0,0))
+screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
 
 # Init camera
 camera = picamera.PiCamera()
@@ -36,7 +36,7 @@ while(exitFlag):
 
     screen.fill(0)
     if img:
-        screen.blit(img, (x,y))
+        screen.blit(img, (0,0))
 
     pygame.display.update()
 
