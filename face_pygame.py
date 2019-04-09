@@ -51,6 +51,7 @@ def main():
 	z = 5
 	last_tm = time.time()
 	i = 0
+	results = None
 
 	#        with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
 	#stream = io.BytesIO()
