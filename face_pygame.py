@@ -73,7 +73,7 @@ def main():
 		pygame.display.update()
 		#img_io.seek(0)
 		#img.readinto(rgb)
-		img_arr = pygame.surfarray.pixels3d(img)
+		img_arr = pygame.surfarray.pixels2d(img)
 		img_frame = io.BytesIO(img_arr)	
 		#img_frame.truncate()
 		#img_frame.seek(0)
