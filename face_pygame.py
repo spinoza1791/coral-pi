@@ -70,7 +70,7 @@ def main():
 		img = pygame.transform.scale(img,(320,320))
 		screen.blit(img, (0,0))
 		pygame.display.update()
-		img_io = io.BytesIO(img)
+		#img_io = io.BytesIO(img)
 		img_io.seek(0)
 		img_io.readinto(rgb)
 		input = np.frombuffer(img_io.getvalue(), dtype=np.uint8)
