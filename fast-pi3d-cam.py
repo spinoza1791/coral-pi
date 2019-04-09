@@ -114,7 +114,7 @@ class ImageProcessor(threading.Thread):
 
 	def run(self):
 		# This method runs in a separate thread
-		global done, new_pic, NBYTES, max_obj, start_ms, elapsed_ms
+		global done, new_pic, NBYTES, max_obj, start_ms, elapsed_ms, g_input
 		self.results = None
 		while not self.terminated:
 			# Wait for an image to be written to the stream
@@ -126,6 +126,7 @@ class ImageProcessor(threading.Thread):
 						#bnp = np.array(self.stream.getbuffer(), dtype=np.uint8).reshape(mdl_dims * mdl_dims * 3)
 						self.input_val = np.frombuffer(self.stream.getvalue(), dtype=np.uint8)
 						self.output = self.engine.DetectWithInputTensor(self.input_val, top_k=max_obj)
+						g_input = self.output
 						#elapsed_ms = time.time() - start_ms
 						#if new_pic and self.output:
 						#	bbox_results(self.output)
@@ -185,21 +186,21 @@ while DISPLAY.loop_running():
 		fps_txt.quick_change(fps)
 		i = 0
 		last_tm = tm
-	#if new_pic:  
-	#	results = engine.DetectWithInputTensor(glb_input, top_k=4)
-	#	if results: 
-	#		num_obj = 0
-	#		for obj in results:
-	#			num_obj = num_obj + 1   
-	#			buf = bbox.buf[0] # alias for brevity below
-	#			buf.array_buffer[:,:3] = 0.0;
-	#		for j, obj in enumerate(results):
-	#			coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
-	##			ix = 8 * j
-	#			buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
-	##		buf.re_init(); # 
-	#		new_pic = False
-	#	bbox.draw() # i.e. one draw for all boxes
+	if new_pic:  
+		results = engine.DetectWithInputTensor(g_input, top_k=4)
+		if results: 
+			num_obj = 0
+			for obj in results:
+				num_obj = num_obj + 1   
+				buf = bbox.buf[0] # alias for brevity below
+				buf.array_buffer[:,:3] = 0.0;
+			for j, obj in enumerate(results):
+				coords = (obj.bounding_box - 0.5) * [[1.0, -1.0]] * mdl_dims # broadcasting will fix the arrays size differences
+				ix = 8 * j
+				buf.array_buffer[ix:(ix + 8), 0] = coords[X_IX, 0] + 2 * X_OFF
+			buf.re_init(); # 
+			new_pic = False
+		bbox.draw() # i.e. one draw for all boxes
 	if keybd.read() == 27:
 		keybd.close()
 		DISPLAY.destroy()
