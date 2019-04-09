@@ -5,7 +5,7 @@ import pygame.camera
 pygame.init()
 pygame.camera.init()
 
-screen = pygame.display.set_mode((320,320),0)
+screen = pygame.display.set_mode((640,480),0)
 cam = pygame.camera.Camera("/dev/video0",(320,320))
 #cam_list = pygame.camera.list_cameras()
 #cam = pygame.camera.Camera(cam_list[0],(32,24))
