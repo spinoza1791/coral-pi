@@ -69,7 +69,7 @@ def main():
 	while True:
 		img = cam.get_image()
 		img = pygame.transform.scale(img,(320,320))
-		img_arr = pygame.surfarray.array2d(img)
+		img_arr = pygame.surfarray.array3d(img)
 		screen.blit(img, (0,0))
 		#img_io.seek(0)
 		#img.readinto(rgb)
