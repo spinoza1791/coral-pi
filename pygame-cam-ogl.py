@@ -19,10 +19,9 @@ while True:
    image1 = pygame.transform.scale(image1,(320,320))
    screen.blit(image1,(0,0))
    pygame.display.update()
-
-    exitFlag = True
-    while(exitFlag):
-        for event in pygame.event.get():
-            keys = pygame.key.get_pressed()
-            if(keys[pygame.K_ESCAPE] == 1):
-                exitFlag = False   
+   exitFlag = True
+   while(exitFlag):
+     for event in pygame.event.get():
+         keys = pygame.key.get_pressed()
+         if(keys[pygame.K_ESCAPE] == 1):
+             exitFlag = False   
