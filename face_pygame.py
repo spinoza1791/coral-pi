@@ -42,39 +42,39 @@ def main():
     #Set camera resolution equal to model dims
     #camera.resolution = (mdl_dims, mdl_dims)
     #rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-    rgb = bytearray(320 * 320 * 3)
-    #camera.framerate = 40
-    _, width, height, channels = engine.get_input_tensor_shape()
-    x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
-    y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
-    z = 5
-    last_tm = time.time()
-    i = 0
+	rgb = bytearray(320 * 320 * 3)
+	#camera.framerate = 40
+	_, width, height, channels = engine.get_input_tensor_shape()
+	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
+	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
+	z = 5
+	last_tm = time.time()
+	i = 0
 
-    exitFlag = True
-    while(exitFlag):
-        for event in pygame.event.get():
-             keys = pygame.key.get_pressed()
-             if(keys[pygame.K_ESCAPE] == 1):
-                exitFlag = False
-#        with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
-        #stream = io.BytesIO()
-        start_ms = time.time()
-        #camera.capture(stream, use_video_port=True, format='rgb')
-        elapsed_ms = time.time() - start_ms
-        #stream.seek(0)
-        #stream.readinto(rgb)
-        #stream.truncate() #needed??
+	exitFlag = True
+	while(exitFlag):
+		for event in pygame.event.get():
+			 keys = pygame.key.get_pressed()
+			 if(keys[pygame.K_ESCAPE] == 1):
+				exitFlag = False
+		#        with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream:        
+		#stream = io.BytesIO()
+		start_ms = time.time()
+		#camera.capture(stream, use_video_port=True, format='rgb')
+		elapsed_ms = time.time() - start_ms
+		#stream.seek(0)
+		#stream.readinto(rgb)
+		#stream.truncate() #needed??
 		img = pygame.image.frombuffer(rgb[0:
-			(screen.resolution[0] * screen.resolution[1] * 3)],
-			screen.resolution, 'RGB')
-        #rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
-        #img = cam.get_image()
-        #img = pygame.transform.scale(img,(320,320))
-        #img = io.BytesIO(img)
-        #input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
-        input = np.frombuffer(img.getvalue(), dtype=np.uint8)
-        #Inference
+		(screen.resolution[0] * screen.resolution[1] * 3)],
+		screen.resolution, 'RGB')
+		#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
+		#img = cam.get_image()
+		#img = pygame.transform.scale(img,(320,320))
+		#img = io.BytesIO(img)
+		#input = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+		input = np.frombuffer(img.getvalue(), dtype=np.uint8)
+		#Inference
         results = engine.DetectWithInputTensor(input, top_k=max_obj)
         stream.close()                                                                 
         if img:
