@@ -63,8 +63,8 @@ def main():
     camera = picamera.PiCamera()
     camera.resolution = (mdl_dims, mdl_dims)
     
-    gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-    glTranslatef(0.0,0.0, -5)
+    #gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+    #glTranslatef(0.0,0.0, -5)
 
     while True:
         for event in pygame.event.get():
