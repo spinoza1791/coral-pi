@@ -101,6 +101,7 @@ def main():
 		#img_arr = np.rot90(img_arr, k=3, axes=(1,0))
 		#img_arr = np.flip(img_arr)
 		img_arr = np.rot90(img_arr, k=1, axes=(1,0))
+		img_arr = np.flip(img_arr)
 		img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
 		#for f in img_arr:
