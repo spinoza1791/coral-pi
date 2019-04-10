@@ -84,12 +84,6 @@ def main():
 		stream.seek(0)
 		stream.readinto(rgb)
 		#stream.close()#
-		img = pygame.image.frombuffer(rgb[0:
-		(camera.resolution[0] * camera.resolution[1] * 3)],
-		camera.resolution, 'RGB')
-		if img:
-			screen.blit(img, (0,0))
-		elapsed_ms = time.time() - start_ms
 		#img = cam.get_image()
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
@@ -100,11 +94,17 @@ def main():
 		#img_frame.truncate()
 		#img_frame.seek(0)
 		#img_frame.readinto(rgb)
-		#frame_val = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+		frame_val = np.frombuffer(stream.getvalue(), dtype=np.uint8)
 		#stream.close()
 		#Inference
-		#results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
-		#stream.close()                                                                 
+		results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
+		#stream.close()
+		img = pygame.image.frombuffer(rgb[0:
+		(camera.resolution[0] * camera.resolution[1] * 3)],
+		camera.resolution, 'RGB')
+		if img:
+			screen.blit(img, (0,0))
+		elapsed_ms = time.time() - start_ms
 		#if img:
 			#screen.blit(img, (0,0))
 			#pygame.display.update()
