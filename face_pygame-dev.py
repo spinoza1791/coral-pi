@@ -98,6 +98,7 @@ def main():
 		
 		start_ms = time.time()
 		frame = io.BytesIO(img_arr)
+		frame.seek(0)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		frame.truncate(0)
@@ -149,9 +150,9 @@ def main():
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
 			if(keys[pygame.K_ESCAPE] == 1):
-				#cam.stop()
+				pycam.stop()
 				#pygame.quit()
-				camera.close()
+				##camera.close()
 				pygame.display.quit()
 				sys.exit()
 
