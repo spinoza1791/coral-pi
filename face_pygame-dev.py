@@ -22,8 +22,15 @@ def main():
 	parser.add_argument(
 	  '--model', help='File path of Tflite model.', required=True)
 	parser.add_argument(
+	  '--label', help='File path of label file.', required=False)
+	parser.add_argument(
 	  '--dims', help='Model input dimension', required=True)
 	args = parser.parse_args()
+	
+	with open(args.label, 'r') as f:
+		pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
+		labels = dict((int(k), v) for k, v in pairs)
+
 
 	#Set all input params equal to the input dimensions expected by the model
 	mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
@@ -124,6 +131,7 @@ def main():
 				num_obj = num_obj + 1
 			for obj in results:
 				bbox = obj.bounding_box.flatten().tolist()
+				label_id = round(obj.label_id,1)
 				score = round(obj.score,2)
 				x1 = round(bbox[0] * mdl_dims)
 				y1 = round(bbox[1] * mdl_dims)
@@ -131,11 +139,19 @@ def main():
 				y2 = round(bbox[3] * mdl_dims)
 				rect_width = x2 - x1
 				rect_height = y2 - y1
-				class_score = "%.2f" % (score)
-				fnt_class_score = fnt.render(class_score, True, (0,0,255))
-				fnt_class_score_width = fnt_class_score.get_rect().width
-				screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-				ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
+				#class_score = "%.2f" % (score)
+				#fnt_class_score = fnt.render(class_score, True, (0,0,255))
+				#fnt_class_score_width = fnt_class_score.get_rect().width
+				#screen.blit(fnt_class_score,(x1, y1-fnt_sz))
+				class_label = "%.2f" % (label_id)
+				fnt_class_label = fnt.render(class_label, True, (0,0,255))
+				fnt_class_label_width = fnt_class_label.get_rect().width
+				screen.blit(fnt_class_label,(x1, y1-fnt_sz))
+				
+				ms = "(%d) %s%.2fms" % (num_obj, "objects detected in ", elapsed_ms*1000)
+				#camera.annotate_text = "%s %.2f\n%.2fms" % (
+				#labels[results[0][0]], results[0][1], elapsed_ms*1000.0)
+
 				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
 				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
