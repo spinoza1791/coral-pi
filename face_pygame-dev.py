@@ -41,7 +41,7 @@ def main():
 
 	pygame.font.init()
 	fnt_sz = 18
-	myfont = pygame.font.SysFont('Arial', fnt_sz)
+	pygame_fnt = pygame.font.SysFont('Arial', fnt_sz)
 	
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
@@ -115,9 +115,9 @@ def main():
 				rect_width = x2 - x1
 				rect_height = y2 - y1
 				class_score = "%.2f" % (score)
-				my_font.render_to(screen, (x1, y1-fnt_sz), class_score, (0, 0, 255))
+				pygame_fnt.render_to(screen, (x1, y1-fnt_sz), class_score, (0, 0, 255))
 				ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
-				my_font.render_to(screen, ((mdl_dims / 2), 0), ms, (0, 0, 255))
+				pygame_fnt.render_to(screen, ((mdl_dims / 2), 0), ms, (0, 0, 255))
 				#fnt_class_score = myfont.render(class_score, True, (0,0,255))
 				#fnt_class_score_width = fnt_class_score.get_rect().width
 				#screen.blit(fnt_class_score,(x1, y1-fnt_sz))
@@ -130,7 +130,7 @@ def main():
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
 			fnt_ms = myfont.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
-			#screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
+			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
 
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
