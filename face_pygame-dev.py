@@ -42,6 +42,7 @@ def main():
 	pygame.font.init()
 	fnt_sz = 18
 	myfont = pygame.font.SysFont('Arial', fnt_sz)
+	
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
@@ -120,14 +121,14 @@ def main():
 				screen.blit(fnt_class_score,(x1, y1-fnt_sz))
 				fnt_ms = myfont.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
-				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+				#screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
 				#pygame.display.update(bbox_rect)
 		else:
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
 			fnt_ms = myfont.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
-			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
+			#screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
 
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
