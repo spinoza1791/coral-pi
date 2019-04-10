@@ -40,6 +40,7 @@ def main():
 	##pygame.display.set_caption('Face Detection')
 	pycam = pygame.camera.Camera("/dev/video0",(480,480)) #, "RGB")
 	pycam.start()
+	pycam.set_controls(hflip = True,vflip = True) #,brightness =10) 
 
 	clock = pygame.time.Clock()
 
