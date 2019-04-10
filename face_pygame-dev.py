@@ -64,14 +64,14 @@ def main():
 	#(320, 320), 'RGB')
 	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 	rawCapture = PiRGBArray(camera, size=camera.resolution)
-	#stream = io.BytesIO()
-	stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
+	stream = io.BytesIO()
+	frames = camera.capture_continuous(stream, format="rgb", use_video_port=True)
 	#while True:
 	#stream = io.BytesIO()
 	#while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
-	for f in stream:
+	for f in frames:
 		start_ms = time.time()
 		frame = io.BytesIO(f.array)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
