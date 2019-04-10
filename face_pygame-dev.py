@@ -26,7 +26,7 @@ def main():
 
 	#Set max num of objects you want to detect per frame
 	max_obj = 10
-	max_fps = 40
+	max_fps = 24
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
