@@ -33,7 +33,7 @@ def main():
 	pygame.init()
 	clock = pygame.time.Clock()
 	pygame.display.set_caption('Face Detection')
-	screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
+	screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
 
 	camera = picamera.PiCamera()
 	camera.resolution = (mdl_dims, mdl_dims)
@@ -48,6 +48,8 @@ def main():
 	last_tm = time.time()
 	i = 0
 	results = None
+	fps = "00.0 fps"
+	N = 10
 
 	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 	#rawCapture = PiRGBArray(camera, size=camera.resolution)
@@ -57,7 +59,6 @@ def main():
 	#with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 	#for f in stream:
-		start_ms = time.time()
 
 		#frame = io.BytesIO(f.array)
 		#frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
@@ -69,7 +70,9 @@ def main():
 		stream.seek(0)
 		stream.readinto(rgb)
 		frame_val = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+		start_ms = time.time()
 		results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
+		elapsed_ms = time.time() - start_ms
 		
 		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
@@ -80,6 +83,16 @@ def main():
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
 		#screen.blit(img, (0,0))
+		
+		i += 1
+		if i > N:
+			tm = time.time()
+			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
+			fps_fnt = myfont.render(fps, True, (255,255,255))
+			fps_width = fps_fnt.get_rect().width
+			screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 20))
+			i = 0
+			last_tm = tm
 
 		if img:
 			screen.blit(img, (0,0))
@@ -111,7 +124,6 @@ def main():
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
 				#pygame.display.update(bbox_rect)
 		else:
-			elapsed_ms = time.time() - start_ms
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
 			fnt_ms = myfont.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
