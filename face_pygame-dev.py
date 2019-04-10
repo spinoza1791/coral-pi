@@ -38,7 +38,7 @@ def main():
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
 	screen = pygame.display.set_mode((320,320), 0) #,pygame.DOUBLEBUF|pygame.HWSURFACE)
 	##pygame.display.set_caption('Face Detection')
-	pycam = pygame.camera.Camera("/dev/video0",(480,480), "RGB")
+	pycam = pygame.camera.Camera("/dev/video0",(480,480)) #, "RGB")
 	pycam.start()
 
 	clock = pygame.time.Clock()
@@ -96,7 +96,7 @@ def main():
 		#img = pygame.transform.rotate(img, 90)
 		#img_arr = pygame.surfarray.array3d(img)
 		img_arr = pygame.surfarray.pixels3d(img)
-		#img_arr = np.rot90(img_arr)
+		img_arr = np.rot90(img_arr, 4)
 		#img_arr = np.roll(img_arr, 1, axis=2)
 		#img_arr = np.rot90(img_arr, k=3, axes=(1,0))
 		#img_arr = np.flip(img_arr)
