@@ -9,6 +9,7 @@ import pygame.camera
 import numpy as np
 import picamera
 import picamera.array
+from picamera.array import PiRGBArray
 from PIL import Image
 import edgetpu.detection.engine
 
@@ -25,6 +26,7 @@ def main():
 
 	#Set max num of objects you want to detect per frame
 	max_obj = 10
+	max_fps = 24
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
@@ -37,11 +39,11 @@ def main():
 	#snapshot = pygame.surface.Surface((640, 640), 0, screen)
 	# Init camera
 	camera = picamera.PiCamera()
-	camera.resolution = (320, 320)
+	camera.resolution = (mdl_dims, mdl_dims)
+	camera.framerate = max_fps
 	camera.crop = (0.0, 0.0, 1.0, 1.0)
-	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-
-	pygame.font.init()
+	#rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+	#pygame.font.init()
 	fnt_sz = 18
 	myfont = pygame.font.SysFont('Arial', fnt_sz)
 
@@ -67,21 +69,24 @@ def main():
 	#img_buf = pygame.image.frombuffer(rgb[0:
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
-	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
+	rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
+	stream = camera.capture_continuous(rawCapture, use_video_port=True, format='rgb'):
 	while True:
+	#with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
-	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
-		stream = io.BytesIO()
+	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):	
+		#stream = io.BytesIO()
 		start_ms = time.time()
-		camera.capture(stream, use_video_port=True, format='rgb')
+		#camera.capture(stream, use_video_port=True, format='bgr')
 		elapsed_ms = time.time() - start_ms
 		#stream.truncate()
-		stream.seek(0)
-		stream.readinto(rgb)
+		#stream.seek(0)
+		#stream.readinto(rawCapture)
 		#stream.close()
-		img = pygame.image.frombuffer(rgb[0:
+		img = pygame.image.frombuffer(rawCapture[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
+		rawCapture.truncate(0)
 		#screen.fill(0)
 		#if img:
 		screen.blit(img, (0,0))
