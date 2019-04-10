@@ -98,10 +98,10 @@ def main():
 		
 		start_ms = time.time()
 		frame = io.BytesIO(img_arr)
+		frame.truncate()
 		frame.seek(0)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
-		frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
 		if img:
