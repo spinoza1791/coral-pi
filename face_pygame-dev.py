@@ -101,7 +101,7 @@ def main():
 		#for f in img_arr:
 		frame = io.BytesIO(img_arr)
 		frame.seek(0)
-		frame.readinto(rgb)
+		#frame.readinto(rgb)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		print(frame_buf_val)
