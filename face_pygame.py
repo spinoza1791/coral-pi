@@ -69,21 +69,21 @@ def main():
 	#img_buf = pygame.image.frombuffer(rgb[0:
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
-	rawCapture = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-	stream = camera.capture_continuous(rawCapture, use_video_port=True, format='rgb')
-	while True:
-	#with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
+	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+	#stream = camera.capture_continuous(rgb, use_video_port=True, format='rgb')
+	#while True:
+	with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):	
-		stream = io.BytesIO(stream)
+		#stream = io.BytesIO(stream)
 		start_ms = time.time()
-		#camera.capture(stream, use_video_port=True, format='bgr')
+		camera.capture(stream, use_video_port=True, format='bgr')
 		elapsed_ms = time.time() - start_ms
 		#stream.truncate()
 		stream.seek(0)
 		stream.readinto(rawCapture)
 		#stream.close()
-		img = pygame.image.frombuffer(rawCapture[0:
+		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
 		#rawCapture.truncate(0)
