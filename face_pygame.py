@@ -69,7 +69,7 @@ def main():
 	#img_buf = pygame.image.frombuffer(rgb[0:
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
-	#rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 	rawCapture = PiRGBArray(camera, size=camera.resolution)
 	#stream = io.BytesIO()
 	stream = stream = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
@@ -91,7 +91,7 @@ def main():
 		#stream.seek(0)
 		#stream.readinto(rgb)
 		#stream.close()
-		img = pygame.image.frombuffer(rawCapture[0:
+		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
 		#rawCapture.truncate(0)
