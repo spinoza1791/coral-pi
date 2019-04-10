@@ -125,7 +125,7 @@ def main():
 				#pygame.display.update(bbox_rect)
 		else:
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
-			fnt_ms = myfont.render(ms, True, (255,0,0))
+			fnt_ms = fnt.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
 			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 
