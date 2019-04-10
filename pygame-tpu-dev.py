@@ -1,4 +1,4 @@
-"""Edge TPU Face detection with bounding boxes and scores via Picamera stream - AUTHOR: Andrew Craton 03/2019"""
+"""Edge TPU Face detection with bounding boxes, labels and scores via Pygame stream - AUTHOR: Andrew Craton 03/2019"""
 
 import argparse
 import io
@@ -8,9 +8,9 @@ import pygame
 import pygame.camera
 import pygame.freetype as freetype
 import numpy as np
-import picamera
-import picamera.array
-from picamera.array import PiRGBArray
+#import picamera
+#import picamera.array
+#from picamera.array import PiRGBArray
 from PIL import Image
 import edgetpu.detection.engine
 import os
@@ -106,7 +106,7 @@ def main():
 		frame = io.BytesIO(img_arr)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		print(frame_buf_val)
-		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
+		results = engine.DetectWithInputTensor(frame_buf_val, top_k=max_obj)
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
@@ -131,7 +131,7 @@ def main():
 				num_obj = num_obj + 1
 			for obj in results:
 				bbox = obj.bounding_box.flatten().tolist()
-				label_id = round(obj.label_id,1)
+				label_id = int(round(obj.label_id,1))
 				score = round(obj.score,2)
 				x1 = round(bbox[0] * mdl_dims)
 				y1 = round(bbox[1] * mdl_dims)
