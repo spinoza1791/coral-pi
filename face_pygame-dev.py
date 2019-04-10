@@ -96,11 +96,11 @@ def main():
 		#img_arr = img_arr.copy(order='C')
 		#print ('Using %s' % img_arr.get_arraytype().capitalize())		
 		start_ms = time.time()
-		for f in img_arr:
-			frame = io.BytesIO(f)
-			frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
-			results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
-			frame.truncate(0)
+		#for f in img_arr:
+		frame = io.BytesIO(img_arr)
+		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
+		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
+		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
 		if img:
