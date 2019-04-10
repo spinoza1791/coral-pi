@@ -41,7 +41,6 @@ def main():
 	pycam = pygame.camera.Camera("/dev/video0",(480,480)) #, "RGB")
 	pycam.start() 
 	#screen.convert()
-	pygame.display.flip()
 	clock = pygame.time.Clock()
 
 	##camera = picamera.PiCamera()
@@ -164,8 +163,8 @@ def main():
 				pygame.display.quit()
 				sys.exit()
 		
-		#pygame.display.flip()
-		pygame.display.update()
+		pygame.display.flip()
+		#pygame.display.update()
 				
 
 if __name__ == '__main__':
