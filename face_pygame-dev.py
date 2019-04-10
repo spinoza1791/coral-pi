@@ -93,9 +93,9 @@ def main():
 		img = pycam.get_image()
 		#img = pycam.get_raw()
 		img = pygame.transform.scale(img,(320,320))
-		#img = pygame.transform.rotate(img, -90)
-		img_arr = pygame.surfarray.array3d(img)
-		#img_arr = pygame.surfarray.pixels3d(img)
+		#img = pygame.transform.rotate(img, 90)
+		#img_arr = pygame.surfarray.array3d(img)
+		img_arr = pygame.surfarray.pixels3d(img)
 		#img_arr = np.rot90(img_arr, k=4, axes=(1,0))
 		#img_arr = np.roll(img_arr, 1, axis=2)
 		#img_arr = np.rot90(img_arr, k=3, axes=(1,0))
@@ -111,8 +111,8 @@ def main():
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
-		if img:
-			screen.blit(img, (0,0))
+		if img_arr:
+			screen.blit(img_arr, (0,0))
 			
 		i += 1
 		if i > N:
