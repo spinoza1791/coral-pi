@@ -63,7 +63,7 @@ def main():
 	#stream.seek(0)
 	#stream.readinto(rgb)
 	#stream.truncate() #needed??
-	#rgb = bytearray(320 * 320 * 3)
+	rgb = bytearray(320 * 320 * 3)
 	#img_buf = pygame.image.frombuffer(rgb[0:
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
