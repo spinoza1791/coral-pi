@@ -92,7 +92,7 @@ def main():
 		img = pycam.get_image()
 		img = pygame.transform.scale(img,(320,320))
 		img_arr = pygame.surfarray.pixels3d(img)
-		print ('Using %s' % surfarray.get_arraytype().capitalize())
+		print ('Using %s' % img_arr.get_arraytype().capitalize())
 		
 		start_ms = time.time()
 		frame = io.BytesIO(img_arr)
