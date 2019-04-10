@@ -38,7 +38,7 @@ def main():
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
 	screen = pygame.display.set_mode((320,320), 0) #,pygame.DOUBLEBUF|pygame.HWSURFACE)
 	##pygame.display.set_caption('Face Detection')
-	pycam = pygame.camera.Camera("/dev/video0",(480,480), "YUV")
+	pycam = pygame.camera.Camera("/dev/video0",(480,480), "RGB")
 	pycam.start()
 
 	clock = pygame.time.Clock()
@@ -90,17 +90,18 @@ def main():
 		##(camera.resolution[0] * camera.resolution[1] * 3)],
 		##camera.resolution, 'RGB')
 
-		img = pycam.get_image()
+		#img = pycam.get_image()
+		img = pycam.get_raw()
 		img = pygame.transform.scale(img,(320,320))
 		#img = pygame.transform.rotate(img, 90)
 		#img_arr = pygame.surfarray.array3d(img)
-		img_arr = pygame.surfarray.pixels3d(img)
+		#img_arr = pygame.surfarray.pixels3d(img)
 		#img_arr = np.rot90(img_arr)
-		img_arr = np.rot90(img_arr, k=1, axes=(0,1)) 
-		img_arr = np.ascontiguousarray(img_arr)
+		#img_arr = np.rot90(img_arr, k=1, axes=(0,1)) 
+		#img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
 		#for f in img_arr:
-		frame = io.BytesIO(img_arr)
+		frame = io.BytesIO(img)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		print(frame_buf_val)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
