@@ -94,18 +94,13 @@ def main():
 		img = pygame.transform.scale(img,(320,320))
 		#img = pygame.transform.rotate(img, 90)
 		img_arr = pygame.surfarray.array3d(img)
-		#img_arr = pygame.surfarray.pixels3d(img)
-		#img_arr = img_arr.copy(order='C')
-		#print ('Using %s' % img_arr.get_arraytype().capitalize())		
 		start_ms = time.time()
 		#for f in img_arr:
 		frame = io.BytesIO(img_arr)
-		#frame.seek(0)
-		#frame.readinto(rgb)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		print(frame_buf_val)
-		#frame.truncate(0)
+		frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
 		if img:
