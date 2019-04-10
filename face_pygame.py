@@ -78,11 +78,10 @@ def main():
 	#while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
+	start_ms = time.time()
 	for f in stream:
-		start_ms = time.time()
 		frame = io.BytesIO(f.array)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
-		elapsed_ms = time.time() - start_ms
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		#stream = io.BytesIO(stream)
 		#start_ms = time.time()
@@ -99,6 +98,7 @@ def main():
 		screen.fill(0)
 		if img:
 			screen.blit(img, (0,0))
+		elapsed_ms = time.time() - start_ms
 		#img = cam.get_image()
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
