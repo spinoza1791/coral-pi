@@ -84,7 +84,6 @@ def main():
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		elapsed_ms = time.time() - start_ms
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
-		rawCapture.truncate(0)
 		#stream = io.BytesIO(stream)
 		#start_ms = time.time()
 		#camera.capture(stream, use_video_port=True, format='bgr')
@@ -96,7 +95,7 @@ def main():
 		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
-		#rawCapture.truncate(0)
+		rawCapture.truncate(0)
 		screen.fill(0)
 		if img:
 			screen.blit(img, (0,0))
@@ -157,7 +156,7 @@ def main():
 				pygame.display.quit()
 				sys.exit()
 				
-	pygame.display.update()
+		pygame.display.update()
 				
 
 if __name__ == '__main__':
