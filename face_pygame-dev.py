@@ -114,8 +114,8 @@ def main():
 		elapsed_ms = time.time() - start_ms
 
 		#if img:
-		#	screen.blit(img, (0,0))
-		pygame.surfarray.blit_array(screen, img_arr)
+		screen.blit(img, (0,0))
+		#pygame.surfarray.blit_array(screen, img_arr)
 	
 		i += 1
 		if i > N:
