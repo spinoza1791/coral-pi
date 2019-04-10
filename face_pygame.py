@@ -63,28 +63,28 @@ def main():
 	#stream.seek(0)
 	#stream.readinto(rgb)
 	#stream.truncate() #needed??
-	rgb = bytearray(320 * 320 * 3)
+	#rgb = bytearray(320 * 320 * 3)
 	#img_buf = pygame.image.frombuffer(rgb[0:
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
-	#while True:
-	stream = io.BytesIO()
-	for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
-		#stream = io.BytesIO()
+	while True:
+	#stream = io.BytesIO()
+	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
+		stream = io.BytesIO()
 		start_ms = time.time()
-		#camera.capture(stream, use_video_port=True, format='rgb')
+		camera.capture(stream, use_video_port=True, format='rgb')
 		elapsed_ms = time.time() - start_ms
-		stream.truncate()
+		#stream.truncate()
 		stream.seek(0)
-		#stream.readinto(rgb)
+		stream.readinto(rgb)
 		#stream.close()
 		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
 		#screen.fill(0)
-		if img:
-			screen.blit(img, (0,0))
+		#if img:
+		screen.blit(img, (0,0))
 		#img = cam.get_image()
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
