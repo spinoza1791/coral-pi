@@ -113,8 +113,8 @@ def main():
 
 		#if img:
 		#	screen.blit(img, (0,0))
-
-		screen.blit_array(screen, img_arr)	
+		pygame.surfarray.blit_array(screen, img_arr)
+	
 		i += 1
 		if i > N:
 			tm = time.time()
