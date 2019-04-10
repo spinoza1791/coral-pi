@@ -85,22 +85,21 @@ def main():
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
 		#screen.blit(img, (0,0))
-		
+
+		if img:
+			screen.blit(img, (0,0))
+			
 		i += 1
 		if i > N:
 			tm = time.time()
 			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
 			i = 0
 			last_tm = tm
+
 		fps_fnt = fnt.render(fps, True, (255,255,0))
 		fps_width = fps_fnt.get_rect().width
 		screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 20))
-		if img:
-			screen.blit(img, (0,0))
-		elapsed_ms = time.time() - start_ms
-		#if img:
-			#screen.blit(img, (0,0))
-			#pygame.display.update()
+		
 		if results:
 			num_obj = 0
 			for obj in results:
