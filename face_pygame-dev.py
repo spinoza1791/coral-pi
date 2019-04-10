@@ -61,6 +61,7 @@ def main():
 	N = 10
 
 	##rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+	rgb = bytearray(320 * 320 * 3)
 	
 	#rawCapture = PiRGBArray(camera, size=camera.resolution)
 	#stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
@@ -98,6 +99,8 @@ def main():
 		start_ms = time.time()
 		#for f in img_arr:
 		frame = io.BytesIO(img_arr)
+		frame.seek(0)
+		frame.readinto(rgb)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		#frame.truncate(0)
