@@ -12,6 +12,7 @@ import picamera.array
 from picamera.array import PiRGBArray
 from PIL import Image
 import edgetpu.detection.engine
+import os
 
 def main():
 	parser = argparse.ArgumentParser()
@@ -30,6 +31,7 @@ def main():
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
+	clock = pygame.time.Clock()
 	pygame.display.set_caption('Face Detection')
 	screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
 
@@ -51,6 +53,7 @@ def main():
 	#rawCapture = PiRGBArray(camera, size=camera.resolution)
 	#stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
 	while True:
+		clock.tick(max_fps)
 	#with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 	#for f in stream:
