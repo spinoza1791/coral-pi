@@ -66,9 +66,9 @@ def main():
 	#rawCapture = PiRGBArray(camera, size=camera.resolution)
 	#stream = io.BytesIO()
 	#stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
-	#while True:
+	while True:
 	#stream = io.BytesIO()
-	while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
+	#while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 	#for f in stream:
@@ -78,8 +78,8 @@ def main():
 		#results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		#rawCapture.truncate(0)
 		
-		#stream = io.BytesIO()
-		camera.capture(stream, use_video_port=True, format='bgr')
+		stream = io.BytesIO()
+		camera.capture(stream, use_video_port=True, format='rgb')
 		#stream.truncate()
 		stream.seek(0)
 		stream.readinto(rgb)
