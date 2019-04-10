@@ -27,7 +27,9 @@ def main():
 	  '--dims', help='Model input dimension', required=True)
 	args = parser.parse_args()
 	
+	labels_on = False
 	if args.labels:
+		labels_on = True
 		with open(args.labels, 'r') as f:
 			pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
 			labels = dict((int(k), v) for k, v in pairs)
@@ -44,9 +46,9 @@ def main():
 	pygame.init()
 	pygame.camera.init()
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	screen = pygame.display.set_mode((mdl_dims,mdl_dims)) #, pygame.DOUBLEBUF)
+	screen = pygame.display.set_mode((640,640)) #, pygame.DOUBLEBUF)
 	##pygame.display.set_caption('Face Detection')
-	pycam = pygame.camera.Camera("/dev/video0",(480,480)) #, "RGB")
+	pycam = pygame.camera.Camera("/dev/video0",(640,640)) #, "RGB")
 	pycam.start() 
 	#screen.convert()
 	clock = pygame.time.Clock()
@@ -132,7 +134,12 @@ def main():
 				num_obj = num_obj + 1
 			for obj in results:
 				bbox = obj.bounding_box.flatten().tolist()
-				label_id = int(round(obj.label_id,1))
+				if labels_on:
+					label_id = int(round(obj.label_id,1))
+					class_label = "%s" % (labels[label_id])
+					fnt_class_label = fnt.render(class_label, True, (255,255,255))
+					fnt_class_label_width = fnt_class_label.get_rect().width
+					screen.blit(fnt_class_label,(x1, y1-fnt_sz))
 				score = round(obj.score,2)
 				x1 = round(bbox[0] * mdl_dims)
 				y1 = round(bbox[1] * mdl_dims)
@@ -144,10 +151,7 @@ def main():
 				#fnt_class_score = fnt.render(class_score, True, (0,0,255))
 				#fnt_class_score_width = fnt_class_score.get_rect().width
 				#screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-				class_label = "%s" % (labels[label_id])
-				fnt_class_label = fnt.render(class_label, True, (255,255,255))
-				fnt_class_label_width = fnt_class_label.get_rect().width
-				screen.blit(fnt_class_label,(x1, y1-fnt_sz))
+
 				
 				ms = "(%d) %s%.2fms" % (num_obj, "objects detected in ", elapsed_ms*1000)
 				#camera.annotate_text = "%s %.2f\n%.2fms" % (
