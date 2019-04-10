@@ -90,12 +90,11 @@ def main():
 		if i > N:
 			tm = time.time()
 			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
-			fps_fnt = myfont.render(fps, True, (255,255,0))
-			fps_width = fps_fnt.get_rect().width
-			screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 0))
 			i = 0
 			last_tm = tm
-
+		fps_fnt = fnt.render(fps, True, (255,255,0))
+		fps_width = fps_fnt.get_rect().width
+		screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 20))
 		if img:
 			screen.blit(img, (0,0))
 		elapsed_ms = time.time() - start_ms
@@ -122,14 +121,14 @@ def main():
 				ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
 				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
-				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
+				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
 				#pygame.display.update(bbox_rect)
 		else:
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
 			fnt_ms = myfont.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
-			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
+			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
