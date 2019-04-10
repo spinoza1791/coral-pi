@@ -90,7 +90,7 @@ def main():
 		##camera.resolution, 'RGB')
 
 		img = pycam.get_image()
-		img = pygame.transform.scale(img,(320,320))
+		#img = pygame.transform.scale(img,(320,320))
 		img_arr = pygame.surfarray.array3d(img)
 
 		if img:
