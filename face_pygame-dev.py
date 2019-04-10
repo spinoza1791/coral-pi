@@ -46,13 +46,6 @@ def main():
 	#pygame.font.init()
 	fnt_sz = 18
 	myfont = pygame.font.SysFont('Arial', fnt_sz)
-
-	#pi_camera = picamera.PiCamera()
-	#Set camera resolution equal to model dims
-	#camera.resolution = (mdl_dims, mdl_dims)
-	#rgb = bytearray(pi_camera.resolution[0] * pi_camera.resolution[1] * 3)
-	#camera.framerate = 40
-	#_, width, height, channels = engine.get_input_tensor_shape()
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
 	z = 5
@@ -70,25 +63,24 @@ def main():
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
 	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-	rawCapture = PiRGBArray(camera, size=camera.resolution)
+	#rawCapture = PiRGBArray(camera, size=camera.resolution)
 	#stream = io.BytesIO()
 	#stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
-	while True:
-		start_ms = time.time()
+	#while True:
 	#stream = io.BytesIO()
-	#while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
+	while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 	#for f in stream:
-		#start_ms = time.time()
+		start_ms = time.time()
 		#frame = io.BytesIO(f.array)
 		#frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		#results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		#rawCapture.truncate(0)
 		
-		stream = io.BytesIO()
+		#stream = io.BytesIO()
 		camera.capture(stream, use_video_port=True, format='bgr')
-		stream.truncate()
+		#stream.truncate()
 		stream.seek(0)
 		stream.readinto(rgb)
 		#stream.close()#
