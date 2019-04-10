@@ -70,13 +70,14 @@ def main():
 	#rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
 	#while True:
 	stream = io.BytesIO()
-	for foo in camera.capture_continuous(stream, format='rgb'):
+	for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 		#stream = io.BytesIO()
 		start_ms = time.time()
 		#camera.capture(stream, use_video_port=True, format='rgb')
 		elapsed_ms = time.time() - start_ms
+		stream.truncate()
 		stream.seek(0)
-		stream.readinto(rgb)
+		#stream.readinto(rgb)
 		#stream.close()
 		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
