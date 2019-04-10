@@ -36,7 +36,7 @@ def main():
 	mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
 
 	#Set max num of objects you want to detect per frame
-	max_obj = 10
+	max_obj = 2
 	max_fps = 30
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
@@ -144,7 +144,7 @@ def main():
 				#fnt_class_score_width = fnt_class_score.get_rect().width
 				#screen.blit(fnt_class_score,(x1, y1-fnt_sz))
 				class_label = "%.2f" % (label_id)
-				fnt_class_label = fnt.render(class_label, True, (0,0,255))
+				fnt_class_label = fnt.render(class_label, True, (255,255,255))
 				fnt_class_label_width = fnt_class_label.get_rect().width
 				screen.blit(fnt_class_label,(x1, y1-fnt_sz))
 				
