@@ -61,7 +61,7 @@ def main():
 	N = 10
 
 	##rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-	rgb = bytearray(320 * 320 * 3)
+	#rgb = bytearray(320 * 320 * 3)
 	
 	#rawCapture = PiRGBArray(camera, size=camera.resolution)
 	#stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
@@ -97,7 +97,7 @@ def main():
 		#img_arr = pygame.surfarray.array3d(img)
 		img_arr = pygame.surfarray.pixels3d(img)
 		#img_arr = np.rot90(img_arr)
-		img_arr = np.rot90(img_arr, k=-1, axes=(1,0))
+		img_arr = np.rot90(img_arr, k=2, axes=(1,0))
 		#img_arr = np.flip(img_arr)
 		img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
