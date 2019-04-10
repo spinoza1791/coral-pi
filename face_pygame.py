@@ -81,7 +81,7 @@ def main():
 		start_ms = time.time()
 	#for f in stream:
 		#frame = io.BytesIO(f.array)
-		frame = io.BytesIO(stream.array)
+		frame = stream.array
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		#stream = io.BytesIO(stream)
