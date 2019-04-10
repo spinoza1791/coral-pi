@@ -115,12 +115,14 @@ def main():
 				rect_width = x2 - x1
 				rect_height = y2 - y1
 				class_score = "%.2f" % (score)
+				my_font.render_to(screen, (x1, y1-fnt_sz), class_score, (0, 0, 255))
 				ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
-				fnt_class_score = myfont.render(class_score, True, (0,0,255))
-				fnt_class_score_width = fnt_class_score.get_rect().width
-				screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-				fnt_ms = myfont.render(ms, True, (255,255,255))
-				fnt_ms_width = fnt_ms.get_rect().width
+				my_font.render_to(screen, ((mdl_dims / 2), 0), ms, (0, 0, 255))
+				#fnt_class_score = myfont.render(class_score, True, (0,0,255))
+				#fnt_class_score_width = fnt_class_score.get_rect().width
+				#screen.blit(fnt_class_score,(x1, y1-fnt_sz))
+				#fnt_ms = myfont.render(ms, True, (255,255,255))
+				#fnt_ms_width = fnt_ms.get_rect().width
 				#screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
 				#pygame.display.update(bbox_rect)
