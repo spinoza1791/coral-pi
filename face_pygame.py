@@ -79,8 +79,10 @@ def main():
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 	for f in stream:
+		start_ms = time.time()
 		frame = io.BytesIO(f.array)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
+		elapsed_ms = time.time() - start_ms
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		rawCapture.truncate(0)
 		#stream = io.BytesIO(stream)
