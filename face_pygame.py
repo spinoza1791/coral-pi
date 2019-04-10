@@ -86,7 +86,7 @@ def main():
 		img = pygame.image.frombuffer(rawCapture[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
-		rawCapture.truncate(0)
+		#rawCapture.truncate(0)
 		#screen.fill(0)
 		#if img:
 		screen.blit(img, (0,0))
