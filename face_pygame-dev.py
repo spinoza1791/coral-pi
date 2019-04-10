@@ -30,20 +30,14 @@ def main():
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
-	#pygame.camera.init()
 	pygame.display.set_caption('Face Detection')
 	screen = pygame.display.set_mode((320, 320), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	#screen = pygame.display.set_mode((320,320),0)
-	#cam = pygame.camera.Camera("/dev/video0",(640,640))
-	#cam.start()
-	#snapshot = pygame.surface.Surface((640, 640), 0, screen)
-	# Init camera
+
 	camera = picamera.PiCamera()
 	camera.resolution = (mdl_dims, mdl_dims)
 	camera.framerate = max_fps
-	camera.crop = (0.0, 0.0, 1.0, 1.0)
-	#rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
-	#pygame.font.init()
+
+	pygame.font.init()
 	fnt_sz = 18
 	myfont = pygame.font.SysFont('Arial', fnt_sz)
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
@@ -53,25 +47,20 @@ def main():
 	i = 0
 	results = None
 
-	#with picamera.array.PiRGBArray(pi_camera, size=(mdl_dims, mdl_dims)) as stream:        
-	#camera.capture(stream, use_video_port=True, format='rgb')
-	#stream.seek(0)
-	#stream.readinto(rgb)
-	#stream.truncate() #needed??
-	#rgb = bytearray(320 * 320 * 3)
-	#img_buf = pygame.image.frombuffer(rgb[0:
-	#(320 * 320 * 3)],
-	#(320, 320), 'RGB')
-	rgb = bytearray(camera.resolution[0] * camera.resolution[1])
-	rawCapture = PiRGBArray(camera, size=camera.resolution)
+	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
+	rawCapture = PiRGBArray(camera, size=camera.resolution*3)
 	stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
 	#while True:
 	#stream = io.BytesIO()
 	#while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
-	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 	for f in stream:
 		start_ms = time.time()
+		
+		img = pygame.image.frombuffer(rgb[0:
+		(camera.resolution[0] * camera.resolution[1] * 3)],
+		camera.resolution, 'RGB')
+			
 		frame = io.BytesIO(f.array)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
@@ -89,20 +78,7 @@ def main():
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
 		#screen.blit(img, (0,0))
-		#img_io.seek(0)
-		#img.readinto(rgb)
-		#img_frame = io.BytesIO(img_arr)	
-		#img_frame.truncate()
-		#img_frame.seek(0)
-		#img_frame.readinto(rgb)
 
-		#stream.close()
-		#Inference
-
-		#stream.close()
-		img = pygame.image.frombuffer(rgb[0:
-		(camera.resolution[0] * camera.resolution[1] * 3)],
-		camera.resolution, 'RGB')
 		if img:
 			screen.blit(img, (0,0))
 		elapsed_ms = time.time() - start_ms
