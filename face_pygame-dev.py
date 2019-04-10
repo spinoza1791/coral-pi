@@ -92,7 +92,7 @@ def main():
 
 		img = pycam.get_image()
 		img = pygame.transform.scale(img,(320,320))
-		img = pygame.transform.rotate(img, 90)
+		#img = pygame.transform.rotate(img, 90)
 		img_arr = pygame.surfarray.array3d(img)
 		#img_arr = pygame.surfarray.pixels3d(img)
 		#img_arr = img_arr.copy(order='C')
