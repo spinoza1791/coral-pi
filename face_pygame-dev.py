@@ -88,9 +88,9 @@ def main():
 		if i > N:
 			tm = time.time()
 			fps = "{:5.1f}FPS".format(i / (tm - last_tm))
-			fps_fnt = myfont.render(fps, True, (255,255,255))
+			fps_fnt = myfont.render(fps, True, (255,255,0))
 			fps_width = fps_fnt.get_rect().width
-			screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 20))
+			screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 0))
 			i = 0
 			last_tm = tm
 
