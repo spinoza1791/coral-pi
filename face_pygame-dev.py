@@ -95,8 +95,8 @@ def main():
 		#img = pygame.transform.rotate(img, 90)
 		#img_arr = pygame.surfarray.array3d(img)
 		img_arr = pygame.surfarray.pixels3d(img)
-		img_arr = np.ascontiguousarray(img_arr)
 		img_arr = np.rot90(img_arr)
+		img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
 		#for f in img_arr:
 		frame = io.BytesIO(img_arr)
