@@ -97,9 +97,9 @@ def main():
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
 		#rawCapture.truncate(0)
-		#screen.fill(0)
-		#if img:
-		screen.blit(img, (0,0))
+		screen.fill(0)
+		if img:
+			screen.blit(img, (0,0))
 		#img = cam.get_image()
 		#img = pygame.transform.scale(img,(320,320))
 		#img_arr = pygame.surfarray.array3d(img)
