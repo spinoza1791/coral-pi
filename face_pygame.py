@@ -78,7 +78,7 @@ def main():
 	#while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
-	start_ms = time.time()
+		start_ms = time.time()
 	#for f in stream:
 		#frame = io.BytesIO(f.array)
 		frame = io.BytesIO(stream.array)
