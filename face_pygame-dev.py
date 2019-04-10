@@ -97,9 +97,9 @@ def main():
 		img_arr = pygame.surfarray.array3d(img)
 		#img_arr = pygame.surfarray.pixels3d(img)
 		#img_arr = np.rot90(img_arr)
-		#img_arr = np.rot90(img_arr, k=1, axes=(1,0)) 
-		#img_arr = np.flip(img_arr)
-		#img_arr = np.ascontiguousarray(img_arr)
+		img_arr = np.rot90(img_arr, k=1, axes=(1,0)) 
+		img_arr = np.flip(img_arr)
+		img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
 		#for f in img_arr:
 		frame = io.BytesIO(img_arr)
