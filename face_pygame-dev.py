@@ -65,24 +65,26 @@ def main():
 	rgb = bytearray(camera.resolution[0] * camera.resolution[1] * 3)
 	#rawCapture = PiRGBArray(camera, size=camera.resolution)
 	#stream = io.BytesIO()
-	#stream = camera.capture_continuous(rawCapture, format="rgb", use_video_port=True)
-	while True:
+	stream = camera.capture_continuous(rgb, format="rgb", use_video_port=True)
+	#while True:
 	#stream = io.BytesIO()
 	#while picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
-	#for f in stream:
+	for f in stream:
 		start_ms = time.time()
-		#frame = io.BytesIO(f.array)
-		#frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
-		#results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
-		#rawCapture.truncate(0)
+		frame = io.BytesIO(f.array)
+		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
+		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
+		rawCapture.truncate(0)
 		
-		stream = io.BytesIO()
-		camera.capture(stream, use_video_port=True, format='rgb')
-		#stream.truncate()
-		stream.seek(0)
-		stream.readinto(rgb)
+		#stream = io.BytesIO()
+		#camera.capture(stream, use_video_port=True, format='rgb')
+		#stream.seek(0)
+		#stream.readinto(rgb)
+		#frame_val = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+		#results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
+		
 		#stream.close()#
 		#img = cam.get_image()
 		#img = pygame.transform.scale(img,(320,320))
@@ -94,10 +96,10 @@ def main():
 		#img_frame.truncate()
 		#img_frame.seek(0)
 		#img_frame.readinto(rgb)
-		frame_val = np.frombuffer(stream.getvalue(), dtype=np.uint8)
+
 		#stream.close()
 		#Inference
-		results = engine.DetectWithInputTensor(frame_val, top_k=max_obj)
+
 		#stream.close()
 		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
