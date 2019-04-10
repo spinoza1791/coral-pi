@@ -94,11 +94,11 @@ def main():
 		#img = pycam.get_raw()
 		img = pygame.transform.scale(img,(320,320))
 		#img = pygame.transform.rotate(img, 90)
-		img_arr = pygame.surfarray.array3d(img)
-		#img_arr = pygame.surfarray.pixels3d(img)
+		#img_arr = pygame.surfarray.array3d(img)
+		img_arr = pygame.surfarray.pixels3d(img)
 		#img_arr = np.rot90(img_arr)
-		img_arr = np.rot90(img_arr, k=1, axes=(1,0)) 
-		img_arr = np.flip(img_arr)
+		img_arr = np.rot90(img_arr, k=3, axes=(1,0)) 
+		#img_arr = np.flip(img_arr)
 		img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
 		#for f in img_arr:
@@ -160,7 +160,8 @@ def main():
 				##camera.close()
 				pygame.display.quit()
 				sys.exit()
-
+		
+		#pygame.display.flip()
 		pygame.display.update()
 				
 
