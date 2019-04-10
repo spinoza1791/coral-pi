@@ -91,15 +91,16 @@ def main():
 
 		img = pycam.get_image()
 		img = pygame.transform.scale(img,(320,320))
-		img_arr = pygame.surfarray.pixels3d(img)
-		img_arr = img_arr.copy(order='C')
+		img_arr = pygame.surfarray.array3d(img)
+		#img_arr = pygame.surfarray.pixels3d(img)
+		#img_arr = img_arr.copy(order='C')
 		#print ('Using %s' % img_arr.get_arraytype().capitalize())
 		
 		start_ms = time.time()
 		frame = io.BytesIO(img_arr)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
-		#rawCapture.truncate(0)
+		frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
 		if img:
