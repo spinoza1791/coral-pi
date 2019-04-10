@@ -103,7 +103,7 @@ def main():
 		frame.readinto(rgb)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
-		print(results)
+		print(frame_buf_val)
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
