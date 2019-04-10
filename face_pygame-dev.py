@@ -127,7 +127,7 @@ def main():
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
 			fnt_ms = myfont.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
-			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
 
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
