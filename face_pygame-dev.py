@@ -35,12 +35,12 @@ def main():
 
 	pygame.init()
 	pygame.camera.init()
-	##screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	screen = pygame.display.set_mode((mdl_dims,mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	pygame.display.set_caption('Face Detection')
-	pycam = pygame.camera.Camera("/dev/video0",(640,640)
+	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
+	screen = pygame.display.set_mode((320,320),0)
+	##pygame.display.set_caption('Face Detection')
+	pycam = pygame.camera.Camera("/dev/video0",(640,640))
 	pycam.start()
-	
+
 	clock = pygame.time.Clock()
 
 	##camera = picamera.PiCamera()
