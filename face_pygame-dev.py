@@ -22,7 +22,7 @@ def main():
 	parser.add_argument(
 	  '--model', help='File path of Tflite model.', required=True)
 	parser.add_argument(
-	  '--label', help='File path of label file.', required=False)
+	  '--labels', help='File path of labels file.', required=False)
 	parser.add_argument(
 	  '--dims', help='Model input dimension', required=True)
 	args = parser.parse_args()
