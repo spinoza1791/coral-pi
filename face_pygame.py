@@ -91,7 +91,7 @@ def main():
 		#stream.truncate()
 		#stream.seek(0)
 		#stream.readinto(rgb)
-		#stream.close()
+		#stream.close()#
 		img = pygame.image.frombuffer(rgb[0:
 		(camera.resolution[0] * camera.resolution[1] * 3)],
 		camera.resolution, 'RGB')
