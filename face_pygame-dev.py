@@ -124,7 +124,6 @@ def main():
 		fps_fnt = fnt.render(fps, True, (255,255,0))
 		fps_width = fps_fnt.get_rect().width
 		screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 20))
-		pygame.display.update(fps_fnt)
 		
 		if results:
 			num_obj = 0
@@ -148,7 +147,7 @@ def main():
 				fnt_ms_width = fnt_ms.get_rect().width
 				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
-				pygame.display.update(bbox_rect)
+
 		else:
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
 			fnt_ms = fnt.render(ms, True, (255,0,0))
@@ -166,7 +165,7 @@ def main():
 				sys.exit()
 		
 		#pygame.display.flip()
-		pygame.display.update(img)
+		pygame.display.update()
 				
 
 if __name__ == '__main__':
