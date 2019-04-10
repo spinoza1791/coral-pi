@@ -70,7 +70,7 @@ def main():
 	#(320 * 320 * 3)],
 	#(320, 320), 'RGB')
 	rawCapture = bytearray(self.camera.resolution[0] * self.camera.resolution[1] * 3)
-	stream = camera.capture_continuous(rawCapture, use_video_port=True, format='rgb'):
+	stream = camera.capture_continuous(rawCapture, use_video_port=True, format='rgb')
 	while True:
 	#with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#stream = io.BytesIO()
