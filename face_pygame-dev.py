@@ -42,10 +42,7 @@ def main():
 
 	pygame.font.init()
 	fnt_sz = 18
-	#pygame_fnt = pygame.font.SysFont('Arial', fnt_sz)
-	fontdir = os.path.dirname(os.path.abspath (__file__))
-	font = freetype.Font(os.path.join (fontdir, "data", "sans.ttf"))
-	#pygame_fnt = freetype.Font(os.path.join (fontdir, "data", "sans.ttf"))
+	fnt = pygame.font.SysFont('Arial', fnt_sz)
 	
 	x1, x2, x3, x4, x5 = 0, 50, 50, 0, 0
 	y1, y2, y3, y4, y5 = 50, 50, 0, 0, 50
@@ -119,11 +116,11 @@ def main():
 				rect_width = x2 - x1
 				rect_height = y2 - y1
 				class_score = "%.2f" % (score)
-				fnt_class_score = myfont.render(class_score, True, (0,0,255))
+				fnt_class_score = fnt.render(class_score, True, (0,0,255))
 				fnt_class_score_width = fnt_class_score.get_rect().width
 				screen.blit(fnt_class_score,(x1, y1-fnt_sz))
 				ms = "(%d) %s%.2fms" % (num_obj, "faces detected in ", elapsed_ms*1000)
-				fnt_ms = myfont.render(ms, True, (255,255,255))
+				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
 				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 40))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
