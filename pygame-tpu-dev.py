@@ -27,9 +27,10 @@ def main():
 	  '--dims', help='Model input dimension', required=True)
 	args = parser.parse_args()
 	
-	with open(args.labels, 'r') as f:
-		pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
-		labels = dict((int(k), v) for k, v in pairs)
+	if args.labels:
+		with open(args.labels, 'r') as f:
+			pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
+			labels = dict((int(k), v) for k, v in pairs)
 
 
 	#Set all input params equal to the input dimensions expected by the model
