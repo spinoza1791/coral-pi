@@ -30,7 +30,7 @@ def main():
 
 	#Set max num of objects you want to detect per frame
 	max_obj = 10
-	max_fps = 60
+	max_fps = 30
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
@@ -69,12 +69,12 @@ def main():
 	#with picamera.array.PiRGBArray(camera, size=(mdl_dims, mdl_dims)) as stream: 
 	#for foo in camera.capture_continuous(stream, use_video_port=True, format='rgb'):
 	#for f in stream:
-		start_ms = time.time()
+		#start_ms = time.time()
 		#frame = io.BytesIO(f.array)
 		#frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		#results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
 		#rawCapture.truncate(0)
-		elapsed_ms = time.time() - start_ms
+		#elapsed_ms = time.time() - start_ms
 
 		##stream = io.BytesIO()
 		##camera.capture(stream, use_video_port=True, format='rgb')
@@ -90,8 +90,15 @@ def main():
 		##camera.resolution, 'RGB')
 
 		img = pycam.get_image()
-		#img = pygame.transform.scale(img,(320,320))
+		img = pygame.transform.scale(img,(320,320))
 		img_arr = pygame.surfarray.array3d(img)
+		
+		start_ms = time.time()
+		frame = io.BytesIO(img_arr.array)
+		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
+		results = engine.DetectWithInputTensor(frame_buf_val, top_k=10)
+		rawCapture.truncate(0)
+		elapsed_ms = time.time() - start_ms
 
 		if img:
 			screen.blit(img, (0,0))
