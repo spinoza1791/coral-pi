@@ -153,7 +153,6 @@ def main():
 			fnt_ms = fnt.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
 			screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-			pygame.display.update(fnt_ms)
 
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
