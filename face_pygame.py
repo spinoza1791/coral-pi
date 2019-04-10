@@ -157,7 +157,7 @@ def main():
 				pygame.display.quit()
 				sys.exit()
 				
-		pygame.display.update()
+	pygame.display.update()
 				
 
 if __name__ == '__main__':
