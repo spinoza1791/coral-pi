@@ -49,7 +49,7 @@ def main():
 	pygame.init()
 	pygame.camera.init()
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	screen = pygame.display.set_mode((cam_res_x,cam_res_y), pygame.DOUBLEBUF|pygame.RESIZABLE)
+	screen = pygame.display.set_mode((cam_res_x,cam_res_y), pygame.RESIZABLE)
 	##pygame.display.set_caption('Face Detection')
 	pycam = pygame.camera.Camera("/dev/video0",(cam_res_x,cam_res_y)) #, "RGB")
 	pycam.start() 
@@ -117,6 +117,10 @@ def main():
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
+		screen = pygame.display.get_surface() #get the surface of the current active display
+		x,y = size = screen.get_width(), screen.get_height()
+		pygame.transform.scale(screen, (x, y)) 
+		img = pycam.get_image()
 		img = pygame.transform.scale(img,(screen.get_width(), screen.get_height()))
 		if img:
 			screen.blit(img, (0,0))
