@@ -26,7 +26,7 @@ def main():
 	parser.add_argument(
 	  '--dims', help='Model input dimension', required=True)
 	parser.add_argument(
-	  '--max_obj', help='Maximum objects detected [=> 1], default 1', required=False)
+	  '--max_obj', help='Maximum objects detected [>= 1], default 1', required=False)
 	parser.add_argument(
 	  '--thresh', help='Threshold confidence [0.1-1.0], default 0.3', required=False)
 	if len(sys.argv[1:])==0:
@@ -52,8 +52,8 @@ def main():
 	window_scale = 1
 
 
-	if args.max_obj and args.max_obj => 1:
-		max_obj = int(args.max_obj)
+	if args.max_obj and args.max_obj >= 1:
+		max_obj = round(args.max_obj)
 	else:
 		max_obj = 1
 
