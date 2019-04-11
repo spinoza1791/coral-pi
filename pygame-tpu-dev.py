@@ -135,7 +135,7 @@ def main():
 
 		fps_fnt = fnt.render(fps, True, (255,255,0))
 		fps_width = fps_fnt.get_rect().width
-		screen.blit(fps_fnt,((mdl_dims / 2 * sz_x) - (fps_width / 2 * sz_y), 20))
+		screen.blit(fps_fnt,((resized_x / 2) - (fps_width / 2), 20))
 		
 		if results:
 			num_obj = 0
@@ -148,14 +148,14 @@ def main():
 					class_label = "%s" % (labels[label_id])
 					fnt_class_label = fnt.render(class_label, True, (255,255,255))
 					fnt_class_label_width = fnt_class_label.get_rect().width
-					screen.blit(fnt_class_label,(x1 * sz_x, y1-fnt_sz * sz_y))
+					screen.blit(fnt_class_label,(x1, y1-fnt_sz))
 				score = round(obj.score,2)
 				x1 = round(bbox[0] * resized_x) 
 				y1 = round(bbox[0] * resized_y) 
 				x2 = round(bbox[0] * resized_x) 
 				y2 = round(bbox[0] * resized_y) 
-				rect_width = (x2 - x1)
-				rect_height = (y2 - y1)
+				rect_width = x2 - x1
+				rect_height = y2 - y1
 				#class_score = "%.2f" % (score)
 				#fnt_class_score = fnt.render(class_score, True, (0,0,255))
 				#fnt_class_score_width = fnt_class_score.get_rect().width
@@ -163,14 +163,14 @@ def main():
 				ms = "(%d) %s%.2fms" % (num_obj, "objects detected in ", elapsed_ms*1000)
 				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
-				screen.blit(fnt_ms,((mdl_dims * sz_x / 2 ) - (fnt_ms_width / 2), 0))
+				screen.blit(fnt_ms,((resized_x / 2 ) - (fnt_ms_width / 2), 0))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
 
 		else:
 			ms = "%s %.2fms" % ("No objects detected in", elapsed_ms*1000)
 			fnt_ms = fnt.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
-			screen.blit(fnt_ms,((mdl_dims / 2 * sz_x) - (fnt_ms_width / 2 * sz_y), 0))
+			screen.blit(fnt_ms,((resized_x / 2) - (fnt_ms_width / 2 * sz_y), 0))
 
 		for event in pygame.event.get():
 			keys = pygame.key.get_pressed()
