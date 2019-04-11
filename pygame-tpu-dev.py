@@ -26,7 +26,7 @@ def main():
 	parser.add_argument(
 	  '--dims', help='Model input dimension', required=True)
 	parser.add_argument(
-	  '--max_obj', help='Model input dimension', required=False)
+	  '--max_obj', help='Maximum objects detected', required=False)
 	args = parser.parse_args()
 	
 	labels_on = False
@@ -46,6 +46,8 @@ def main():
 		max_obj = args.max_obj
 	else:
 		max_obj = 1
+	
+	max_obj = 10
 		
 	cam_res_x = 480
 	cam_res_y = 480
