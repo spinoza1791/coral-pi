@@ -119,9 +119,9 @@ def main():
 
 		screen = pygame.display.get_surface() #get the surface of the current active display
 		x,y = size = screen.get_width(), screen.get_height()
-		pygame.transform.scale(screen, (x, y)) 
-		img = pycam.get_image()
-		img = pygame.transform.scale(img,(screen.get_width(), screen.get_height()))
+		#pygame.transform.scale(screen, (x, y)) 
+		#img = pycam.get_image()
+		img = pygame.transform.scale(img,(x, y))
 		if img:
 			screen.blit(img, (0,0))
 		#pygame.surfarray.blit_array(screen, img_arr)
