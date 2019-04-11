@@ -37,6 +37,7 @@ def main():
 
 	#Set all input params equal to the input dimensions expected by the model
 	mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
+	window_scale = 1
 
 	#Set max num of objects you want to detect per frame
 	max_obj = 2
