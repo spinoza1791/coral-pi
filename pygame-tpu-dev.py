@@ -33,22 +33,24 @@ def main():
 		with open(args.labels, 'r') as f:
 			pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
 			labels = dict((int(k), v) for k, v in pairs)
-
+			
 
 	#Set all input params equal to the input dimensions expected by the model
 	mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
 
 	#Set max num of objects you want to detect per frame
 	max_obj = 2
+	cam_res_x = 480
+	cam_res_y = 480
 	max_fps = 30
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
 	pygame.camera.init()
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	screen = pygame.display.set_mode((640,640)) #, pygame.DOUBLEBUF)
+	screen = pygame.display.set_mode((mdl_dims,mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
 	##pygame.display.set_caption('Face Detection')
-	pycam = pygame.camera.Camera("/dev/video0",(640,640)) #, "RGB")
+	pycam = pygame.camera.Camera("/dev/video0",(cam_res_x,cam_res_y)) #, "RGB")
 	pycam.start() 
 	#screen.convert()
 	clock = pygame.time.Clock()
@@ -103,7 +105,8 @@ def main():
 		img = pycam.get_image()
 		img = pygame.transform.scale(img,(mdl_dims,mdl_dims))
 		img_arr = pygame.surfarray.pixels3d(img)
-		img_arr = np.swapaxes(img_arr,0,1)
+		#img_arr = np.swapaxes(img_arr,0,1)
+		img_arr = pygame.PixelArray.transpose()
 		img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
 		frame = io.BytesIO(img_arr)
@@ -113,8 +116,9 @@ def main():
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
-		#if img:
-		screen.blit(img, (0,0))
+		if img:
+			#img = pygame.transform.scale(img,(mdl_dims,mdl_dims))
+			screen.blit(img, (0,0))
 		#pygame.surfarray.blit_array(screen, img_arr)
 	
 		i += 1
