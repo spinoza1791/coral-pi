@@ -48,7 +48,7 @@ def main():
 	pygame.init()
 	pygame.camera.init()
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	screen = pygame.display.set_mode((mdl_dims,mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
+	screen = pygame.display.set_mode((mdl_dims,mdl_dims), pygame.DOUBLEBUF|pygame.RESIZABLE)
 	##pygame.display.set_caption('Face Detection')
 	pycam = pygame.camera.Camera("/dev/video0",(cam_res_x,cam_res_y)) #, "RGB")
 	pycam.start() 
@@ -116,8 +116,8 @@ def main():
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
+		img = pygame.transform.scale(img,(screen.get_rect().width, screen.get_rect().width))
 		if img:
-			#img = pygame.transform.scale(img,(mdl_dims,mdl_dims))
 			screen.blit(img, (0,0))
 		#pygame.surfarray.blit_array(screen, img_arr)
 	
@@ -149,8 +149,8 @@ def main():
 				y1 = round(bbox[1] * mdl_dims)
 				x2 = round(bbox[2] * mdl_dims)
 				y2 = round(bbox[3] * mdl_dims)
-				rect_width = x2 - x1
-				rect_height = y2 - y1
+				rect_width = (x2 - x1) * window_scale
+				rect_height = (y2 - y1) * window_scale
 				#class_score = "%.2f" % (score)
 				#fnt_class_score = fnt.render(class_score, True, (0,0,255))
 				#fnt_class_score_width = fnt_class_score.get_rect().width
