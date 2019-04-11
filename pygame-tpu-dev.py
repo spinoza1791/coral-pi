@@ -61,7 +61,7 @@ def main():
 
 	if args.thresh:
 		thresh = float(args.thresh)
-		if args.thresh < 0.1 or args.thresh > 1.0:
+		if thresh < 0.1 or thresh > 1.0:
 			thresh = 0.3	
 	else:
 		thresh = 0.3
@@ -159,7 +159,7 @@ def main():
 			i = 0
 			last_tm = tm
 
-		fps_fnt = fnt.render(fps, True, (255,255,0))
+		fps_fnt = fnt.render(fps, , " THRESH:", thresh, True, (255,255,0))
 		fps_width = fps_fnt.get_rect().width
 		screen.blit(fps_fnt,((resized_x / 2) - (fps_width / 2), 20))
 		
