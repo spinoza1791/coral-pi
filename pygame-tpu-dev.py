@@ -160,19 +160,14 @@ def main():
 				#fnt_class_score = fnt.render(class_score, True, (0,0,255))
 				#fnt_class_score_width = fnt_class_score.get_rect().width
 				#screen.blit(fnt_class_score,(x1, y1-fnt_sz))
-
-				
 				ms = "(%d) %s%.2fms" % (num_obj, "objects detected in ", elapsed_ms*1000)
-				#camera.annotate_text = "%s %.2f\n%.2fms" % (
-				#labels[results[0][0]], results[0][1], elapsed_ms*1000.0)
-
 				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
-				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
+				screen.blit(fnt_ms,((mdl_dims / 2 * sz_x) - (fnt_ms_width / 2), 0))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
 
 		else:
-			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
+			ms = "%s %.2fms" % ("No objects detected in", elapsed_ms*1000)
 			fnt_ms = fnt.render(ms, True, (255,0,0))
 			fnt_ms_width = fnt_ms.get_rect().width
 			screen.blit(fnt_ms,((mdl_dims / 2 * sz_x) - (fnt_ms_width / 2), 0))
