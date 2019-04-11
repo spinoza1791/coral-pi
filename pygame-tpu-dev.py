@@ -152,9 +152,9 @@ def main():
 					screen.blit(fnt_class_label,(x1, y1-fnt_sz))
 				score = round(obj.score,2)
 				x1 = round(bbox[0] * resized_x) 
-				y1 = round(bbox[0] * resized_y) 
-				x2 = round(bbox[0] * resized_x) 
-				y2 = round(bbox[0] * resized_y) 
+				y1 = round(bbox[1] * resized_y) 
+				x2 = round(bbox[2] * resized_x) 
+				y2 = round(bbox[3] * resized_y) 
 				rect_width = x2 - x1
 				rect_height = y2 - y1
 				#class_score = "%.2f" % (score)
