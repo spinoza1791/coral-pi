@@ -27,7 +27,7 @@ def main():
 	  '--dims', help='Model input dimension', required=True)
 	parser.add_argument(
 	  '--max_obj', help='Maximum objects detected [=> 1], default 1', required=False)
-		parser.add_argument(
+	parser.add_argument(
 	  '--thresh', help='Threshold confidence [0.1-1.0], default 0.3', required=False)
 	if len(sys.argv[1:])==0:
 		parser.print_help()
