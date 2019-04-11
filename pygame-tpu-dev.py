@@ -59,8 +59,10 @@ def main():
 	else:
 		max_obj = 1
 
-	if args.thresh and args.thresh >== 0.1 and args.thresh <== 1.0:
-		thresh = args.thresh
+	if args.thresh:
+		thresh = float(args.thresh)
+		if args.thresh < 0.1 or args.thresh > 1.0:
+			thresh = 0.3	
 	else:
 		thresh = 0.3
 		
