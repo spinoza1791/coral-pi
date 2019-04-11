@@ -49,7 +49,7 @@ def main():
 	pygame.init()
 	pygame.camera.init()
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	screen = pygame.display.set_mode((cam_res_x,cam_res_y), pygame.RESIZABLE)
+	screen = pygame.display.set_mode((cam_res_x,cam_res_y), RESIZABLE)
 	##pygame.display.set_caption('Face Detection')
 	pycam = pygame.camera.Camera("/dev/video0",(cam_res_x,cam_res_y)) #, "RGB")
 	pycam.start() 
@@ -185,6 +185,8 @@ def main():
 				##camera.close()
 				pygame.display.quit()
 				sys.exit()
+			elif event.type == VIDEORESIZE:
+				screen = pygame.display.set_mode((event.w,event.h),RESIZABLE)
 		
 		#pygame.display.flip()
 		pygame.display.update()
