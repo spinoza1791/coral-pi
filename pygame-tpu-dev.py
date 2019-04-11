@@ -166,7 +166,7 @@ def main():
 				rect_width = x2 - x1
 				rect_height = y2 - y1
 				class_score = "%.2f" % (score)
-				fnt_class_score = fnt.render(class_score, True, (0,0,255))
+				fnt_class_score = fnt.render(class_score, True, (0,255,255))
 				fnt_class_score_width = fnt_class_score.get_rect().width
 				screen.blit(fnt_class_score,(x2-fnt_class_score_width, y1-fnt_sz))
 				ms = "(%d) %s%.2fms" % (num_obj, "objects detected in ", elapsed_ms*1000)
