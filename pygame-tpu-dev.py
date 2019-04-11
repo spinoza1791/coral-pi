@@ -22,11 +22,17 @@ def main():
 	parser.add_argument(
 	  '--model', help='File path of Tflite model.', required=True)
 	parser.add_argument(
-	  '--labels', help='File path of labels file.', required=False)
+	  '--labels', help='File path of labels file OR leave empty for single label name prompt', required=False)
 	parser.add_argument(
 	  '--dims', help='Model input dimension', required=True)
 	parser.add_argument(
-	  '--max_obj', help='Maximum objects detected', required=False)
+	  '--max_obj', help='Maximum objects detected [=> 1], default 1', required=False)
+		parser.add_argument(
+	  '--thresh', help='Threshold confidence [0.1-1.0], default 0.3', required=False)
+	if len(sys.argv[1:])==0:
+		parser.print_help()
+		# parser.print_usage() # for just the usage line
+		parser.exit()
 	args = parser.parse_args()
 	
 	labels_on = False
@@ -35,19 +41,26 @@ def main():
 		with open(args.labels, 'r') as f:
 			pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
 			labels = dict((int(k), v) for k, v in pairs)
+	else:
+		labels = raw_input("What is the label name for this single object model?")
+		if labels = None:
+			
 			
 
 	#Set all input params equal to the input dimensions expected by the model
 	mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
 	window_scale = 1
 
-	#Set max num of objects you want to detect per frame
-	if args.max_obj:
+
+	if args.max_obj and args.max_obj => 1:
 		max_obj = int(args.max_obj)
 	else:
 		max_obj = 1
-	
-	#max_obj = 10
+
+	if args.thresh and args.thresh => 0.1 and args.thresh =< 1.0:
+		thresh = int(args.thresh)
+	else:
+		thresh = 0.3
 		
 	cam_res_x = 480
 	cam_res_y = 480
@@ -121,7 +134,7 @@ def main():
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		#print(frame_buf_val)
 		start_ms = time.time()
-		results = engine.DetectWithInputTensor(frame_buf_val, top_k=max_obj)
+		results = engine.DetectWithInputTensor(frame_buf_val, threshold=thresh, top_k=max_obj)
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
