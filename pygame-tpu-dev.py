@@ -186,7 +186,7 @@ def main():
 				pygame.display.quit()
 				sys.exit()
 			elif event.type == pygame.VIDEORESIZE:
-				screen = pygame.display.set_mode((event.w,event.h),RESIZABLE)
+				screen = pygame.display.set_mode((event.w,event.h),pygame.RESIZABLE)
 		
 		#pygame.display.flip()
 		pygame.display.update()
