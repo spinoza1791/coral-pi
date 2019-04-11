@@ -41,8 +41,8 @@ def main():
 
 	#Set max num of objects you want to detect per frame
 	max_obj = 2
-	cam_res_x = 800
-	cam_res_y = 800
+	cam_res_x = 640
+	cam_res_y = 640
 	max_fps = 30
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
