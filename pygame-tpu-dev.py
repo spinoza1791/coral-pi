@@ -42,7 +42,7 @@ def main():
 	window_scale = 1
 
 	#Set max num of objects you want to detect per frame
-	if if args.max_obj:
+	if args.max_obj:
 		max_obj = args.max_obj
 	else:
 		max_obj = 1
