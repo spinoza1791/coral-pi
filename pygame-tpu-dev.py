@@ -25,6 +25,8 @@ def main():
 	  '--labels', help='File path of labels file.', required=False)
 	parser.add_argument(
 	  '--dims', help='Model input dimension', required=True)
+	parser.add_argument(
+	  '--max_obj', help='Model input dimension', required=False)
 	args = parser.parse_args()
 	
 	labels_on = False
@@ -40,7 +42,11 @@ def main():
 	window_scale = 1
 
 	#Set max num of objects you want to detect per frame
-	max_obj = 2
+	if if args.max_obj:
+		max_obj = args.max_obj
+	else:
+		max_obj = 1
+		
 	cam_res_x = 480
 	cam_res_y = 480
 	max_fps = 30
