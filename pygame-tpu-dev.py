@@ -119,6 +119,8 @@ def main():
 
 		screen = pygame.display.get_surface() #get the surface of the current active display
 		resized_x,resized_y = size = screen.get_width(), screen.get_height()
+		sz_x = round(resized_x / mdl_dims)
+		sz_y = round(resized_y / mdl_dims)
 		img = pygame.transform.scale(img,(resized_x, resized_y))
 		if img:
 			screen.blit(img, (0,0))
@@ -133,7 +135,7 @@ def main():
 
 		fps_fnt = fnt.render(fps, True, (255,255,0))
 		fps_width = fps_fnt.get_rect().width
-		screen.blit(fps_fnt,((mdl_dims / 2 * (resized_x / mdl_dims)) - (fps_width / 2), 20))
+		screen.blit(fps_fnt,((mdl_dims / 2 * sz_x) - (fps_width / 2), 20))
 		
 		if results:
 			num_obj = 0
@@ -146,7 +148,7 @@ def main():
 					class_label = "%s" % (labels[label_id])
 					fnt_class_label = fnt.render(class_label, True, (255,255,255))
 					fnt_class_label_width = fnt_class_label.get_rect().width
-					screen.blit(fnt_class_label,(x1 * (resized_x / mdl_dims), y1-fnt_sz * (resized_y / mdl_dims)))
+					screen.blit(fnt_class_label,(x1 * sz_x, y1-fnt_sz * sz_y))
 				score = round(obj.score,2)
 				x1 = round(bbox[0] * mdl_dims) 
 				y1 = round(bbox[0] * mdl_dims)
@@ -167,7 +169,7 @@ def main():
 				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
 				screen.blit(fnt_ms,((mdl_dims / 2) - (fnt_ms_width / 2), 0))
-				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1 * (resized_x / mdl_dims), y1 * (resized_y / mdl_dims), rect_width* (resized_x / mdl_dims), rect_height * (resized_y / mdl_dims)), 4)
+				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1 * sz_x, y1 * sz_y, rect_width * sz_x, rect_height * sz_y), 4)
 
 		else:
 			ms = "%s %.2fms" % ("No faces detected in", elapsed_ms*1000)
