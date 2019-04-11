@@ -52,12 +52,14 @@ def main():
 	window_scale = 1
 
 
-	if args.max_obj and args.max_obj >= 1:
-		max_obj = round(args.max_obj)
+	if args.max_obj:
+		max_obj = round(int(args.max_obj))
+		if max_obj < 1:
+			max_obj = 1
 	else:
 		max_obj = 1
 
-	if args.thresh and args.thresh >= 0.1 and args.thresh <= 1.0:
+	if args.thresh and args.thresh >== 0.1 and args.thresh <== 1.0:
 		thresh = args.thresh
 	else:
 		thresh = 0.3
