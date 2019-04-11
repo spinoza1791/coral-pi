@@ -117,10 +117,10 @@ def main():
 		img_arr = np.swapaxes(img_arr,0,1)
 		#img_arr = pygame.PixelArray.transpose(img_arr) #requires pygame.PixelArray object
 		img_arr = np.ascontiguousarray(img_arr)
-		start_ms = time.time()
 		frame = io.BytesIO(img_arr)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
 		#print(frame_buf_val)
+		start_ms = time.time()
 		results = engine.DetectWithInputTensor(frame_buf_val, top_k=max_obj)
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
@@ -165,10 +165,10 @@ def main():
 				y2 = round(bbox[3] * resized_y) 
 				rect_width = x2 - x1
 				rect_height = y2 - y1
-				#class_score = "%.2f" % (score)
-				#fnt_class_score = fnt.render(class_score, True, (0,0,255))
-				#fnt_class_score_width = fnt_class_score.get_rect().width
-				#screen.blit(fnt_class_score,(x1, y1-fnt_sz))
+				class_score = "%.2f" % (score)
+				fnt_class_score = fnt.render(class_score, True, (0,0,255))
+				fnt_class_score_width = fnt_class_score.get_rect().width
+				screen.blit(fnt_class_score,(x2-fnt_class_score_width, y1-fnt_sz))
 				ms = "(%d) %s%.2fms" % (num_obj, "objects detected in ", elapsed_ms*1000)
 				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
