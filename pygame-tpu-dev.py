@@ -40,8 +40,9 @@ def main():
 			pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
 			labels = dict((int(k), v) for k, v in pairs)
 	else:
+		lbl_input = None
 		lbl_input = raw_input("Type label name for this single object model?")
-		if lbl_input = None:
+		if lbl_input == None:
 			lables = ["Object"]
 		else:
 			lables = [lbl_input]
