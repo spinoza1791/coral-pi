@@ -47,7 +47,7 @@ def main():
 	else:
 		max_obj = 1
 	
-	max_obj = 10
+	#max_obj = 10
 		
 	cam_res_x = 480
 	cam_res_y = 480
