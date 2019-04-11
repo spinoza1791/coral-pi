@@ -35,17 +35,16 @@ def main():
 		parser.exit()
 	args = parser.parse_args()
 	
-	labels_on = False
 	if args.labels:
-		labels_on = True
 		with open(args.labels, 'r') as f:
 			pairs = (l.strip().split(maxsplit=1) for l in f.readlines())
 			labels = dict((int(k), v) for k, v in pairs)
 	else:
-		labels = raw_input("What is the label name for this single object model?")
-		if labels = None:
-			
-			
+		lbl_input = raw_input("Type label name for this single object model?")
+		if lbl_input = None:
+			lables = ["Object"]
+		else:
+			lables = [lbl_input]
 
 	#Set all input params equal to the input dimensions expected by the model
 	mdl_dims = int(args.dims) #dims must be a factor of 32 for picamera resolution to work
@@ -165,12 +164,11 @@ def main():
 				num_obj = num_obj + 1
 			for obj in results:
 				bbox = obj.bounding_box.flatten().tolist()
-				if labels_on:
-					label_id = int(round(obj.label_id,1))
-					class_label = "%s" % (labels[label_id])
-					fnt_class_label = fnt.render(class_label, True, (255,255,255))
-					fnt_class_label_width = fnt_class_label.get_rect().width
-					screen.blit(fnt_class_label,(x1, y1-fnt_sz))
+				label_id = int(round(obj.label_id,1))
+				class_label = "%s" % (labels[label_id])
+				fnt_class_label = fnt.render(class_label, True, (255,255,255))
+				fnt_class_label_width = fnt_class_label.get_rect().width
+				screen.blit(fnt_class_label,(x1, y1-fnt_sz))
 				score = round(obj.score,2)
 				x1 = round(bbox[0] * resized_x) 
 				y1 = round(bbox[1] * resized_y) 
