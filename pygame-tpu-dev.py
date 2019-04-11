@@ -117,9 +117,9 @@ def main():
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
-		#screen = pygame.display.get_surface() #get the surface of the current active display
-		#x,y = size = screen.get_width(), screen.get_height()
-		#img = pygame.transform.scale(img,(x, y))
+		screen = pygame.display.get_surface() #get the surface of the current active display
+		x,y = size = screen.get_width(), screen.get_height()
+		img = pygame.transform.scale(img,(x, y))
 		if img:
 			screen.blit(img, (0,0))
 		#pygame.surfarray.blit_array(screen, img_arr)
@@ -152,8 +152,8 @@ def main():
 				y1 = round(bbox[1] * mdl_dims)
 				x2 = round(bbox[2] * mdl_dims)
 				y2 = round(bbox[3] * mdl_dims)
-				rect_width = (x2 - x1) * window_scale
-				rect_height = (y2 - y1) * window_scale
+				rect_width = (x2 - x1) * (x / mdl_dims)
+				rect_height = (y2 - y1) * (y / mdl_dims)
 				#class_score = "%.2f" % (score)
 				#fnt_class_score = fnt.render(class_score, True, (0,0,255))
 				#fnt_class_score_width = fnt_class_score.get_rect().width
