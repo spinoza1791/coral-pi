@@ -41,15 +41,15 @@ def main():
 
 	#Set max num of objects you want to detect per frame
 	max_obj = 2
-	cam_res_x = 480
-	cam_res_y = 480
+	cam_res_x = 800
+	cam_res_y = 800
 	max_fps = 30
 	engine = edgetpu.detection.engine.DetectionEngine(args.model)
 
 	pygame.init()
 	pygame.camera.init()
 	#screen = pygame.display.set_mode((mdl_dims, mdl_dims), pygame.DOUBLEBUF|pygame.HWSURFACE)
-	screen = pygame.display.set_mode((mdl_dims,mdl_dims), pygame.DOUBLEBUF|pygame.RESIZABLE)
+	screen = pygame.display.set_mode((cam_res_x,cam_res_y), pygame.DOUBLEBUF|pygame.RESIZABLE)
 	##pygame.display.set_caption('Face Detection')
 	pycam = pygame.camera.Camera("/dev/video0",(cam_res_x,cam_res_y)) #, "RGB")
 	pycam.start() 
@@ -117,7 +117,7 @@ def main():
 		#frame.truncate(0)
 		elapsed_ms = time.time() - start_ms
 
-		img = pygame.transform.scale(img,(screen.get_rect().width, screen.get_rect().width))
+		img = pygame.transform.scale(img,(screen.get_width(), screen.get_height()))
 		if img:
 			screen.blit(img, (0,0))
 		#pygame.surfarray.blit_array(screen, img_arr)
