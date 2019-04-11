@@ -43,7 +43,7 @@ def main():
 
 	#Set max num of objects you want to detect per frame
 	if args.max_obj:
-		max_obj = args.max_obj
+		max_obj = int(args.max_obj)
 	else:
 		max_obj = 1
 	
