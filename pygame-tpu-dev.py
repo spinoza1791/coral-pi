@@ -118,7 +118,7 @@ def main():
 		elapsed_ms = time.time() - start_ms
 
 		screen = pygame.display.get_surface() #get the surface of the current active display
-		x,y = size = screen.get_width(), screen.get_height()
+		resized_x,resized_y = size = screen.get_width(), screen.get_height()
 		img = pygame.transform.scale(img,(x, y))
 		if img:
 			screen.blit(img, (0,0))
@@ -148,10 +148,10 @@ def main():
 					fnt_class_label_width = fnt_class_label.get_rect().width
 					screen.blit(fnt_class_label,(x1, y1-fnt_sz))
 				score = round(obj.score,2)
-				x1 = round(bbox[0] * mdl_dims) * (x / mdl_dims))
-				y1 = round(bbox[1] * mdl_dims) * (y / mdl_dims))
-				x2 = round(bbox[2] * mdl_dims) * (x / mdl_dims))
-				y2 = round(bbox[3] * mdl_dims) * (y / mdl_dims))
+				x1 = round(bbox[0] * (resized_x / mdl_dims)) 
+				y1 = round(bbox[1] * (resized_y / mdl_dims))
+				x2 = round(bbox[2] * (resized_x / mdl_dims)) 
+				y2 = round(bbox[3] * (resized_y / mdl_dims))
 				rect_width = (x2 - x1) 
 				rect_height = (y2 - y1) 
 				#class_score = "%.2f" % (score)
