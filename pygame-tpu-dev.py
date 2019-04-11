@@ -150,10 +150,10 @@ def main():
 					fnt_class_label_width = fnt_class_label.get_rect().width
 					screen.blit(fnt_class_label,(x1 * sz_x, y1-fnt_sz * sz_y))
 				score = round(obj.score,2)
-				x1 = round(bbox[0] * mdl_dims * sz_x) 
-				y1 = round(bbox[0] * mdl_dims * sz_y) 
-				x2 = round(bbox[0] * mdl_dims * sz_x) 
-				y2 = round(bbox[0] * mdl_dims * sz_y) 
+				x1 = round(bbox[0] * resized_x) 
+				y1 = round(bbox[0] * resized_y) 
+				x2 = round(bbox[0] * resized_x) 
+				y2 = round(bbox[0] * resized_y) 
 				rect_width = (x2 - x1)
 				rect_height = (y2 - y1)
 				#class_score = "%.2f" % (score)
@@ -163,7 +163,7 @@ def main():
 				ms = "(%d) %s%.2fms" % (num_obj, "objects detected in ", elapsed_ms*1000)
 				fnt_ms = fnt.render(ms, True, (255,255,255))
 				fnt_ms_width = fnt_ms.get_rect().width
-				screen.blit(fnt_ms,((mdl_dims / 2 * sz_x) - (fnt_ms_width / 2 * sz_y), 0))
+				screen.blit(fnt_ms,((mdl_dims * sz_x / 2 ) - (fnt_ms_width / 2), 0))
 				bbox_rect = pygame.draw.rect(screen, (0,255,0), (x1, y1, rect_width, rect_height), 4)
 
 		else:
