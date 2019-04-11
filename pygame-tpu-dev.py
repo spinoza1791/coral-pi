@@ -105,9 +105,9 @@ def main():
 		img = pycam.get_image()
 		img = pygame.transform.scale(img,(mdl_dims,mdl_dims))
 		img_arr = pygame.surfarray.pixels3d(img)
-		#img_arr = np.swapaxes(img_arr,0,1)
-		img_arr = pygame.PixelArray.transpose(img_arr)
-		#img_arr = np.ascontiguousarray(img_arr)
+		img_arr = np.swapaxes(img_arr,0,1)
+		#img_arr = pygame.PixelArray.transpose(img_arr) #requires pygame.PixelArray object
+		img_arr = np.ascontiguousarray(img_arr)
 		start_ms = time.time()
 		frame = io.BytesIO(img_arr)
 		frame_buf_val = np.frombuffer(frame.getvalue(), dtype=np.uint8)
