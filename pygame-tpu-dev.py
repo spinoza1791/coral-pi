@@ -133,7 +133,7 @@ def main():
 
 		fps_fnt = fnt.render(fps, True, (255,255,0))
 		fps_width = fps_fnt.get_rect().width
-		screen.blit(fps_fnt,((mdl_dims / 2) - (fps_width / 2), 20))
+		screen.blit(fps_fnt,((mdl_dims / 2 * (resized_x / mdl_dims)) - (fps_width / 2), 20))
 		
 		if results:
 			num_obj = 0
