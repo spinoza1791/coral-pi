@@ -100,7 +100,7 @@ def streams():
 def start_capture(): # has to be in yet another thread as blocking
   global CAMW, CAMH, pool, camera
   with picamera.PiCamera(resolution=(CAMW, CAMH), framerate=max_cam) as camera:
-    pool = [ImageProcessor() for i in range(4)]
+    pool = [ImageProcessor() for i in range(3)]
     #camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
