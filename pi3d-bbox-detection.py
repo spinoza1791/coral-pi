@@ -94,13 +94,13 @@ def streams():
       processor.event.set()
     else:
       # When the pool is starved, wait a while for it to refill
-      time.sleep(0.001)
+      time.sleep(0.01)
 
 
 def start_capture(): # has to be in yet another thread as blocking
   global CAMW, CAMH, pool, camera
   with picamera.PiCamera(resolution=(CAMW, CAMH), framerate=max_cam) as camera:
-    pool = [ImageProcessor() for i in range(3)]
+    pool = [ImageProcessor() for i in range(4)]
     #camera.start_preview(fullscreen=False, layer=0, window=(preview_mid_X, preview_mid_Y, preview_W, preview_H))
     camera.capture_sequence(streams(), format='rgb', use_video_port=True)
 
@@ -109,7 +109,7 @@ t.daemon = True
 t.start()
 
 while not new_pic:
-  time.sleep(0.001)
+  time.sleep(0.01)
 
 ########################################################################
 DISPLAY = pi3d.Display.create(preview_mid_X, preview_mid_Y, w=preview_W, h=preview_H, layer=1) #, frames_per_second=max_fps)
