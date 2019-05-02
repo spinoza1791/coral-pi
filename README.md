@@ -17,6 +17,10 @@ sudo -H pip3 install pygame
 
 Installation
 1. wget http://storage.googleapis.com/cloud-iot-edge-pretrained-models/edgetpu_api.tar.gz
+mkdir ~/models
+cd ~/models
+
+curl -O https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite 
 2. tar xzf edgetpu_api.tar.gz
 3. bash ./install.sh - "Would you like to enable the maximum operating frequency?" Answer Y
 4. Plug in the Accelerator using the provided USB 3.0 cable. (If you already plugged it in, remove it and replug it so the just-installed udev rule can take effect.)
@@ -37,6 +41,8 @@ Score :  0.152344
 7. Download Edge TPU models: https://coral.withgoogle.com/models/
    a. MobileNet SSD v2 (Faces)
    b. Input size: 320x320 (Does not require a labels file)
+   cd ~/detection && python3 pi-tpu-dev.py --model=~/models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite --dims=320 --max_obj=10 --thresh=0.6
+
 
 
 
