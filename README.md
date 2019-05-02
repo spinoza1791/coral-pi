@@ -5,6 +5,10 @@ For Raspberry Pi 3B+ and Raspbian Lite 2018-11-13 - https://www.raspberrypi.org/
 Prep
 1. sudo apt-get update -y && sudo apt-get upgrade -y
 2. sudo apt-get install feh -y
+sudo apt-get install python3-dev python3-numpy libsdl-dev libsdl-image1.2-dev \
+  libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev libportmidi-dev \
+  libavformat-dev libswscale-dev libjpeg-dev libfreetype6-dev python3-setuptools
+sudo -H pip3 install pygame
 3. Verify python version: python3 --version (must be Python 3.5.x or higher)
 4. Install Pi camera v2.1 - https://www.makeuseof.com/tag/set-up-raspberry-pi-camera-module/
 5. echo "bcm2835_v4l2" | sudo tee -a /etc/modules >/dev/null
