@@ -4,8 +4,15 @@ For Raspberry Pi 3B+ and Raspbian Lite 2018-11-13 - https://www.raspberrypi.org/
 
 Prep
 1. sudo apt-get update -y && sudo apt-get upgrade -y
-2. sudo apt-get install -y feh python3-dev python3-numpy libsdl-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev libportmidi-dev libavformat-dev libswscale-dev libjpeg-dev libfreetype6-dev python3-setuptools
-sudo -H pip3 install pygame
+2. sudo apt-get install -y feh git python3-pip python3-dev python3-numpy libsdl-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev libsmpeg-dev libportmidi-dev libavformat-dev libswscale-dev libjpeg-dev libfreetype6-dev python3-setuptools && sudo -H pip3 install wheel && sudo -H pip3 install pygame
+3. cd ~ && wget https://dl.google.com/coral/edgetpu_api/edgetpu_api_latest.tar.gz -O edgetpu_api.tar.gz --trust-server-names && tar xzf edgetpu_api.tar.gz && cd edgetpu_api && bash ./install.sh
+4. Unplug / reinsert TPU
+3. cd ~ && mkdir models && cd models && curl -O https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite && curl -O https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite
+4. cd ~ && git clone clone https://github.com/spinoza1791/detection.git
+5. cd ~/detection && python3 pi-tpu.py --model=/home/pi/models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite --dims=320
+
+
+
 3. Verify python version: python3 --version (must be Python 3.5.x or higher)
 4. Install Pi camera v2.1 - https://www.makeuseof.com/tag/set-up-raspberry-pi-camera-module/
 5. echo "bcm2835_v4l2" | sudo tee -a /etc/modules >/dev/null
