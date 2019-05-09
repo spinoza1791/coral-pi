@@ -8,7 +8,7 @@ Prep
 3. cd ~ && wget https://dl.google.com/coral/edgetpu_api/edgetpu_api_latest.tar.gz -O edgetpu_api.tar.gz --trust-server-names && tar xzf edgetpu_api.tar.gz && cd edgetpu_api && bash ./install.sh
 4. Unplug / reinsert TPU
 3. cd ~ && mkdir models && cd models && curl -O https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite && curl -O https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite
-4. cd ~ && git clone clone https://github.com/spinoza1791/detection.git
+4. cd ~ && git clone https://github.com/spinoza1791/detection.git
 5. cd ~/detection && python3 pi-tpu.py --model=/home/pi/models/mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite --dims=320
 
 
